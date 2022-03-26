@@ -57,7 +57,7 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshol
       x_ = x_ / max(x_)
       x_[x_<threshold] = 0
       m = 5 * x_
-      if (isTRUE(all.equal(x[,,,ijk], t(x[,,,ijk])))) {
+      if (isTRUE(all.equal(x_, t(x_)))) {
         gr = graph.adjacency(m, mode="undirected", weighted=TRUE)
         lo = layout_in_circle(gr)
         net = graph.adjacency(m, mode="undirected", weighted=TRUE, diag=FALSE)
