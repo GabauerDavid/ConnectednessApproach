@@ -8,7 +8,7 @@
 #' @return Return connectedness plot
 #' @export
 #' @import igraph
-PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, ...) {
+PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshold=0.25, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)
@@ -24,6 +24,7 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, ...) {
   date = as.Date(dimnames(x)[[3]])
   t = length(date)
   k = ncol(x)
+  
   NAMES = dimnames(x)[[1]]
   if (is.null(NAMES)) {
     NAMES = 1:k
@@ -44,6 +45,7 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, ...) {
     kk = k1 = k2 = 1
     x = array(x, c(k,k,t,1))
   }
+  
   par(mfrow = c(k1,k2), oma = c(0,0,0,0), mar = c(0,0,0,0), mgp = c(0, 0, 0))
   if (!is.null(path)) pdf(file=paste0(path, "/NetworkPlot.pdf"), width=10, height=10)
     for (ijk in 1:kk) {
@@ -53,19 +55,25 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, ...) {
       diag(x_) = 0
       x_ = x_ - min(x_)
       x_ = x_ / max(x_)
-      m = 10 * x_
-      if (nrow(which(m!=0, arr.ind=TRUE))>(k*(k-1)/2)) {
+      x_[x_<threshold] = 0
+      m = 5 * x_
+      if (isTRUE(all.equal(x[,,,ijk], t(x[,,,ijk])))) {
         gr = graph.adjacency(m, mode="undirected", weighted=TRUE)
         lo = layout_in_circle(gr)
         net = graph.adjacency(m, mode="undirected", weighted=TRUE, diag=FALSE)
+        color = rep("steelblue4", k)
+        nn = 1
       } else {
         gr = graph.adjacency(m, mode="undirected", weighted=TRUE)
         lo = layout_in_circle(gr)
         net = graph.adjacency(m, mode="directed", weighted=TRUE, diag=FALSE)
+        color = rep("steelblue4", k)
+        nn = apply(x[,,,ijk],1,sum)
+        color[nn>0] = "gold3"
+        nn = abs(nn/max(abs(nn)))
       }
-      plot.igraph(net,vertex.label=V(net)$name, layout=lo, vertex.label.cex=0.99, vertex.size=20,
-                  vertex.label.color="white", edge.color="black", mark.col="steelblue4",
-                  edge.width=E(net)$weight, edge.arrow.size=1)
+      plot.igraph(net,vertex.label=V(net)$name, layout=lo, vertex.label.cex=0.99, vertex.size=10+nn*10, vertex.color=color, vertex.frame.color=color, vertex.label.color="black", mark.col="steelblue4",
+                  edge.width=E(net)$weight, edge.color="grey50", edge.arrow.size=0.5, edge.curved=0.3, lty=2)
     }
   if (!is.null(path)) dev.off()
 }
