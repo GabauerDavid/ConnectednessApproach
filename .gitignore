@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.RData
+*.rdb
+*.rdx
+*.png
+*.woff
+__packages
+inst/doc
+*.Rmd
+*.jpg
+*.css

@@ -1,0 +1,16 @@
+Package: ConnectednessApproach
+Type: Package
+Title: Connectedness Approach
+Version: 1.0.0
+Author: David Gabauer
+Maintainer: David Gabauer <david.gabauer@hotmail.com>
+Description: The estimation of static and dynamic connectedness measures is created in a modular and user-friendly way. Besides, the time domain connectedness approaches, this package further allows to estimate the frequency connectedness approach, the joint spillover index and the extended joint connectedness approach. In addition, all connectedness frameworks can be based upon orthogonalized and generalized VAR, QVAR, LASSO VAR, Ridge VAR, Elastic Net VAR and TVP-VAR models. Furthermore, the package includes the conditional, decomposed and partial connectedness measures as well as the pairwise connectedness index, influence index and corrected total connectedness index. Finally, a battery of datasets are available allowing to replicate a variety of connectedness papers.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
+Depends: R (>= 4.1), rmgarch
+Imports: frequencyConnectedness, igraph, onewaytests, utils, quantreg, MASS, progress, glmnet, xts, zoo, rugarch, WeightedPortTest, urca, moments
+Suggests: 
+    rmarkdown,
+    knitr
