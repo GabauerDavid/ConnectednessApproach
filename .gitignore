@@ -10,5 +10,3 @@
 __packages
 inst/doc
 *.Rmd
-*.jpg
-*.css
