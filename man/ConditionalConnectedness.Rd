@@ -4,13 +4,7 @@
 \alias{ConditionalConnectedness}
 \title{ConditionalConnectedness}
 \usage{
-ConditionalConnectedness(
-  dca,
-  group = c(1, 2, 3),
-  start = NULL,
-  end = NULL,
-  corrected = FALSE
-)
+ConditionalConnectedness(dca, group = c(1, 2, 3), start = NULL, end = NULL)
 }
 \arguments{
 \item{dca}{Dynamic connectedness object}
@@ -20,8 +14,6 @@ ConditionalConnectedness(
 \item{start}{Start index}
 
 \item{end}{End index}
-
-\item{corrected}{Boolean value whether corrected or standard TCI should be computed}
 }
 \value{
 Get connectedness measures

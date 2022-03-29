@@ -16,7 +16,7 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
       dir.create(path)
     }
   }
-  if (length(ca)>0 && !is.null(ca$approach)) {
+  if (length(ca)>0 && !is.null(ca$config$approach)) {
     ca = list(ca)
   }
   x = dca$TCI
@@ -30,7 +30,7 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   on.exit(par(oldpar)) 
   if (!is.null(path)) pdf(file=paste0(path, "/TCI.pdf"), width=10, height=5)
   par(mfrow=c(1,1), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
-  if (dca$approach!="Frequency") {
+  if (dca$config$approach!="Frequency") {
     if (is.null(lower)) {
       lower = 0
     }
@@ -51,10 +51,10 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
         }
       }
       if (length(ca)==1) {
-        if (ca[[1]]$approach=="Internal" || ca[[1]]$approach=="External") {
-          legend("topleft", c("TCI", paste("TCI",ca[[1]]$approach), colnames(gTCI)), fill=1:(ncol(gTCI)+2), bty="n")
-        } else if (ca[[1]]$approach=="Inclusive" || ca[[1]]$approach=="Exclusive") {
-          legend("topleft", c("TCI", paste("TCI", ca[[1]]$approach)), fill=1:2, bty="n")
+        if (ca[[1]]$config$approach=="Internal" || ca[[1]]$config$approach=="External") {
+          legend("topleft", c("TCI", paste("TCI",ca[[1]]$config$approach), colnames(gTCI)), fill=1:(ncol(gTCI)+2), bty="n")
+        } else if (ca[[1]]$config$approach=="Inclusive" || ca[[1]]$config$approach=="Exclusive") {
+          legend("topleft", c("TCI", paste("TCI", ca[[1]]$config$approach)), fill=1:2, bty="n")
         }
       }
     }

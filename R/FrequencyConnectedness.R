@@ -105,7 +105,9 @@ FrequencyConnectedness = function(Phi, Sigma, nfore, partition=c(pi,pi/2,0), gen
   for (i in 1:interval) {
     TABLE[,,i] = ConnectednessTable(CT[,,,i]/100)$TABLE
   }
+  
   # still TCI and cTCI
+  config = list(partition=partition, nfore=nfore, generalized=generalized, orth=orth, scenario=scenario, corrected=corrected, approach="Frequency")
   return = list(TABLE=TABLE, CT=CT/100, TCI=TCI, TO=TO, FROM=FROM,
-                NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, approach="Frequency")
+                NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)
 }

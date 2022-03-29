@@ -9,8 +9,8 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
-Depends: R (>= 4.1), rmgarch
-Imports: frequencyConnectedness, igraph, onewaytests, utils, quantreg, MASS, progress, glmnet, xts, zoo, rugarch, WeightedPortTest, urca, moments
+Depends: R (>= 4.1)
+Imports: frequencyConnectedness, rmgarch, rugarch, igraph, onewaytests, utils, quantreg, MASS, progress, glmnet, xts, zoo, WeightedPortTest, urca, moments
 Suggests: 
     rmarkdown,
     knitr

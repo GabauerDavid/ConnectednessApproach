@@ -39,13 +39,6 @@ Get optimal univariate GARCH model specification
 \description{
 This function estimates and evaluates a combination of GARCH models with different distributions and suggests the best GARCH models among all alternatives given some test statistics
 }
-\examples{
-\donttest{
-data("g2020")
-ugarch = GARCHselection(x=g2020[,1], distributions=c("std","sstd"), models=c("sGARCH","eGARCH"))
-fit = ugarchfit(ugarch$best_ugarch, data=g2020[,1])
-}
-}
 \references{
 Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
 Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.

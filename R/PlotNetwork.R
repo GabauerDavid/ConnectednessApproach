@@ -1,9 +1,10 @@
 #' @title Network plot
 #' @description Visualize net pairwise or pairwise connectedness measures
-#' @param x NPDC or PCI matrix
+#' @param dca Connectedness object
 #' @param path Path where plots should be saved
 #' @param method Either visualizing NPDC or PCI
 #' @param name_length Length of variable names in the network plot
+#' @param threshold Threshold for bivariate connections between 0 and 1
 #' @param ... Arguments to be passed to methods, such as graphical parameters (see par).
 #' @return Return connectedness plot
 #' @export

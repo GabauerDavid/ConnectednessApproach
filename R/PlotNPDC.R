@@ -14,12 +14,12 @@ PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL,
       dir.create(path)
     }
   }
-  if (length(ca)>0 && !is.null(ca$approach)) {
+  if (length(ca)>0 && !is.null(ca$config$approach)) {
     ca = list(ca)
   }
   x = dca$NPDC
   if (is.null(x)) {
-    stop(paste(ca$approach, "has no NPDC."))
+    stop(paste(ca$config$approach, "has no NPDC."))
   }
   date = as.Date(dimnames(x)[[3]])
   t = length(date)
@@ -44,7 +44,7 @@ PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL,
     k_col = ceiling(k/k_row)
     par(mfcol=c(k_row, k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   }
-  if (dca$approach!="Frequency") {
+  if (dca$config$approach!="Frequency") {
       if (is.null(lower)) {
         lower = min(x)
       }

@@ -84,7 +84,7 @@ TVPVAR = function(x, configuration=list(l=c(0.99,0.99), nlag=1, prior=NULL)){
   Sb_t = array(0,c(m,m,t))
 
   beta_t = array(0, c(k,k,t))
-  Q_t = array(0, c(r,r,t))
+  Q_t = array(0, c(r,r,t), dimnames=list(NAMES, NAMES, as.character(rownames(x))))
 
   # Decay and forgetting factors
   l_2 = l[2]
@@ -155,7 +155,5 @@ TVPVAR = function(x, configuration=list(l=c(0.99,0.99), nlag=1, prior=NULL)){
     pb$tick()
   }
   B_t = beta_t[1:ncol(Q_t),,]
-  colnames(Q_t) = rownames(Q_t) = NAMES
-  dimnames(Q_t)[[3]] = as.character(zoo::index(x))
   return = list(B_t=B_t, Q_t=Q_t)
 }

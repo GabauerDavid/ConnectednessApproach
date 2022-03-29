@@ -40,6 +40,6 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
     B = rbind(B, fit$coefficients[-1])
     Res = cbind(Res, fit$residuals)
   }
-  Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=c(list(NAMES), list(NAMES), list(zoo::index(x)[nrow(x)])))
+  Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(as.character(rownames(x)),1)))
   results = list(B=B, Q=Q)
 }

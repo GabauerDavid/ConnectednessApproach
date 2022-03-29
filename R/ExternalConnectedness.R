@@ -3,7 +3,6 @@
 #' @description This function provides external connectedness measures
 #' @param dca Dynamic connectedness object
 #' @param groups List of at least two group vectors
-#' @param corrected Boolean value whether corrected or standard TCI should be computed
 #' @param start Start index
 #' @param end End index 
 #' @return Get connectedness measures
@@ -20,17 +19,15 @@
 #' @references Gabauer, D., & Gupta, R. (2018). On the transmission mechanism of country-specific and international economic uncertainty spillovers: Evidence from a TVP-VAR connectedness decomposition approach. Economics Letters, 171, 63-71.
 #' @author David Gabauer
 #' @export
-ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), start=NULL, end=NULL, corrected=FALSE) {
+ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), start=NULL, end=NULL) {
   message("The decomposed connectedness measures are implemented according to:\n Gabauer, D., & Gupta, R. (2018). On the transmission mechanism of country-specific and international economic uncertainty spillovers: Evidence from a TVP-VAR connectedness decomposition approach. Economics Letters, 171, 63-71.")
+  corrected = dca$config$corrected
   if (length(groups)<=1) {
     stop("groups need to consist of at least 2 vectors")
   }
-  if (dca$approach=="Frequency" | dca$approach=="Joint") {
+  if (dca$config$approach=="Frequency" | dca$config$approach=="Joint") {
     stop(paste("Decomposed connectedness measures are not implemented for",dca$approach, "connectedness"))
   } else {
-    if (dca$approach=="Extended Joint") {
-      corrected = FALSE
-    }
     if (is.null(start)) {
       start = 1
     }
@@ -91,7 +88,8 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
     }
     
     TABLE = ConnectednessTable(ct_wo/100)$TABLE
+    config = list(approach="External")
     return = list(TABLE=TABLE, gTCI=TCI_group, TCI=TCI_wo, TO=TO_wo, FROM=FROM_wo, NPT=NPT_wo,
-                  NET=NET_wo, NPDC=NPDC_wo, PCI=PCI_wo, INFLUENCE=INFLUENCE_wo, approach="External")
+                  NET=NET_wo, NPDC=NPDC_wo, PCI=PCI_wo, INFLUENCE=INFLUENCE_wo, config=config)
   }
 }

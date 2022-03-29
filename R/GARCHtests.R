@@ -6,19 +6,18 @@
 #' @param conf.level Confidence level of VaR test statistics
 #' @param lag Lag length of weighted Portmanteau statistics
 #' @return Get best univariate GARCH
-#' @examples
-#' data("g2020")
-#' spec = ugarchspec()
-#' fit = ugarchfit(spec, data=g2020[,1])
-#' tests = GARCHtests(fit, lag=10, prob=0.05, conf.level=0.90)
 #' @references
 #' Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
 #' Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.
 #' @author David Gabauer
 #' @export
 #' @importFrom WeightedPortTest Weighted.Box.test
+#' @importFrom rugarch qdist
+#' @importFrom rugarch VaRDurTest
 #' @importFrom stats qnorm
 #' @importFrom utils tail
+#' @importFrom xts as.xts
+#' @importFrom zoo as.zoo
 GARCHtests = function(fit, lag=20, prob=0.05, conf.level=0.90){
   distribution = fit@model$modeldesc$distribution
   model = fit@model$modeldesc$vmodel
@@ -34,10 +33,10 @@ GARCHtests = function(fit, lag=20, prob=0.05, conf.level=0.90){
                              variance.model=list(model=model, submodel=submodel, garchOrder=c(1,1)),
                              distribution.model=distribution)
   }
-  x = as.xts(zoo(fit@model$modeldata$data, order.by=fit@model$modeldata$index))
+  x = xts::as.xts(zoo::as.zoo(fit@model$modeldata$data, order.by=fit@model$modeldata$index))
   t = length(x)
 
-  VaR = rugarch::fitted(fit) + rugarch::sigma(fit)*qdist(fit@model$modeldesc$distribution, p=prob, mu=fit@fit$matcoef[1,1], sigma=1, skew=ifelse(is.na(rugarch::coef(fit)["skew"]),0,rugarch::coef(fit)["skew"]), shape=rugarch::coef(fit)["shape"])
+  VaR = rugarch::fitted(fit) + rugarch::sigma(fit)*rugarch::qdist(fit@model$modeldesc$distribution, p=prob, mu=fit@fit$matcoef[1,1], sigma=1, skew=ifelse(is.na(rugarch::coef(fit)["skew"]),0,rugarch::coef(fit)["skew"]), shape=rugarch::coef(fit)["shape"])
   var_test = rugarch::VaRTest(prob, actual=x, VaR=as.numeric(VaR), conf.level=conf.level)
   i = 99
   while (is.nan(var_test$uc.LRp)) {
@@ -45,7 +44,7 @@ GARCHtests = function(fit, lag=20, prob=0.05, conf.level=0.90){
     var_test = rugarch::VaRTest(prob, actual=utils::tail(x,n), VaR=utils::tail(as.numeric(VaR),n), conf.level=conf.level)
     i = i - 1
   }
-  vardur_test = VaRDurTest(prob, x, VaR,conf.level=conf.level)
+  vardur_test = rugarch::VaRDurTest(prob, x, VaR,conf.level=conf.level)
   f = function(x) {
     rugarch::qdist(fit@model$modeldesc$distribution, p=x, mu=0,sigma=1,skew=ifelse(is.na(rugarch::coef(fit)["skew"]),0,rugarch::coef(fit)["skew"]), shape=rugarch::coef(fit)["shape"])
   }

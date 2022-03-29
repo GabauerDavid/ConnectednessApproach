@@ -3,7 +3,6 @@
 #' @description This function computes the conditional connectedness measures.
 #' @param dca Dynamic connectedness object
 #' @param group Group vector
-#' @param corrected Boolean value whether corrected or standard TCI should be computed
 #' @param start Start index
 #' @param end End index 
 #' @return Get connectedness measures
@@ -24,11 +23,11 @@
 #' @references Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.
 #' @author David Gabauer
 #' @export
-ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL, corrected=FALSE) {
+ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
+  corrected = dca$config$corrected
   message("Conditional connectedness measures are implemented according to:\n Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.")
-  
-  if (dca$approach=="Frequency" | dca$approach=="Joint") {
-    stop(paste("Conditional connectedness measures are not implemented for",dca$approach, "connectedness"))
+  if (dca$config$approach=="Frequency" | dca$config$approach=="Joint") {
+    stop(paste("Conditional connectedness measures are not implemented for",dca$config$approach, "connectedness"))
   } else {
     if (is.null(start)) {
       start = 1
@@ -62,7 +61,8 @@ ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL, c
       }
     }
     TABLE = ConnectednessTable(FEVD/100)$TABLE
+    config = list(approach="Conditional")
     return = list(TABLE=TABLE, FEVD=FEVD, TCI=TCI, NET=NET, TO=TO, FROM=FROM, 
-                  NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, approach="Conditional")
+                  NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)
   }
 }

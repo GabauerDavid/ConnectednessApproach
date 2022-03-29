@@ -96,6 +96,8 @@ JointConnectedness = function(Phi, Sigma, nfore) {
   colnames(TABLE) = c(NAMES, "FROM")
   TABLE = format(round(TABLE, 2), nsmall=2)
   TABLE[k+2,k+1] = "TCI"
+  
+  config = list(nfore=nfore, approach="Joint", generalized=TRUE, corrected=FALSE)
   return = list(TABLE=TABLE, CT=CT/100, TCI=TCI, TO=TO, FROM=FROM, NET=NET,
-                NPDC=NULL, NPT=NULL, PCI=NULL, INFLUENCE=NULL, approach="Joint")
+                NPDC=NULL, NPT=NULL, PCI=NULL, INFLUENCE=NULL, config=config)
 }

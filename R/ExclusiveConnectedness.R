@@ -3,7 +3,6 @@
 #' @description This function results in exclusive connectedness measures
 #' @param dca Dynamic connectedness object
 #' @param group Vector of group indices
-#' @param corrected Boolean value whether corrected or standard TCI should be computed
 #' @param start Start index
 #' @param end End index 
 #' @return Get connectedness measures
@@ -19,19 +18,17 @@
 #'                             corrected=TRUE,
 #'                             VAR_config=list(TVPVAR=list(kappa1=0.99, 
 #'                             kappa2=0.99, prior="BayesPrior")))
-#' exc = ExclusiveConnectedness(dca, group=c(1,2,3), corrected=TRUE)
+#' exc = ExclusiveConnectedness(dca, group=c(1,2,3))
 #' }
 #' @references Chatziantoniou, I., Elsayed, A., Gabauer, D., & Gozgor, G. (2022). Oil price shocks and exchange rate dynamics: New evidence from decomposed and partial connectedness measures for oil importing and exporting economies.
 #' @author David Gabauer
 #' @export
-ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL, corrected=FALSE) {
+ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
   message("Partial connectedness measures are implemented according to:\n Chatziantoniou, I., Elsayed, A., Gabauer, D., & Gozgor, G. (2022). Oil price shocks and exchange rate dynamics: New evidence from decomposed and partial connectedness measures for oil importing and exporting economies.")
-  if (dca$approach=="Frequency" | dca$approach=="Joint") {
-    stop(paste("Partial connectedness measures are not implemented for",dca$approach, "connectedness"))
+  corrected = dca$config$corrected
+  if (dca$config$approach=="Frequency" | dca$config$approach=="Joint") {
+    stop(paste("Partial connectedness measures are not implemented for",dca$config$approach, "connectedness"))
   } else {
-    if (dca$approach=="Extended Joint") {
-      corrected = FALSE
-    }
     if (is.null(start)) {
       start = 1
     }
@@ -71,7 +68,8 @@ ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL, corre
       }
     }
     TABLE = ConnectednessTable(CT)$TABLE
+    config = list(approach="Exclusive")
     return = list(TABLE=TABLE, TCI=TCI, NET=NET, TO=TO, FROM=FROM, NPT=NPT,
-                  NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, approach="Exclusive")
+                  NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)
   }
 }

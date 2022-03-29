@@ -14,7 +14,7 @@ PlotNET = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
       dir.create(path)
     }
   }
-  if (length(ca)>0 && !is.null(ca$approach)) {
+  if (length(ca)>0 && !is.null(ca$config$approach)) {
     ca = list(ca)
   }
   x = dca$NET
@@ -34,7 +34,7 @@ PlotNET = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   on.exit(par(oldpar)) 
   if (!is.null(path)) pdf(file=paste0(path, "/NET.pdf"), width=10, height=7)
   par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
-  if (dca$approach!="Frequency") {
+  if (dca$config$approach!="Frequency") {
     if (is.null(lower)) {
       lower = min(x)
     }

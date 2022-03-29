@@ -4,18 +4,27 @@
 \alias{PlotNetwork}
 \title{Network plot}
 \usage{
-PlotNetwork(dca, method = "NPDC", path = NULL, name_length = NULL, ...)
+PlotNetwork(
+  dca,
+  method = "NPDC",
+  path = NULL,
+  name_length = NULL,
+  threshold = 0.25,
+  ...
+)
 }
 \arguments{
+\item{dca}{Connectedness object}
+
 \item{method}{Either visualizing NPDC or PCI}
 
 \item{path}{Path where plots should be saved}
 
 \item{name_length}{Length of variable names in the network plot}
 
-\item{...}{Arguments to be passed to methods, such as graphical parameters (see par).}
+\item{threshold}{Threshold for bivariate connections between 0 and 1}
 
-\item{x}{NPDC or PCI matrix}
+\item{...}{Arguments to be passed to methods, such as graphical parameters (see par).}
 }
 \value{
 Return connectedness plot

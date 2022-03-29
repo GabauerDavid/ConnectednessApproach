@@ -21,12 +21,6 @@ Get best univariate GARCH
 \description{
 This function provides the results of multiple univariate GARCH test statistics
 }
-\examples{
-data("g2020")
-spec = ugarchspec()
-fit = ugarchfit(spec, data=g2020[,1])
-tests = GARCHtests(fit, lag=10, prob=0.05, conf.level=0.90)
-}
 \references{
 Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
 Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.

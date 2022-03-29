@@ -115,7 +115,9 @@ ExtendedJointConnectedness = function(Phi, Sigma, nfore) {
     INFLUENCE[,,ij] = dca$INFLUENCE
     pb$tick()
   }
+
   TABLE = ConnectednessTable(CT/100)$TABLE
+  config = list(nfore=nfore, approach="Extended Joint", generalized=TRUE, corrected=FALSE)
   return = list(TABLE=TABLE, CT=CT/100, TCI=TCI, TO=TO, FROM=FROM,
-                NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, approach="Extended Joint")
+                NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)
 }

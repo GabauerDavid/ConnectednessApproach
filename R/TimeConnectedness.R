@@ -81,6 +81,7 @@ TimeConnectedness = function(Phi=NULL, Sigma=NULL, nfore=10, generalized=TRUE, c
     pb$tick()
   }
   TABLE = ConnectednessTable(CT)$TABLE
+  config = list(nfore=nfore, approach="Time", generalized=generalized, corrected=corrected)
   return = list(TABLE=TABLE, CT=CT, TCI=TCI, TO=TO, FROM=FROM,
-                NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, approach="Time")
+                NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)
 }

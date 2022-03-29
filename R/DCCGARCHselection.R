@@ -10,12 +10,6 @@
 #' @param conf.level Confidence level of VaR test statistics
 #' @param lag Lag length of weighted Portmanteau statistics
 #' @return Get best DCC-GARCH
-#' @examples
-#' \donttest{
-#' data("g2020")
-#' ugarch = GARCHselection(x=g2020[,1], distributions=c("std","sstd"), models=c("sGARCH","eGARCH"))
-#' fit = ugarchfit(ugarch$best_ugarch, data=g2020[,1])
-#' }
 #' @importFrom stats bartlett.test coef fitted fligner.test integrate qnorm quantile residuals sd sigma var.test
 #' @references
 #' Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
@@ -28,8 +22,8 @@ DCCGARCHselection = function(x, distributions=c("norm","snorm","std","sstd","ged
   }
   k = ncol(x)
   for (i in 1:k) {
-    print(colnames(data)[i])
-    sel = GARCHselection(x=data[,i], distributions=distributions, models=models, 
+    print(colnames(x)[i])
+    sel = GARCHselection(x=x[,i], distributions=distributions, models=models, 
                          prob=prob, conf.level=conf.level, lag=lag, ar=ar, ma=ma)
     if (i==1) {
       mspec = sel$best_ugarch

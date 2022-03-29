@@ -4,13 +4,7 @@
 \alias{AggregatedConnectedness}
 \title{Aggregated Connectedness Measures}
 \usage{
-AggregatedConnectedness(
-  dca,
-  groups,
-  start = NULL,
-  end = NULL,
-  corrected = FALSE
-)
+AggregatedConnectedness(dca, groups, start = NULL, end = NULL)
 }
 \arguments{
 \item{dca}{Dynamic connectedness object}
@@ -20,8 +14,6 @@ AggregatedConnectedness(
 \item{start}{Start index}
 
 \item{end}{End index}
-
-\item{corrected}{Boolean value whether corrected or standard TCI should be computed}
 }
 \value{
 Get connectedness measures

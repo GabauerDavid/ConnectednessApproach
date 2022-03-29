@@ -10,12 +10,6 @@
 #' @param conf.level Confidence level of VaR test statistics
 #' @param lag Lag length of weighted Portmanteau statistics
 #' @return Get optimal univariate GARCH model specification
-#' @examples
-#' \donttest{
-#' data("g2020")
-#' ugarch = GARCHselection(x=g2020[,1], distributions=c("std","sstd"), models=c("sGARCH","eGARCH"))
-#' fit = ugarchfit(ugarch$best_ugarch, data=g2020[,1])
-#' }
 #' @importFrom stats bartlett.test coef fitted fligner.test integrate qnorm quantile residuals sd sigma var.test
 #' @references
 #' Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.

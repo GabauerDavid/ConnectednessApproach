@@ -3,7 +3,6 @@
 #' @description This function results in aggregated connectedness measures.
 #' @param dca Dynamic connectedness object
 #' @param groups List of at least two group vectors
-#' @param corrected Boolean value whether corrected or standard TCI should be computed
 #' @param start Start index
 #' @param end End index
 #' @return Get connectedness measures
@@ -24,19 +23,16 @@
 #' @references Chatziantoniou, I., Gabauer, D., & Stenfor, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.
 #' @author David Gabauer
 #' @export
-AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL, corrected=FALSE) {
+AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
+  corrected = dca$config$corrected
   message("Aggregated connectedness measures are introduced accoring to:\n Chatziantoniou, I., Gabauer, D., & Stenfor, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.")
-  
   if (length(groups) <= 1) {
     stop("groups need to consist of at least 2 vectors")
   }
-  if (dca$approach == "Frequency" | dca$approach == "Joint") {
+  if (dca$config$approach == "Frequency" | dca$config$approach == "Joint") {
     stop(paste("Aggregated connectedness measures are not implemented for", 
-               dca$approach, "connectedness"))
+               dca$config$approach, "connectedness"))
   } else {
-    if (dca$approach == "Extended Joint") {
-      corrected = FALSE
-    }
     if (is.null(start)) {
       start = 1
     }
@@ -101,7 +97,8 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL, corrected=
     }
   }
   TABLE = ConnectednessTable(CT_)$TABLE
+  config = list(approach="Aggregated")
   return = list(TABLE=TABLE, TCI_ext=TCI_, TCI=TCI, 
                 TO=TO, FROM=FROM, NPT=NPT, NET=NET, 
-                NPDC=NPDC, INFLUENCE=INFLUENCE, PCI=PCI, approach="Aggregated")
+                NPDC=NPDC, INFLUENCE=INFLUENCE, PCI=PCI, config=config)
 }

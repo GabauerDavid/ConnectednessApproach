@@ -8,8 +8,7 @@ ExternalConnectedness(
   dca,
   groups = list(c(1), c(2:ncol(dca$NET))),
   start = NULL,
-  end = NULL,
-  corrected = FALSE
+  end = NULL
 )
 }
 \arguments{
@@ -20,8 +19,6 @@ ExternalConnectedness(
 \item{start}{Start index}
 
 \item{end}{End index}
-
-\item{corrected}{Boolean value whether corrected or standard TCI should be computed}
 }
 \value{
 Get connectedness measures

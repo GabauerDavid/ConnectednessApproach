@@ -5,21 +5,12 @@
 #' @param nfore H-step ahead forecast horizon
 #' @param standardize Boolean value whether GIRF should be standardized
 #' @return Get volatility impulse response functions and forecast error variance decomposition
-#' @examples
-#' \donttest{
-#' data("g2020")
-#' ugarch.spec = ugarchspec(mean.model=list(armaOrder=c(0,0)),
-#'                          variance.model=list(garchOrder=c(1,1), model="sGARCH"),
-#'                          distribution.model="norm")
-#' mgarch.spec = dccspec(uspec=multispec(replicate(ncol(g2020), ugarch.spec)),
-#'                       dccOrder=c(1,1), distribution="mvnorm")
-#' fit = dccfit(mgarch.spec, data=g2020)
-#' fevd = VFEVD(fit, nfore=100, standardize=FALSE)
-#' }
 #' @references
 #' Engle, R. (2002). Dynamic conditional correlation: A simple class of multivariate generalized autoregressive conditional heteroskedasticity models. Journal of Business & Economic Statistics, 20(3), 339-350.\\
 #' Gabauer, D. (2020). Volatility impulse response analysis for DCC‐GARCH models: The role of volatility transmission mechanisms. Journal of Forecasting, 39(5), 788-796.
 #' @author David Gabauer
+#' @importFrom rmgarch rcor
+#' @importFrom rmgarch rcov
 #' @export
 VFEVD = function(fit, nfore=100, standardize=FALSE) {
   if (class(fit)!="DCCfit") {
@@ -29,8 +20,8 @@ VFEVD = function(fit, nfore=100, standardize=FALSE) {
     stop("nfore needs to be a positive integer")
   }
   NAMES = fit@model$modeldata$asset.names
-  H = rcov(fit)
-  R = rcor(fit)
+  H = rmgarch::rcov(fit)
+  R = rmgarch::rcor(fit)
   R.bar = apply(R,1:2,mean)
   Q.bar = fit@mfit$Qbar
   t = dim(H)[3]
