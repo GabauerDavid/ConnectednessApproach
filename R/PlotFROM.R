@@ -39,7 +39,7 @@ PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   on.exit(par(oldpar)) 
   if (!is.null(path)) pdf(file=paste0(path, "/FROM.pdf"), width=10, height=7)
   par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
-  if (dca$config$approach!="Frequency") {
+  if (length(dim(dca$NET))>2) {
     if (is.null(lower)) {
       lower = min(x)
     }

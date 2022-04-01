@@ -26,36 +26,37 @@
 AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
   corrected = dca$config$corrected
   message("Aggregated connectedness measures are introduced accoring to:\n Chatziantoniou, I., Gabauer, D., & Stenfor, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.")
+  if (is.null(start)) {
+    start = 1
+  }
+  if (is.null(end)) {
+    end = dim(dca$CT)[3]
+  }
+  NAMES = dimnames(dca$NET)[[2]]
+  k = length(NAMES)
+  m = length(groups)
+  CT = dca$CT
+  t = dim(CT)[3]
+  weights = NULL
+  for (i in 1:m) {
+    weights[i] = length(groups[i][[1]])
+  }
+  
+  if (is.null(names(groups))) {
+    NAMES_group = paste0("GROUP", 1:m)
+  } else {
+    NAMES_group = names(groups)
+  }
+  date = as.character(as.Date(dimnames(CT)[[3]]))
+  
   if (length(groups) <= 1) {
     stop("groups need to consist of at least 2 vectors")
   }
-  if (dca$config$approach == "Frequency" | dca$config$approach == "Joint") {
+  
+  if (dca$config$approach == "Joint") {
     stop(paste("Aggregated connectedness measures are not implemented for", 
                dca$config$approach, "connectedness"))
   } else {
-    if (is.null(start)) {
-      start = 1
-    }
-    if (is.null(end)) {
-      end = dim(dca$CT)[3]
-    }
-    NAMES = colnames(dca$NET)
-    k = length(NAMES)
-    m = length(groups)
-    CT = dca$CT
-    t = dim(CT)[3]
-    weights = NULL
-    for (i in 1:m) {
-      weights[i] = length(groups[i][[1]])
-    }
-    
-    if (is.null(names(groups))) {
-      NAMES_group = paste0("GROUP", 1:m)
-    } else {
-      NAMES_group = names(groups)
-    }
-    
-    date = as.character(as.Date(names(CT[1,1,])))
     TCI_ = TCI = array(NA, c(t,1), dimnames=list(date, "TCI"))
     NPT = FROM = TO = NET = array(NA, c(t,m), dimnames=list(date, NAMES_group))
     CT_ = INFLUENCE = NPDC = PCI = INFLUENCE = array(NA, c(m,m,t), dimnames=list(NAMES_group, NAMES_group, date))
@@ -77,7 +78,6 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       for (i in 1:m) {
         ct1[i,i] = 1-sum(ct1[i,])
       }
-      #mean(rowSums(ct0))
       CT_[,,il] = ct1
       dca_ = ConnectednessTable(ct1)
       if (corrected) {
@@ -95,8 +95,54 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       PCI[,,il] = dca_$PCI
       INFLUENCE[,,il] = dca_$INFLUENCE
     }
+    TABLE = ConnectednessTable(CT_)$TABLE
+  } else if (dca$config$approach == "Frequency") {
+    mn = dim(CT)[4]
+    TABLE = list()
+    horizons = dimnames(CT)[[4]]
+    TCI_ = TCI = array(NA, c(t,1,mn), dimnames=list(date, "TCI",horizons))
+    NPT = FROM = TO = NET = array(NA, c(t,m,mn), dimnames=list(date, NAMES_group,horizons))
+    CT_ = INFLUENCE = NPDC = PCI = INFLUENCE = array(NA, c(m,m,t,mn), dimnames=list(NAMES_group, NAMES_group, date,horizons))
+    for (jl in 1:mn) {
+      for (il in 1:t) {
+        ct0 = ct = CT[,,il,jl]
+        for (i in 1:m) {
+          for (j in 1:m) {
+            if (i==j) {
+              ct0[groups[i][[1]], groups[j][[1]]] = 0
+            }
+          }
+        }
+        ct1 = array(0, c(m, m), dimnames=list(NAMES_group, NAMES_group))
+        for (i in 1:m) {
+          for (j in 1:m) {
+            ct1[i,j] = sum(ct0[groups[i][[1]], groups[j][[1]]]) / length(groups[j][[1]])
+          }
+        }
+        for (i in 1:m) {
+          ct1[i,i] = sum(ct[i,])-sum(ct1[i,])
+        }
+        CT_[,,il,jl] = ct1
+        dca_ = ConnectednessTable(ct1)
+        if (corrected) {
+          TCI[il,,jl] = dca_$cTCI
+          TCI_[il,,jl] = sum(dca_$TO * (k-weights)/(k-1))
+        } else {
+          TCI[il,,jl] = dca_$TCI
+          TCI_[il,,jl] = sum(dca_$TO * (k-weights)/k)
+        }
+        TO[il,,jl] = dca_$TO
+        FROM[il,,jl] = dca_$FROM
+        NET[il,,jl] = dca_$NET
+        NPT[il,,jl] = dca_$NPT
+        NPDC[,,il,jl] = dca_$NPDC
+        PCI[,,il,jl] = dca_$PCI
+        INFLUENCE[,,il,jl] = dca_$INFLUENCE
+      }
+      TABLE[[jl]] = ConnectednessTable(CT_[,,,jl])$TABLE
+    }
+    names(TABLE) = horizons
   }
-  TABLE = ConnectednessTable(CT_)$TABLE
   config = list(approach="Aggregated")
   return = list(TABLE=TABLE, TCI_ext=TCI_, TCI=TCI, 
                 TO=TO, FROM=FROM, NPT=NPT, NET=NET, 

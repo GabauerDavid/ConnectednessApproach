@@ -45,7 +45,7 @@ PlotINF = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, 
     k_col = ceiling(k/k_row)
     par(mfcol=c(k_row, k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   }
-  if (dca$config$approach!="Frequency") {
+  if (length(dim(dca$NET))>3) {
     if (is.null(lower)) {
       lower = min(x)
     }

@@ -33,7 +33,7 @@ PlotNPT = function(dca, ca=NULL, path=NULL, ...) {
   on.exit(par(oldpar)) 
   if (!is.null(path)) pdf(file=paste0(path, "/NPT.pdf"), width=10, height=7)
   par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
-  if (dca$config$approach!="Frequency") {
+  if (length(dim(dca$NET))>2) {
     for (i in 1:k) {
       plot(date, x[,i], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(0,k-1), ...)
       grid(NA, NULL, lty=2)
