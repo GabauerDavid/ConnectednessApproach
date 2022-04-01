@@ -31,6 +31,26 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   if (!is.null(path)) pdf(file=paste0(path, "/TCI.pdf"), width=10, height=5)
   par(mfrow=c(1,1), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   if (length(dim(dca$NET))>2) {
+    x_ = x
+    if (is.null(lower)) {
+      lower = min(x_)
+    }
+    if (is.null(upper)) {
+      upper = max(apply(x_,1,sum))
+    }
+    plot(date, apply(x_,1,sum), type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+    grid(NA, NULL, lty=2)
+    polygon(c(date,rev(date)),c(c(rep(0,t)),rev(apply(x_,1,sum))),col=1, border=1)
+    for (j in 1:dim(x_)[2]) {
+      polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j+1, border=j+1)
+    }
+    legend("topleft", c("Total", colnames(x_)), fill=c(1:(dim(x_)[2]+1)), bty="n")
+    for (j in 1:ncol(x_)) {
+      lines(date, x_[,j],col=j+1)
+    }
+    abline(h=0, lty=3)
+    box()
+  } else {
     if (is.null(lower)) {
       lower = 0
     }
@@ -58,26 +78,6 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
         }
       }
     }
-    box()
-  } else {
-    x_ = x
-    if (is.null(lower)) {
-      lower = min(x_)
-    }
-    if (is.null(upper)) {
-      upper = max(apply(x_,1,sum))
-    }
-    plot(date, apply(x_,1,sum), type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
-    grid(NA, NULL, lty=2)
-    polygon(c(date,rev(date)),c(c(rep(0,t)),rev(apply(x_,1,sum))),col=1, border=1)
-    for (j in 1:dim(x_)[2]) {
-      polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j+1, border=j+1)
-    }
-    legend("topleft", c("Total", colnames(x_)), fill=c(1:(dim(x_)[2]+1)), bty="n")
-    for (j in 1:ncol(x_)) {
-      lines(date, x_[,j],col=j+1)
-    }
-    abline(h=0, lty=3)
     box()
   }
   if (!is.null(path)) dev.off()

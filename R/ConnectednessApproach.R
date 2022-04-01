@@ -59,7 +59,7 @@ ConnectednessApproach = function(x,
                                  DCC_config=list(standardize=FALSE),
                                  Connectedness_config = list(
                                    TimeConnectedness=list(generalized=TRUE),
-                                   FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario=c("ABS","WTH"))
+                                   FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS")
                                  )) {
   if (class(x)!="zoo") {
     stop("Data needs to be of type 'zoo'")

@@ -33,7 +33,28 @@ PlotTO = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   on.exit(par(oldpar)) 
   if (!is.null(path)) pdf(file=paste0(path, "/TO.pdf"), width=10, height=7)
   par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
-  if (length(dim(dca$NET))!=3) {
+  if (length(dim(dca$NET))>2) {
+    for (i in 1:k) {
+      x_ = x[,i,]
+      if (is.null(lower)) {
+        lower = min(x)
+      }
+      if (is.null(upper)) {
+        upper = max(apply(x,1:2,sum))
+      }
+      plot(date, x_[,1], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
+      grid(NA, NULL, lty=2)
+      for (j in 1:ncol(x_)) {
+        polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j, border=j)
+      }
+      for (j in 1:ncol(x_)) {
+        lines(date, x_[,j],col=j)
+      }
+      abline(h=0, lty=3)
+      legend("topleft", colnames(x_), fill=c(1:(ncol(x_)+1)), bty="n")
+      box()
+    }
+  } else {
     if (is.null(lower)) {
       lower = min(x)
     }
@@ -50,28 +71,6 @@ PlotTO = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
         }
       }
       abline(h=0, lty=3)
-      box()
-    }
-  } else {
-    for (i in 1:k) {
-      x_ = x[,i,]
-      if (is.null(lower)) {
-        lower = min(x)
-      }
-      if (is.null(upper)) {
-        upper = max(apply(x,1:2,sum))
-      }
-      plot(date, apply(x_,1,sum), type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
-      grid(NA, NULL, lty=2)
-      polygon(c(date,rev(date)),c(c(rep(0,t)),rev(apply(x_,1,sum))),col=1, border=1)
-      for (j in 1:ncol(x_)) {
-        polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j+1, border=j+1)
-      }
-      for (j in 1:ncol(x_)) {
-        lines(date, x_[,j],col=j+1)
-      }
-      abline(h=0, lty=3)
-      legend("topleft", c("Total", colnames(x_)), fill=c(1:(ncol(x_)+1)), bty="n")
       box()
     }
   }

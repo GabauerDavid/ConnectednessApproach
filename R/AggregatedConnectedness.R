@@ -61,8 +61,8 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
     TABLE = list()
     horizons = dimnames(CT)[[4]]
     TCI_ = TCI = array(NA, c(t,1,mn), dimnames=list(date, "TCI",horizons))
-    NPT = FROM = TO = NET = array(NA, c(t,m,mn), dimnames=list(date, NAMES_group,horizons))
-    CT_ = INFLUENCE = NPDC = PCI = INFLUENCE = array(NA, c(m,m,t,mn), dimnames=list(NAMES_group, NAMES_group, date,horizons))
+    FROM = TO = NET = array(NA, c(t,m,mn), dimnames=list(date, NAMES_group,horizons))
+    CT_ = NPDC = INFLUENCE = array(NA, c(m,m,t,mn), dimnames=list(NAMES_group, NAMES_group, date,horizons))
     for (jl in 1:mn) {
       for (il in 1:t) {
         ct0 = ct = CT[,,il,jl]
@@ -94,18 +94,15 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
         TO[il,,jl] = dca_$TO
         FROM[il,,jl] = dca_$FROM
         NET[il,,jl] = dca_$NET
-        NPT[il,,jl] = dca_$NPT
         NPDC[,,il,jl] = dca_$NPDC
-        PCI[,,il,jl] = dca_$PCI
-        INFLUENCE[,,il,jl] = dca_$INFLUENCE
       }
       TABLE[[jl]] = ConnectednessTable(CT_[,,,jl])$TABLE
     }
     names(TABLE) = horizons
   } else {
     TCI_ = TCI = array(NA, c(t,1), dimnames=list(date, "TCI"))
-    NPT = FROM = TO = NET = array(NA, c(t,m), dimnames=list(date, NAMES_group))
-    CT_ = INFLUENCE = NPDC = PCI = INFLUENCE = array(NA, c(m,m,t), dimnames=list(NAMES_group, NAMES_group, date))
+    FROM = TO = NET = array(NA, c(t,m), dimnames=list(date, NAMES_group))
+    CT_ = PDC = INFLUENCE = array(NA, c(m,m,t), dimnames=list(NAMES_group, NAMES_group, date))
     for (il in 1:t) {
       ct0 = ct = CT[,,il]
       for (i in 1:m) {
@@ -136,15 +133,12 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       TO[il,] = dca_$TO
       FROM[il,] = dca_$FROM
       NET[il,] = dca_$NET
-      NPT[il,] = dca_$NPT
       NPDC[,,il] = dca_$NPDC
-      PCI[,,il] = dca_$PCI
-      INFLUENCE[,,il] = dca_$INFLUENCE
     }
     TABLE = ConnectednessTable(CT_)$TABLE
   }
   config = list(approach="Aggregated")
   return = list(TABLE=TABLE, TCI_ext=TCI_, TCI=TCI, 
-                TO=TO, FROM=FROM, NPT=NPT, NET=NET, 
-                NPDC=NPDC, INFLUENCE=INFLUENCE, PCI=PCI, config=config)
+                TO=TO, FROM=FROM, NPT=NULL, NET=NET, 
+                NPDC=NPDC, INFLUENCE=NULL, PCI=NULL, config=config)
 }

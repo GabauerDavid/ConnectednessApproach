@@ -44,32 +44,7 @@ PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL,
     k_col = ceiling(k/k_row)
     par(mfcol=c(k_row, k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   }
-  if (length(dim(dca$NET))>3) {
-      if (is.null(lower)) {
-        lower = min(x)
-      }
-      if (is.null(upper)) {
-        upper = max(x)
-      }
-      for (j in 1:k) {
-        for (i in 1:k) {
-          if (i==selection || j==selection || is.null(selection)) {
-            if (i>j) {
-              plot(date, x[i,j,], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
-              grid(NA, NULL, lty=2)
-              polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[i,j,])),col=1, border=1)
-              if (!is.null(ca)) {
-                for (il in 1:length(ca)) {
-                  lines(as.Date(rownames(ca[[il]]$TCI)), ca[[il]]$NPDC[i,j,], col=il+1)
-                }
-              }
-              abline(h=0, lty=3)
-              box()
-            }
-          }
-        }
-      }
-  } else {
+  if (length(dim(dca$NET))>2) {
     for (j in 1:k) {
       for (i in 1:k) {
         if (i>j) {
@@ -81,18 +56,41 @@ PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL,
             if (is.null(upper)) {
               upper = max(c(max(x), max(apply(x_,1,sum))))
             }
-            plot(date, apply(x_,1,sum), type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+            plot(date, x_[,1], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
             grid(NA, NULL, lty=2)
-            polygon(c(date,rev(date)),c(c(rep(0,t)),rev(apply(x_,1,sum))),col=1, border=1)
             for (l in 1:ncol(x_)) {
-              polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,l])),col=l+1, border=l+1)
+              polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,l])),col=l, border=l)
             }
             for (l in 1:ncol(x_)) {
-              lines(date, x_[,l],col=l+1)
+              lines(date, x_[,l],col=l)
             }
-            lines(date, apply(x_,1,sum), col=1)
             abline(h=0, lty=3)
-            legend("topleft", c("Total", colnames(x_)), fill=1:(ncol(x_)+1), bty="n")
+            legend("topleft", colnames(x_), fill=1:ncol(x_), bty="n")
+            box()
+          }
+        }
+      }
+    }
+  } else {
+    if (is.null(lower)) {
+      lower = min(x)
+    }
+    if (is.null(upper)) {
+      upper = max(x)
+    }
+    for (j in 1:k) {
+      for (i in 1:k) {
+        if (i==selection || j==selection || is.null(selection)) {
+          if (i>j) {
+            plot(date, x[i,j,], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+            grid(NA, NULL, lty=2)
+            polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[i,j,])),col=1, border=1)
+            if (!is.null(ca)) {
+              for (il in 1:length(ca)) {
+                lines(as.Date(rownames(ca[[il]]$TCI)), ca[[il]]$NPDC[i,j,], col=il+1)
+              }
+            }
+            abline(h=0, lty=3)
             box()
           }
         }
