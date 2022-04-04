@@ -104,6 +104,7 @@ FrequencyConnectedness = function(Phi, Sigma, nfore=10, partition=c(pi,pi/2,0), 
     pb$tick()
   }
   CT[,,,1] = apply(CT,1:3,sum)
+  TCI[,1] = apply(TCI,1,sum)
   TO[,,1] = apply(TO,1:2,sum)
   FROM[,,1] = apply(FROM,1:2,sum)
   NET[,,1] = apply(NET,1:2,sum)
