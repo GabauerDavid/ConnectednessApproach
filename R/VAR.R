@@ -35,6 +35,6 @@ VAR = function(x, configuration=list(nlag=1)) {
     se = rbind(se, fit$coefficients[-1,2])
     Res = cbind(Res, fit$residuals)
   }
-  Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(as.character(rownames(x)),1)))
+  Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(as.character(zoo::index(x)),1)))
   results = list(B=B, Q=Q, se=se)
 }

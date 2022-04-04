@@ -21,7 +21,7 @@
 #' Baruník, J., & Křehlík, T. (2018). Measuring the frequency dynamics of financial connectedness and systemic risk. Journal of Financial Econometrics, 16(2), 271-296.
 #' @author David Gabauer
 #' @export
-FrequencyConnectedness = function(Phi, Sigma, nfore=10, partition=c(pi,pi/2,0), generalized=TRUE, orth=FALSE, scenario="ABS", corrected=FALSE) {
+FrequencyConnectedness = function(Phi, Sigma, nfore=100, partition=c(pi,pi/2,0), generalized=TRUE, orth=FALSE, scenario="ABS", corrected=FALSE) {
   if (nfore<=0) {
     stop("nfore needs to be a positive integer")
   }
@@ -56,7 +56,7 @@ FrequencyConnectedness = function(Phi, Sigma, nfore=10, partition=c(pi,pi/2,0), 
   new_p = frequencyConnectedness::getPartition(partition, nfore)
   range = sort(unique(do.call(c, new_p)))
   
-  TCI = array(0, c(t,interval), dimnames=list(as.character(date), period_names))
+  TCI = array(0, c(t,interval), dimnames=list(date, period_names))
   PCI = INFLUENCE = CT = NPDC = array(0, c(k, k, t, interval), dimnames=list(NAMES, NAMES, date, period_names))
   NET = FROM = TO = array(0, c(t, k, interval), dimnames=list(date, NAMES, period_names))
   NPT = array(0, c(t, k, interval-1), dimnames=list(date, NAMES, period_names[-1]))

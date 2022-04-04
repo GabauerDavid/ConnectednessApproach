@@ -67,6 +67,6 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
     B = rbind(B, b)
     alpha_[i] = alpha[which(MAE==min(MAE))]
   }
-  Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(as.character(rownames(x)),1)))
+  Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(as.character(zoo::index(x)),1)))
   results = list(B=B, Q=Q, alpha=alpha_)
 }

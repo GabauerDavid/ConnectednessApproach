@@ -60,7 +60,7 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
     mn = dim(CT)[4]
     TABLE = list()
     horizons = dimnames(CT)[[4]]
-    TCI_ = TCI = array(NA, c(t,1,mn), dimnames=list(date, "TCI",horizons))
+    TCI_ = TCI = array(NA, c(t,mn), dimnames=list(date,horizons))
     FROM = TO = NET = array(NA, c(t,m,mn), dimnames=list(date, NAMES_group,horizons))
     CT_ = NPDC = INFLUENCE = array(NA, c(m,m,t,mn), dimnames=list(NAMES_group, NAMES_group, date,horizons))
     for (jl in 1:mn) {
@@ -85,11 +85,11 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
         CT_[,,il,jl] = ct1
         dca_ = ConnectednessTable(ct1)
         if (corrected) {
-          TCI[il,,jl] = dca_$cTCI
-          TCI_[il,,jl] = sum(dca_$TO * (k-weights)/(k-1))
+          TCI[il,jl] = dca_$cTCI
+          TCI_[il,jl] = sum(dca_$TO * (k-weights)/(k-1))
         } else {
-          TCI[il,,jl] = dca_$TCI
-          TCI_[il,,jl] = sum(dca_$TO * (k-weights)/k)
+          TCI[il,jl] = dca_$TCI
+          TCI_[il,jl] = sum(dca_$TO * (k-weights)/k)
         }
         TO[il,,jl] = dca_$TO
         FROM[il,,jl] = dca_$FROM

@@ -84,8 +84,8 @@ TVPVAR = function(x, configuration=list(l=c(0.99,0.99), nlag=1, prior=NULL)){
   Sb_t = array(0,c(m,m,t))
 
   beta_t = array(0, c(k,k,t))
-  Q_t = array(0, c(r,r,t), dimnames=list(NAMES, NAMES, as.character(rownames(x))))
-
+  Q_t = array(0, c(r,r,t), dimnames=list(NAMES, NAMES, as.character(zoo::index(x))))
+  
   # Decay and forgetting factors
   l_2 = l[2]
   l_4 = l[1]
