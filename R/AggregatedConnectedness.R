@@ -76,7 +76,7 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
         ct1 = array(0, c(m, m), dimnames=list(NAMES_group, NAMES_group))
         for (i in 1:m) {
           for (j in 1:m) {
-            ct1[i,j] = sum(ct0[groups[i][[1]], groups[j][[1]]]) / length(groups[j][[1]])
+            ct1[i,j] = sum(ct0[groups[i][[1]], groups[j][[1]]])# / length(groups[j][[1]])
           }
         }
         for (i in 1:m) {
