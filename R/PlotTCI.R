@@ -38,19 +38,17 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
     if (is.null(upper)) {
       upper = max(apply(x_,1,sum))
     }
-    length(date)
-    dim(x_)
-    plot(date, x_[,1], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))
+    plot(date, x_[,1], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
     grid(NA, NULL, lty=2)
     polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,1])),col=1, border=1)
     for (j in 1:dim(x_)[2]) {
       polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j, border=j)
     }
+    legend("topleft", colnames(x_), fill=1:dim(x_)[2], bty="n")
     for (j in 1:ncol(x_)) {
       lines(date, x_[,j],col=j)
     }
     abline(h=0, lty=3)
-    legend("topleft", colnames(x_), fill=1:(dim(x_)[2]), bty="n")
     box()
   } else {
     if (is.null(lower)) {
