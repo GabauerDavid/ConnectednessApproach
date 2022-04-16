@@ -66,6 +66,14 @@ InclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
         TCI[i,] = dca_$TCI
       }
     }
+    ind = which(is.nan(PCI),arr.ind=TRUE)
+    if (length(ind)>0) {
+      PCI[ind] = 0
+    }
+    ind = which(is.nan(INFLUENCE),arr.ind=TRUE)
+    if (length(ind)>0) {
+      INFLUENCE[ind] = 0
+    }
     TABLE = ConnectednessTable(CT)$TABLE
     config = list(approach="Inclusive")
     return = list(TABLE=TABLE, TCI=TCI, NET=NET, TO=TO, FROM=FROM, NPT=NPT,
