@@ -51,10 +51,10 @@ PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL,
           if (i==selection || j==selection || is.null(selection)) {
             x_ = x[i,j,,]
             if (is.null(lower)) {
-              lower = min(c(min(x), min(apply(x_,1,sum))))
+              lower = min(x)
             }
             if (is.null(upper)) {
-              upper = max(c(max(x), max(apply(x_,1,sum))))
+              upper = max(x)
             }
             plot(date, x_[,1], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
             grid(NA, NULL, lty=2)

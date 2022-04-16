@@ -46,7 +46,7 @@ PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
         lower = min(x)
       }
       if (is.null(upper)) {
-        upper = max(apply(x,1:2,sum))
+        upper = max(x)
       }
       plot(date, x_[,1], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
       grid(NA, NULL, lty=2)

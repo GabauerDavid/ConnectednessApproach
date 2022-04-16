@@ -38,10 +38,10 @@ PlotNET = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
     for (i in 1:k) {
       x_ = x[,i,]
       if (is.null(lower)) {
-        lower = min(c(min(x_), min(apply(x_,1,sum))))
+        lower = min(x)
       }
       if (is.null(upper)) {
-        upper = max(c(max(x_), max(apply(x_,1,sum))))
+        upper = max(x)
       }
       plot(date, x_[,1], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
       grid(NA, NULL, lty=2)

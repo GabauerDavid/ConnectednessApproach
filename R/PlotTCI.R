@@ -33,10 +33,10 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   if (length(dim(dca$NET))>2) {
     x_ = x
     if (is.null(lower)) {
-      lower = min(x_)
+      lower = min(x)
     }
     if (is.null(upper)) {
-      upper = max(apply(x_,1,sum))
+      upper = max(x)
     }
     plot(date, x_[,1], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
     grid(NA, NULL, lty=2)
