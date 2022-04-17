@@ -86,6 +86,7 @@ ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
       NPT[ij,,1] = rowSums(NPDC[,,ij,1]<0)
     }
   } else {
+    approach = dca$config$approach=="Extended Joint"
     ct = dca$CT[group,group,start:end,drop=FALSE]
     NAMES = dimnames(ct)[[1]]
     date = dimnames(ct)[[3]]
@@ -102,7 +103,7 @@ ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
       NET[i,] = cc$NET
       NPT[i,] = cc$NPT
       NPDC[,,i] = cc$NPDC
-      PCI[,,i] = cc$PCI
+      PCI[,,i] = cc$PCI / (2*approach)
       INFLUENCE[,,i] = cc$INFLUENCE
       if (corrected) {
         TCI[i,] = cc$cTCI
@@ -111,6 +112,11 @@ ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
       }
     }
     TABLE = ConnectednessTable(FEVD/100)$TABLE
+    if (approach) {
+      k = dim(NET)[2]
+      TABLE[k+2,k+1] = "TCI"
+      TABLE[k+3,k+1] = format(round(mean(TCI),2), nsmall=2)
+    }
   }
   return = list(TABLE=TABLE, FEVD=FEVD, TCI=TCI, NET=NET, TO=TO, FROM=FROM, 
                 NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=list(approach="Conditional"))

@@ -124,6 +124,7 @@ InternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
       INFLUENCE_wo[ind] = 0
     }
   } else {
+    approach = dca$config$approach=="Extended Joint"
     ct = dca$CT[,,start:end]
     NAMES = colnames(ct)
     k = dim(ct)[2]
@@ -158,10 +159,8 @@ InternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
       NET_wo[i,] = dca_$NET
       NPT_wo[i,] = dca_$NPT
       NPDC_wo[,,i] = dca_$NPDC
-      inf = dca_$INFLUENCE
-      inf[which(is.nan(inf),arr.ind=TRUE)] = 0
-      INFLUENCE_wo[,,i] = inf
-      PCI_wo[,,i] = dca_$PCI
+      INFLUENCE_wo[,,i] = dca_$INFLUENCE
+      PCI_wo[,,i] = dca_$PCI / (2*approach)
       if (corrected) {
         TCI_wo[i,] = dca_$cTCI
       } else {
@@ -179,6 +178,11 @@ InternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
       TCI_group[,i] = rowSums(TO_wo[,group,drop=FALSE])/m_
     }
     TABLE = ConnectednessTable(ct_wo)$TABLE
+    if (approach) {
+      k = dim(NET_wo)[2]
+      TABLE[k+2,k+1] = "TCI"
+      TABLE[k+3,k+1] = format(round(mean(TCI_wo),2), nsmall=2)
+    }
   }
   return = list(TABLE=TABLE, gTCI=TCI_group, TCI=TCI_wo, TO=TO_wo, FROM=FROM_wo, 
                 NET=NET_wo, NPDC=NPDC_wo, PCI=PCI_wo, INFLUENCE=INFLUENCE_wo, NPT=NPT_wo, config=list(approach="Internal"))

@@ -18,7 +18,7 @@
 #' Balcilar, M., Gabauer, D., & Umar, Z. (2021). Crude Oil futures contracts and commodity markets: New evidence from a TVP-VAR extended joint connectedness approach. Resources Policy, 73, 102219.
 #' @author David Gabauer
 #' @export
-ExtendedJointConnectedness = function(Phi, Sigma, nfore) {
+ExtendedJointConnectedness = function(Phi, Sigma, nfore=10) {
   if (nfore<=0) {
     stop("nfore needs to be a positive integer")
   }
@@ -117,6 +117,9 @@ ExtendedJointConnectedness = function(Phi, Sigma, nfore) {
   }
 
   TABLE = ConnectednessTable(CT/100)$TABLE
+  TABLE[k+2,k+1] = "TCI"
+  TABLE[k+3,k+1] = format(round(mean(TCI),2), nsmall=2)
+  
   config = list(nfore=nfore, approach="Extended Joint", generalized=TRUE, corrected=FALSE)
   return = list(TABLE=TABLE, CT=CT/100, TCI=TCI, TO=TO, FROM=FROM,
                 NET=NET, NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)

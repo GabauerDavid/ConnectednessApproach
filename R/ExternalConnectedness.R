@@ -114,6 +114,7 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
     }
     
   } else {
+    approach = dca$config$approach=="Extended Joint"
     ct = dca$CT[,,start:end]
     NAMES = colnames(ct)
     k = dim(ct)[2]
@@ -161,7 +162,7 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
     for (ij in 1:t) {
       for (i in 1:k) {
         for (j in 1:k) {
-          PCI_wo[i,j,ij] = 200*(ct_wo[i,j,ij]+ct_wo[j,i,ij])/(ct[i,i,ij]+ct[i,j,ij]+ct[j,i,ij]+ct[j,j,ij])
+          PCI_wo[i,j,ij] = (200/ (2*approach))*(ct_wo[i,j,ij]+ct_wo[j,i,ij])/(ct[i,i,ij]+ct[i,j,ij]+ct[j,i,ij]+ct[j,j,ij])
         }
       }
       INFLUENCE_wo[,,ij] = abs(NPDC_wo[,,ij]/t(t(ct[,,ij])+ct[,,ij]))
@@ -181,6 +182,11 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
       INFLUENCE_wo[ind] = 0
     }
     TABLE = ConnectednessTable(ct_wo)$TABLE
+    if (approach) {
+      k = dim(NET_wo)[2]
+      TABLE[k+2,k+1] = "TCI"
+      TABLE[k+3,k+1] = format(round(mean(TCI_wo),2), nsmall=2)
+    }
   }
   return = list(TABLE=TABLE, gTCI=TCI_group, TCI=TCI_wo, TO=TO_wo, FROM=FROM_wo, NPT=NPT_wo,
                 NET=NET_wo, NPDC=NPDC_wo, PCI=PCI_wo, INFLUENCE=INFLUENCE_wo, config=list(approach="External"))

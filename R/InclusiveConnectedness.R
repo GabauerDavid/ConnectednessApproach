@@ -101,6 +101,7 @@ InclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
     }
     
   } else {
+    approach = dca$config$approach=="Extended Joint"
     ct = dca$CT[,,start:end]
     NAMES = dimnames(ct)[[1]]
     date = dimnames(ct)[[3]]
@@ -119,7 +120,7 @@ InclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
     for (i in 1:t) {
       dca_ = ConnectednessTable(CT[,,i])
       NPDC[,,i] = dca_$NPDC
-      PCI[,,i] = dca_$PCI
+      PCI[,,i] = dca_$PCI / (2*approach)
       INFLUENCE[,,i] = dca_$INFLUENCE
       TO[i,] = dca_$TO
       FROM[i,] = dca_$FROM
@@ -140,6 +141,11 @@ InclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
       INFLUENCE[ind] = 0
     }
     TABLE = ConnectednessTable(CT)$TABLE
+    if (approach) {
+      k = dim(NET)[2]
+      TABLE[k+2,k+1] = "TCI"
+      TABLE[k+3,k+1] = format(round(mean(TCI),2), nsmall=2)
+    }
   }
   return = list(TABLE=TABLE, TCI=TCI, NET=NET, TO=TO, FROM=FROM, NPT=NPT,
                 NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=list(approach="Inclusive"))

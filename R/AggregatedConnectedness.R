@@ -109,6 +109,7 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       NPT[ij,,1] = rowSums(NPDC[,,ij,1]<0)
     }
   } else {
+    approach = dca$config$approach=="Extended Joint"
     TCI_ = TCI = array(NA, c(t,1), dimnames=list(date, "TCI"))
     NPT = FROM = TO = NET = array(NA, c(t,m), dimnames=list(date, NAMES_group))
     CT_ = PCI = NPDC = INFLUENCE = array(NA, c(m,m,t), dimnames=list(NAMES_group, NAMES_group, date))
@@ -133,10 +134,15 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       NET[il,] = dca_$NET
       NPT[il,] = dca_$NPT
       NPDC[,,il] = dca_$NPDC
-      PCI[,,il] = dca_$PCI
+      PCI[,,il] = dca_$PCI / (2*approach)
       INFLUENCE[,,il] = dca_$INFLUENCE
     }
     TABLE = ConnectednessTable(CT_)$TABLE
+    if (approach) {
+      k = dim(NET)[2]
+      TABLE[k+2,k+1] = "TCI"
+      TABLE[k+3,k+1] = format(round(mean(TCI),2), nsmall=2)
+    }
   }
   return = list(TABLE=TABLE, TCI_ext=TCI_, TCI=TCI, 
                 TO=TO, FROM=FROM, NPT=NPT, NET=NET, 
