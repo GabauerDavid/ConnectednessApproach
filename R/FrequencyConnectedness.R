@@ -77,7 +77,6 @@ FrequencyConnectedness = function(Phi, Sigma, nfore=100, partition=c(pi,pi/2,0),
         FROM[i,,j] = dca$FROM
         NET[i,,j] = dca$NET
         NPDC[,,i,j] = dca$NPDC
-        PCI[,,i,j] = dca$PCI
         INFLUENCE[,,i,j] = dca$INFLUENCE
         NPT[i,,j] = dca$NPT
         if (corrected) {
@@ -92,8 +91,7 @@ FrequencyConnectedness = function(Phi, Sigma, nfore=100, partition=c(pi,pi/2,0),
         FROM[i,,j] = dca$FROM
         NET[i,,j] = dca$NET
         NPDC[,,i,j] = dca$NPDC
-        PCI[,,i,j] = dca$PCI
-        INFLUENCE[,,i,j-1] = dca$INFLUENCE
+        INFLUENCE[,,i,j] = dca$INFLUENCE
         NPT[i,,j] = dca$NPT
         if (corrected) {
           TCI[i,j] = dca$cTCI
@@ -111,13 +109,15 @@ FrequencyConnectedness = function(Phi, Sigma, nfore=100, partition=c(pi,pi/2,0),
   NET[,,1] = apply(NET,1:2,sum)
   NPDC[,,,1] = apply(NPDC,1:3,sum)
   for (ij in 1:t) {
-    for (i in 1:k) {
-      for (j in 1:k) {
-        PCI[i,j,ij,1] = 200*(CT[i,j,ij,1]+CT[j,i,ij,1])/(CT[i,i,ij,1]+CT[i,j,ij,1]+CT[j,i,ij,1]+CT[j,j,ij,1])
+    for (jl in interval:1) {
+      for (i in 1:k) {
+        for (j in 1:k) {
+          PCI[i,j,ij,jl] = 200*(CT[i,j,ij,jl]+CT[j,i,ij,jl])/(CT[i,i,ij,1]+CT[i,j,ij,1]+CT[j,i,ij,1]+CT[j,j,ij,1])
+        }
       }
+      INFLUENCE[,,ij,jl] = 100*abs(NPDC[,,ij,jl]/t(t(CT[,,ij,1])+CT[,,ij,1]))
     }
     NPT[ij,,1] = rowSums(NPDC[,,ij,1]<0)
-    INFLUENCE[,,ij,1] = 100*abs(NPDC[,,ij,1]/t(t(CT[,,ij,1])+CT[,,ij,1]))
   }
   
   TABLE = array(NA,c(k+4,k+1,interval), dimnames=list(c(NAMES, "TO", "Inc.Own", "Net", "NPDC"), c(NAMES, "FROM"), period_names))

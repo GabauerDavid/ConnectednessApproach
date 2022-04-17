@@ -61,10 +61,10 @@ PlotPCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, 
             plot(date, x_[,1], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
             grid(NA, NULL, lty=2)
             polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,1])),col=1, border=1)
-            for (l in ncol(x_):1) {
+            for (l in 1:ncol(x_)) {
               polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,l])),col=l, border=l)
             }
-            for (l in 1:ncol(x_)) {
+            for (l in ncol(x_):1) {
               lines(date, x_[,l],col=l)
             }
             abline(h=0, lty=3)

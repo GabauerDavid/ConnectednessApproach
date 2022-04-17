@@ -37,6 +37,7 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
   m = length(groups)
   CT = dca$CT
   t = dim(CT)[3]
+  
   weights = NULL
   for (i in 1:m) {
     weights[i] = length(groups[i][[1]])
@@ -60,30 +61,19 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
     mn = dim(CT)[4]
     TABLE = list()
     horizons = dimnames(CT)[[4]]
-    TCI_ = TCI = array(NA, c(t,mn), dimnames=list(date,horizons))
-    FROM = TO = NET = array(NA, c(t,m,mn), dimnames=list(date, NAMES_group,horizons))
-    CT_ = NPDC = INFLUENCE = array(NA, c(m,m,t,mn), dimnames=list(NAMES_group, NAMES_group, date,horizons))
-    for (jl in 1:mn) {
+    TCI_ = TCI = array(0, c(t,mn), dimnames=list(date,horizons))
+    FROM = TO = NPT = NET = array(0, c(t,m,mn), dimnames=list(date, NAMES_group,horizons))
+    CT_ = NPDC = PCI = INFLUENCE = array(0, c(m,m,t,mn), dimnames=list(NAMES_group, NAMES_group, date,horizons))
+    for (jl in 2:length(horizons)) {
       for (il in 1:t) {
         ct0 = ct = CT[,,il,jl]
         for (i in 1:m) {
           for (j in 1:m) {
-            if (i==j) {
-              ct0[groups[i][[1]], groups[j][[1]]] = 0
-            }
+            x = ct0[groups[i][[1]], groups[j][[1]]]
+            CT_[i,j,il,jl] = sum(rowSums(x)/nrow(x))
           }
         }
-        ct1 = array(0, c(m, m), dimnames=list(NAMES_group, NAMES_group))
-        for (i in 1:m) {
-          for (j in 1:m) {
-            ct1[i,j] = sum(ct0[groups[i][[1]], groups[j][[1]]])# / length(groups[j][[1]])
-          }
-        }
-        for (i in 1:m) {
-          ct1[i,i] = sum(ct[i,])-sum(ct1[i,])
-        }
-        CT_[,,il,jl] = ct1
-        dca_ = ConnectednessTable(ct1)
+        dca_ = ConnectednessTable(CT_[,,il,jl])
         if (corrected) {
           TCI[il,jl] = dca_$cTCI
           TCI_[il,jl] = sum(dca_$TO * (k-weights)/(k-1))
@@ -94,35 +84,43 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
         TO[il,,jl] = dca_$TO
         FROM[il,,jl] = dca_$FROM
         NET[il,,jl] = dca_$NET
+        NPT[il,,jl] = dca_$NPT
         NPDC[,,il,jl] = dca_$NPDC
       }
       TABLE[[jl]] = ConnectednessTable(CT_[,,,jl])$TABLE
     }
+    CT_[,,,1] = apply(CT_,1:3,sum)
+    TABLE[[1]] = ConnectednessTable(CT_[,,,1])$TABLE
     names(TABLE) = horizons
+    TCI[,1] = apply(TCI,1,sum)
+    TO[,,1] = apply(TO,1:2,sum)
+    FROM[,,1] = apply(FROM,1:2,sum)
+    NET[,,1] = apply(NET,1:2,sum)
+    NPDC[,,,1] = apply(NPDC,1:3,sum)
+    for (ij in 1:t) {
+      for (jl in length(horizons):1) {
+        for (i in 1:m) {
+          for (j in 1:m) {
+            PCI[i,j,ij,jl] = 200*(CT_[i,j,ij,jl]+CT_[j,i,ij,jl])/(CT_[i,i,ij,1]+CT_[i,j,ij,1]+CT_[j,i,ij,1]+CT_[j,j,ij,1])
+          }
+        }
+        INFLUENCE[,,ij,jl] = abs(NPDC[,,ij,jl]/t(t(CT_[,,ij,1])+CT_[,,ij,1]))
+      }
+      NPT[ij,,1] = rowSums(NPDC[,,ij,1]<0)
+    }
   } else {
     TCI_ = TCI = array(NA, c(t,1), dimnames=list(date, "TCI"))
-    FROM = TO = NET = array(NA, c(t,m), dimnames=list(date, NAMES_group))
-    CT_ = PDC = INFLUENCE = array(NA, c(m,m,t), dimnames=list(NAMES_group, NAMES_group, date))
+    NPT = FROM = TO = NET = array(NA, c(t,m), dimnames=list(date, NAMES_group))
+    CT_ = PCI = NPDC = INFLUENCE = array(NA, c(m,m,t), dimnames=list(NAMES_group, NAMES_group, date))
     for (il in 1:t) {
       ct0 = ct = CT[,,il]
       for (i in 1:m) {
         for (j in 1:m) {
-          if (i==j) {
-            ct0[groups[i][[1]], groups[j][[1]]] = 0
-          }
+          x = ct0[groups[i][[1]], groups[j][[1]]]
+          CT_[i,j,il] = sum(rowSums(x)/nrow(x))
         }
       }
-      ct1 = array(0, c(m, m), dimnames=list(NAMES_group, NAMES_group))
-      for (i in 1:m) {
-        for (j in 1:m) {
-          ct1[i,j] = sum(ct0[groups[i][[1]], groups[j][[1]]]) / length(groups[j][[1]])
-        }
-      }
-      for (i in 1:m) {
-        ct1[i,i] = 1-sum(ct1[i,])
-      }
-      CT_[,,il] = ct1
-      dca_ = ConnectednessTable(ct1)
+      dca_ = ConnectednessTable(CT_[,,il])
       if (corrected) {
         TCI[il, ] = dca_$cTCI
         TCI_[il,] = sum(dca_$TO * (k-weights)/(k-1))
@@ -133,12 +131,14 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       TO[il,] = dca_$TO
       FROM[il,] = dca_$FROM
       NET[il,] = dca_$NET
+      NPT[il,] = dca_$NPT
       NPDC[,,il] = dca_$NPDC
+      PCI[,,il] = dca_$PCI
     }
     TABLE = ConnectednessTable(CT_)$TABLE
   }
   config = list(approach="Aggregated")
   return = list(TABLE=TABLE, TCI_ext=TCI_, TCI=TCI, 
-                TO=TO, FROM=FROM, NPT=NULL, NET=NET, 
-                NPDC=NPDC, INFLUENCE=NULL, PCI=NULL, config=config)
+                TO=TO, FROM=FROM, NPT=NPT, NET=NET, 
+                NPDC=NPDC, INFLUENCE=INFLUENCE, PCI=PCI, config=config)
 }

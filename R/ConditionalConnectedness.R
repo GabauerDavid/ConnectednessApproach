@@ -26,17 +26,67 @@
 ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
   corrected = dca$config$corrected
   message("Conditional connectedness measures are implemented according to:\n Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.")
-  if (dca$config$approach=="Frequency" | dca$config$approach=="Joint") {
+  k = length(group)
+  if (is.null(start)) {
+    start = 1
+  }
+  if (is.null(end)) {
+    end = dim(dca$CT)[3]
+  }
+  
+  if (dca$config$approach=="Joint") {
     stop(paste("Conditional connectedness measures are not implemented for",dca$config$approach, "connectedness"))
+  } else if (dca$config$approach=="Frequency" ) {
+    ct = dca$CT[group,group,start:end,,drop=FALSE]
+    NAMES = dimnames(ct)[[1]]
+    date = dimnames(ct)[[3]]
+    t = length(date)
+    mn = dim(CT)[4]
+    TABLE = list()
+    horizons = dimnames(CT)[[4]]
+    
+    TCI = array(0, c(t,mn), dimnames=list(date,horizons))
+    FROM = TO = NPT = NET = array(0, c(t,k,mn), dimnames=list(date, NAMES, horizons))
+    CT_ = NPDC = PCI = INFLUENCE = array(0, c(k,k,t,mn), dimnames=list(NAMES, NAMES, date, horizons))
+    for (jl in 2:mn) {
+      for (i in 1:t) {
+        cc = ConnectednessTable(ct[,,i,jl]/rowSums(ct[,,i,1]))
+        CT_[,,i,jl] = cc$FEVD/100
+        TO[i,,jl] = cc$TO
+        FROM[i,,jl] = cc$FROM
+        NET[i,,jl] = cc$NET
+        NPT[i,,jl] = cc$NPT
+        NPDC[,,i,jl] = cc$NPDC
+        if (corrected) {
+          TCI[i,jl] = cc$cTCI
+        } else {
+          TCI[i,jl] = cc$TCI
+        }
+      }
+      TABLE[[jl]] = ConnectednessTable(CT_[,,,jl])$TABLE
+    }
+    CT_[,,,1] = apply(CT_,1:3,sum)
+    TABLE[[1]] = ConnectednessTable(CT_[,,,1])$TABLE
+    names(TABLE) = horizons
+    
+    TCI[,1] = apply(TCI,1,sum)
+    TO[,,1] = apply(TO,1:2,sum)
+    FROM[,,1] = apply(FROM,1:2,sum)
+    NET[,,1] = apply(NET,1:2,sum)
+    NPDC[,,,1] = apply(NPDC,1:3,sum)
+    for (ij in 1:t) {
+      for (jl in length(horizons):1) {
+        for (i in 1:k) {
+          for (j in 1:k) {
+            PCI[i,j,ij,jl] = 200*(CT_[i,j,ij,jl]+CT_[j,i,ij,jl])/(CT_[i,i,ij,1]+CT_[i,j,ij,1]+CT_[j,i,ij,1]+CT_[j,j,ij,1])
+          }
+        }
+        INFLUENCE[,,ij,jl] = abs(NPDC[,,ij,jl]/t(t(CT_[,,ij,1])+CT_[,,ij,1]))
+      }
+      NPT[ij,,1] = rowSums(NPDC[,,ij,1]<0)
+    }
   } else {
-    if (is.null(start)) {
-      start = 1
-    }
-    if (is.null(end)) {
-      end = dim(dca$CT)[3]
-    }
     ct = dca$CT[group,group,start:end,drop=FALSE]
-    k = length(group)
     NAMES = dimnames(ct)[[1]]
     date = dimnames(ct)[[3]]
     t = length(date)
@@ -61,8 +111,8 @@ ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
       }
     }
     TABLE = ConnectednessTable(FEVD/100)$TABLE
-    config = list(approach="Conditional")
-    return = list(TABLE=TABLE, FEVD=FEVD, TCI=TCI, NET=NET, TO=TO, FROM=FROM, 
-                  NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=config)
   }
+  return = list(TABLE=TABLE, FEVD=FEVD, TCI=TCI, NET=NET, TO=TO, FROM=FROM, 
+                NPT=NPT, NPDC=NPDC, PCI=PCI, INFLUENCE=INFLUENCE, config=list(approach="Conditional"))
+  
 }
