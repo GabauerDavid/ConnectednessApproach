@@ -35,19 +35,6 @@ PlotNPT = function(dca, ca=NULL, path=NULL, ...) {
   par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   if (length(dim(dca$NET))>2) {
     for (i in 1:k) {
-      plot(date, x[,i], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(0,k-1), ...)
-      grid(NA, NULL, lty=2)
-      polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[,i])),col=1, border=1)
-      if (!is.null(ca)) {
-        for (il in 1:length(ca)) {
-          lines(as.Date(rownames(ca[[il]]$TCI)), ca[[il]]$NPT[,i], col=il+1)
-        }
-      }
-      abline(h=0, lty=3)
-      box()
-    }
-  } else {
-    for (i in 1:k) {
       x_ = x[,i,]
       plot(date, apply(x_,1,sum), type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(0,k-1))#, ...)
       grid(NA, NULL, lty=2)
@@ -61,6 +48,19 @@ PlotNPT = function(dca, ca=NULL, path=NULL, ...) {
       lines(date, apply(x_,1,sum), col=1)
       abline(h=0, lty=3)
       legend("topleft", colnames(x_), fill=1:(ncol(x_)+1), bty="n")
+      box()
+    }
+  } else {
+    for (i in 1:k) {
+      plot(date, x[,i], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(0,k-1), ...)
+      grid(NA, NULL, lty=2)
+      polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[,i])),col=1, border=1)
+      if (!is.null(ca)) {
+        for (il in 1:length(ca)) {
+          lines(as.Date(rownames(ca[[il]]$TCI)), ca[[il]]$NPT[,i], col=il+1)
+        }
+      }
+      abline(h=0, lty=3)
       box()
     }
   }

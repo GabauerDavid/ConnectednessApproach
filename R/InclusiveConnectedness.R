@@ -99,6 +99,7 @@ InclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
     if (length(ind)>0) {
       INFLUENCE[ind] = 0
     }
+    
   } else {
     ct = dca$CT[,,start:end]
     NAMES = dimnames(ct)[[1]]
@@ -111,7 +112,7 @@ InclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
       CT[,i,] = ct[,i,]
       CT[i,,] = ct[i,,]
     }
-  
+    
     TCI = array(NA, c(t,1), dimnames=list(as.character(date), "TCI"))
     NPT = NET = FROM = TO = array(NA, c(t, k), dimnames=list(date, NAMES))
     NPDC = PCI = INFLUENCE = array(NA, c(k, k, t), dimnames=list(NAMES, NAMES, date))

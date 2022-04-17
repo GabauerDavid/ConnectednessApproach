@@ -93,17 +93,16 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
     FROM_wo[,,1] = apply(FROM_wo,1:2,sum)
     NET_wo[,,1] = apply(NET_wo,1:2,sum)
     NPDC_wo[,,,1] = apply(NPDC_wo,1:3,sum)
-    TCI_group[,i,jl] = rowSums(TO_wo[,group,jl,drop=FALSE])/m_
-    for (ij in 1:t) {
-      for (jl in length(horizons):1) {
+    for (jl in length(horizons):1) {
+      for (ij in 1:t) {
         for (i in 1:k) {
           for (j in 1:k) {
-            PCI_wo[i,j,ij,jl] = 200*(ct_wo[i,j,ij,jl]+ct_wo[j,i,ij,jl])/(ct_wo[i,i,ij,1]+ct_wo[i,j,ij,1]+ct_wo[j,i,ij,1]+ct_wo[j,j,ij,1])
+            PCI_wo[i,j,ij,jl] = 200*(ct_wo[i,j,ij,jl]+ct_wo[j,i,ij,jl])/(ct[i,i,ij,1]+ct[i,j,ij,1]+ct[j,i,ij,1]+ct[j,j,ij,1])
           }
         }
-        INFLUENCE_wo[,,ij,jl] = abs(NPDC_wo[,,ij,jl]/t(t(ct_wo[,,ij,1])+ct_wo[,,ij,1]))
+        INFLUENCE_wo[,,ij,jl] = abs(NPDC_wo[,,ij,jl]/t(t(ct[,,ij,1])+ct[,,ij,1]))
       }
-      NPT_wo[ij,,1] = rowSums(NPDC_wo[,,ij,1]<0)
+      NPT_wo[ij,,jl] = rowSums(NPDC_wo[,,ij,jl]<0)
     }
     ind = which(is.nan(PCI_wo) | is.infinite(PCI_wo),arr.ind=TRUE)
     if (length(ind)>0) {
@@ -130,7 +129,7 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
     if (is.null(NAMES_group)) {
       NAMES_group = paste0("GROUP", 1:m)
     }
-    
+    apply(ct_wo,1:2,mean)
     for (i in 1:m) {
       group_1 = groups[[i]]
       ct_wo[group_1,group_1,] = 0
@@ -146,10 +145,8 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
       NET_wo[i,] = dca_$NET
       NPT_wo[i,] = dca_$NPT
       NPDC_wo[,,i] = dca_$NPDC
-      PCI_wo[,,i] = dca_$PCI
-      infl = dca_$INFLUENCE
-      infl[which(is.nan(infl), arr.ind=TRUE)] = 0
-      INFLUENCE_wo[,,i] = infl
+      PCI_wo[,,i] = dca_$PCI*0
+      INFLUENCE_wo[,,i] = dca_$INFLUENCE*0
       if (corrected) {
         TCI_wo[i,] = dca_$cTCI
       } else {
@@ -161,19 +158,27 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
     } else {
       m_ = k
     }
+    for (ij in 1:t) {
+      for (i in 1:k) {
+        for (j in 1:k) {
+          PCI_wo[i,j,ij] = 200*(ct_wo[i,j,ij]+ct_wo[j,i,ij])/(ct[i,i,ij]+ct[i,j,ij]+ct[j,i,ij]+ct[j,j,ij])
+        }
+      }
+      INFLUENCE_wo[,,ij] = abs(NPDC_wo[,,ij]/t(t(ct[,,ij])+ct[,,ij]))
+    }
     
     TCI_group = array(NA, c(t,m), dimnames=list(date, NAMES_group))
     for (i in 1:m) {
       group = groups[i][[1]]
       TCI_group[,i] = rowSums(TO_wo[,group,drop=FALSE])/m_
     }
-    ind = which(is.nan(PCI) || is.infinite(PCI),arr.ind=TRUE)
+    ind = which(is.nan(PCI_wo) | is.infinite(PCI_wo),arr.ind=TRUE)
     if (length(ind)>0) {
-      PCI[ind] = 0
+      PCI_wo[ind] = 0
     }
-    ind = which(is.nan(PCI) || is.infinite(PCI),arr.ind=TRUE)
+    ind = which(is.nan(INFLUENCE_wo) | is.infinite(INFLUENCE_wo),arr.ind=TRUE)
     if (length(ind)>0) {
-      INFLUENCE[ind] = 0
+      INFLUENCE_wo[ind] = 0
     }
     TABLE = ConnectednessTable(ct_wo)$TABLE
   }

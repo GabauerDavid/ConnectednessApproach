@@ -134,11 +134,11 @@ AggregatedConnectedness = function(dca, groups, start=NULL, end=NULL) {
       NPT[il,] = dca_$NPT
       NPDC[,,il] = dca_$NPDC
       PCI[,,il] = dca_$PCI
+      INFLUENCE[,,il] = dca_$INFLUENCE
     }
     TABLE = ConnectednessTable(CT_)$TABLE
   }
-  config = list(approach="Aggregated")
   return = list(TABLE=TABLE, TCI_ext=TCI_, TCI=TCI, 
                 TO=TO, FROM=FROM, NPT=NPT, NET=NET, 
-                NPDC=NPDC, INFLUENCE=INFLUENCE, PCI=PCI, config=config)
+                NPDC=NPDC, INFLUENCE=INFLUENCE, PCI=PCI, config=list(approach="Aggregated"))
 }

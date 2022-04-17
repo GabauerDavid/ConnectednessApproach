@@ -100,6 +100,7 @@ ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
     if (length(ind)>0) {
       INFLUENCE[ind] = 0
     }
+    
   } else {
     ct = dca$CT[,,start:end]
     NAMES = dimnames(ct)[[1]]
@@ -112,21 +113,19 @@ ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
       CT[,i,] = ct[,i,]*0
       CT[i,,] = ct[i,,]*0
     }
-  
+
     TCI = array(NA, c(t,1), dimnames=list(as.character(date), "TCI"))
     NPT = NET = FROM = TO = array(NA, c(t, k), dimnames=list(date, NAMES))
     NPDC = PCI = INFLUENCE = array(NA, c(k, k, t), dimnames=list(NAMES, NAMES, date))
     for (i in 1:t) {
       dca_ = ConnectednessTable(CT[,,i])
       NPDC[,,i] = dca_$NPDC
-      PCI[,,i] = dca_$PCI
-      infl = dca_$INFLUENCE
-      infl[which(is.nan(infl), arr.ind=TRUE)] = 0
-      INFLUENCE[,,i] = infl
       TO[i,] = dca_$TO
       FROM[i,] = dca_$FROM
       NET[i,] = dca_$NET
       NPT[i,] = dca_$NPT
+      PCI[,,i] = dca_$PCI
+      INFLUENCE[,,i] = dca_$INFLUENCE
       if (corrected) {
         TCI[i,] = dca_$cTCI
       } else {
