@@ -7,7 +7,6 @@
 #' @param type Time or Frequency connectedness approach
 #' @param range Partition range for frequency approach only.
 #' @param generalized Generalized or orthogonalized FEVD
-#' @param orth Orthogonalized shocks
 #' @return Orthogonalized/generalized time/frequency forecast error variance decomposition
 #' @examples
 #' data(dy2012)
@@ -19,46 +18,76 @@
 #' Pesaran, H. H., & Shin, Y. (1998). Generalized impulse response analysis in linear multivariate models. Economics Letters, 58(1), 17-29.
 #' @importFrom stats fft
 #' @export
-FEVD = function (Phi, Sigma, nfore=100, type=c("time","frequency"), generalized=TRUE, orth=FALSE, range=NULL) {
+FEVD = function (Phi, Sigma, nfore=100, type=c("time", "frequency"), generalized=TRUE, range=NULL) {
   type = match.arg(type)
-  if (nfore<=0) {
+  if (nfore <= 0) {
     stop("nfore needs to be a positive integer")
   }
-  if (length(dim(Sigma))<=1) {
+  if (length(dim(Sigma)) <= 1) {
     stop("Sigma needs to be at least a 2-dimensional matrix")
   }
-  if (length(dim(Phi))<=1) {
+  if (length(dim(Phi)) <= 1) {
     stop("Phi needs to be at least a 2-dimensional matrix")
   }
-  
-  if (length(dim(Sigma))>2) {
-    Sigma = Sigma[,,1]
+  if (length(dim(Sigma)) > 2) {
+    Sigma = Sigma[, , 1]
   }
-  irf = IRF(Phi=Phi, Sigma=Sigma, nfore=nfore, orth=orth)$irf
-  if (type=="time") {
-    Phi = lapply(1:nfore, function(j) sapply(irf, function(i) i[j,]))
-    denom = diag(Reduce("+", lapply(Phi, function(i) i %*% Sigma %*% t(i))))
+  k = ncol(Sigma)
+  irf = IRF(Phi=Phi, Sigma=Sigma, nfore=nfore, orth=FALSE)$irf
+  if (type == "time") {
+    Phi = lapply(1:nfore, function(j) sapply(irf, function(i) i[j, ])) # change representation
+    denom = diag(Reduce("+", lapply(Phi, function(i) i %*% Sigma %*% t(i)))) # denominator of FEVD
     if (generalized) {
-      enum = Reduce("+", lapply(Phi, function(i) (i %*% Sigma)^2))
-      tab = sapply(1:nrow(enum), function(j) enum[j,]/(denom[j] * diag(Sigma)))
-      FEVD = t(apply(tab, 2, function(i) i/sum(i)))
+      irf_ = lapply(Phi, function(i) t(i %*% Sigma %*% solve(diag(sqrt(diag(Sigma))))))
+      IRF = array(unlist(irf_), c(k,k,nfore))
+      fevd = IRF^2
+      enum = apply(fevd,1:2,sum)
+      den = c(apply(enum,1,sum))
+      nfevd = t(enum)/den
+      FEVD = nfevd / apply(nfevd, 1, sum)
     } else {
-      enum = Reduce("+", lapply(Phi, function(i) (chol(Sigma) %*% t(i))^2))
-      FEVD = t(sapply(1:ncol(enum), function(i) enum[,i]/denom[i]))
+      irf_ = lapply(Phi, function(i) chol(Sigma) %*%  t(i)) # orthorgonalized impulse response function
+      IRF = array(unlist(irf_), c(k,k,nfore))
+      fevd = IRF^2
+      tab_ = array(0,c(k,k,nfore))
+      for (i in 1:nfore) {
+        tab_[,,i] = t(fevd[,,i] %*% solve(diag(denom)))
+      }
+      FEVD = apply(tab_,1:2,sum)
     }
-  } else if (type=="frequency") {
+  } else if (type == "frequency") {
     fftir = lapply(irf, function(i) apply(i, 2, fft))
-    fftir = lapply(1:(nfore+1), function(j) sapply(fftir, function(i) i[j,]))
+    fftir = lapply(1:(nfore + 1), function(j) sapply(fftir, function(i) i[j, ]))
     denom = diag(Re(Reduce("+", lapply(fftir, function(i) i %*% Sigma %*% t(Conj(i))/nfore)[range])))
     if (generalized) {
-      enum = lapply(fftir, function(i) (abs(i %*% Sigma))^2/(nfore + 1))
-      tab = lapply(enum, function(i) sapply(1:nrow(i), function(j) i[j, ]/(denom[j] * diag(Sigma))))
+      irf_ = lapply(fftir, function(i) t(abs(i %*% Sigma) %*% solve(diag(sqrt(diag(Sigma))))))
+      IRF = array(unlist(irf_), c(k,k,nfore+1))
+      irf_ = lapply(fftir, function(i) (abs(i %*% Sigma)))
+      IRF_ = array(unlist(irf_), c(k,k,nfore+1))
+      enum_ = IRF_^2/(nfore + 1)
+      tab = list()
+      for (i in 1:dim(enum_)[3]) {
+        fevd_ = enum_[,,1]
+        for (j in 1:dim(enum_)[2]) {
+          fevd_[j,] = enum_[j,,i] / (denom[j] * diag(Sigma))
+        }
+        tab[[i]] = t(fevd_)
+      }
       tot = apply(Reduce("+", tab[range]), 2, sum)
       FEVD = lapply(tab, function(i) t(i)/tot)
     } else {
-      enum = lapply(fftir, function(i) (abs(i %*% t(chol(Sigma))))^2/(nfore + 1))
-      FEVD = lapply(enum, function(i) t(sapply(1:nrow(i), function(j) i[j,]/(denom[j]))))
+      irf_ = lapply(fftir, function(i) (abs(i %*% t(chol(Sigma)))))
+      IRF = array(unlist(irf_), c(k,k,nfore+1))
+      enum = IRF^2/(nfore + 1)
+      FEVD = list()
+      for (i in 1:dim(enum)[3]) {
+        fevd_ = enum[,,1]
+        for (j in 1:dim(enum)[2]) {
+          fevd_[j,] = enum[j,,i] / denom[j]
+        }
+        FEVD[[i]] = fevd_
+      }
     }
   }
-  return = list(IRF=irf, FEVD=FEVD)
+  return = list(IRF=IRF, FEVD=FEVD)
 }
