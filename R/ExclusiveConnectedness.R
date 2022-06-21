@@ -20,11 +20,9 @@
 #'                             kappa2=0.99, prior="BayesPrior")))
 #' exc = ExclusiveConnectedness(dca, group=c(1,2,3))
 #' }
-#' @references Chatziantoniou, I., Elsayed, A., Gabauer, D., & Gozgor, G. (2022). Oil price shocks and exchange rate dynamics: New evidence from decomposed and partial connectedness measures for oil importing and exporting economies.
 #' @author David Gabauer
 #' @export
 ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
-  message("Partial connectedness measures are implemented according to:\n Chatziantoniou, I., Elsayed, A., Gabauer, D., & Gozgor, G. (2022). Oil price shocks and exchange rate dynamics: New evidence from decomposed and partial connectedness measures for oil importing and exporting economies.")
   corrected = dca$config$corrected
   if (is.null(start)) {
     start = 1
