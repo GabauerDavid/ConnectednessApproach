@@ -13,6 +13,8 @@
 #' @importFrom rmgarch cgarchfit
 #' @importFrom rmgarch rcor
 #' @importFrom rmgarch rcov
+#' @references
+#' Engle, R. (2002). Dynamic conditional correlation: A simple class of multivariate generalized autoregressive conditional heteroskedasticity models. Journal of Business & Economic Statistics, 20(3), 339-350.
 #' @author David Gabauer
 #' @export
 BivariateDCCGARCH = function(x, spec, copula="mvt", method="Kendall", transformation="parametric", time.varying=TRUE, asymmetric=FALSE) {

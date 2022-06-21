@@ -31,7 +31,8 @@ fit = TVPVAR(dy2012, configuration=list(nlag=1, prior=prior, l=c(0.99,0.99)))
 }
 }
 \references{
-Koop, G., & Korobilis, D. (2014). A new index of financial conditions. European Economic Review, 71, 101-116.\\
+Koop, G., & Korobilis, D. (2014). A new index of financial conditions. European Economic Review, 71, 101-116.
+
 Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2020). Refined measures of dynamic connectedness based on time-varying parameter vector autoregressions. Journal of Risk and Financial Management, 13(4), 84.
 }
 \author{

@@ -7,7 +7,7 @@
 FrequencyConnectedness(
   Phi,
   Sigma,
-  nfore,
+  nfore = 100,
   partition = c(pi, pi/2, 0),
   generalized = TRUE,
   orth = FALSE,

@@ -8,10 +8,10 @@
 #' @return Get best univariate GARCH
 #' @references
 #' Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
+#' 
 #' Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.
 #' @author David Gabauer
 #' @export
-#' @importFrom WeightedPortTest Weighted.Box.test
 #' @importFrom rugarch qdist
 #' @importFrom rugarch VaRDurTest
 #' @importFrom stats qnorm
@@ -51,7 +51,7 @@ GARCHtests = function(fit, lag=20, prob=0.05, conf.level=0.90){
   ES = rugarch::fitted(fit) + rugarch::sigma(fit)*stats::integrate(f,0,prob)$value/prob
   ES = rugarch::ESTest(prob, x, ES, VaR, boot=TRUE, n.boot=1000, conf.level=conf.level)
   sign.bias = rugarch::signbias(fit)[1,][1:2]
-  warch = WeightedPortTest::Weighted.Box.test(rugarch::residuals(fit), type="Ljung-Box", lag=lag, sqrd.res=TRUE)
+  warch = WeightedBoxTest(rugarch::residuals(fit), type="Ljung-Box", lag=lag, sqrd.res=TRUE)
 
   statistics = c(sign.bias[[1]], warch$statistic, var_test$uc.LRstat, vardur_test$rLL, ES$actual.exceed/ES$expected.exceed)
   pvalues = c(sign.bias[2]$prob,warch$p.value, var_test$uc.LRp, round(ES$boot.p.value,3), vardur_test$LRp)

@@ -15,8 +15,10 @@
 #' mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
 #' mcp$TABLE
 #' @references
-#' Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.\\
-#' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.\\
+#' Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.
+#' 
+#' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
+#' 
 #' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
 #' @author David Gabauer
 #' @export

@@ -4,7 +4,7 @@
 \alias{ExtendedJointConnectedness}
 \title{Balcilar et al. (2021) extended joint connectedness approach}
 \usage{
-ExtendedJointConnectedness(Phi, Sigma, nfore)
+ExtendedJointConnectedness(Phi, Sigma, nfore = 10)
 }
 \arguments{
 \item{Phi}{VAR coefficient matrix}

@@ -37,9 +37,9 @@ ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), sta
   } else if (dca$config$approach=="Frequency") {
     ct = dca$CT[,,start:end,]
     NAMES = colnames(ct)
-    mn = dim(CT)[4]
+    mn = dim(ct)[4]
     TABLE = list()
-    horizons = dimnames(CT)[[4]]
+    horizons = dimnames(ct)[[4]]
     k = dim(ct)[2]
     ct_inter = ct_wo = ct
     date = as.character(dimnames(ct)[[3]])

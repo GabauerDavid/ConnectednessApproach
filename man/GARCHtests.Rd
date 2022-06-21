@@ -23,6 +23,7 @@ This function provides the results of multiple univariate GARCH test statistics
 }
 \references{
 Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
+
 Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.
 }
 \author{

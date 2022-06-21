@@ -26,7 +26,8 @@ Estimation of a QVAR using equation-by-equation quantile regressions.
 #fit = QVAR(dy2012, configuration=list(nlag=1, tau=0.5))
 }
 \references{
-White, H., Kim, T. H., & Manganelli, S. (2015). VAR for VaR: Measuring tail dependence using multivariate regression quantiles. Journal of Econometrics, 187(1), 169-188.\\
+White, H., Kim, T. H., & Manganelli, S. (2015). VAR for VaR: Measuring tail dependence using multivariate regression quantiles. Journal of Econometrics, 187(1), 169-188.
+
 Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Interest rate swaps and the transmission mechanism of monetary policy: A quantile connectedness approach. Economics Letters, 204, 109891.
 }
 \author{

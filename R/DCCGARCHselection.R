@@ -13,6 +13,7 @@
 #' @importFrom stats bartlett.test coef fitted fligner.test integrate qnorm quantile residuals sd sigma var.test
 #' @references
 #' Ghalanos, A. (2014). rugarch: Univariate GARCH models, R package version 1.3-3.
+#' 
 #' Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.
 #' @author David Gabauer
 #' @export

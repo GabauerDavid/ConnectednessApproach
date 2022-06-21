@@ -17,8 +17,10 @@
 #' bpw = BivariatePortfolio(g2020, fit$Q, method="cumsum", statistics="Fisher")
 #' bpw$TABLE
 #' @references
-#' Kroner, K. F., & Ng, V. K. (1998). Modeling asymmetric comovements of asset returns. The Review of Financial Studies, 11(4), 817-844.\\
-#' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.\\
+#' Kroner, K. F., & Ng, V. K. (1998). Modeling asymmetric comovements of asset returns. The Review of Financial Studies, 11(4), 817-844.
+#' 
+#' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
+#' 
 #' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
 #' @author David Gabauer
 #' @export

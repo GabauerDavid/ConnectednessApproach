@@ -10,8 +10,10 @@
 #' fit = VAR(dy2012, configuration=list(nlag=1))
 #' irf = IRF(Phi=fit$B, Sigma=fit$Q, nfore=10, orth=TRUE)
 #' @references
-#' Stiassny, A. (1996). A spectral decomposition for structural VAR models. Empirical Economics, 21(4), 535-555.\\
-#' Koop, G., Pesaran, M. H., & Potter, S. M. (1996). Impulse response analysis in nonlinear multivariate models. Journal of Econometrics, 74(1), 119-147.\\
+#' Stiassny, A. (1996). A spectral decomposition for structural VAR models. Empirical Economics, 21(4), 535-555.
+#' 
+#' Koop, G., Pesaran, M. H., & Potter, S. M. (1996). Impulse response analysis in nonlinear multivariate models. Journal of Econometrics, 74(1), 119-147.
+#' 
 #' Pesaran, H. H., & Shin, Y. (1998). Generalized impulse response analysis in linear multivariate models. Economics Letters, 58(1), 17-29.
 #' @author David Gabauer
 #' @export

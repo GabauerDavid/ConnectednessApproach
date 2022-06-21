@@ -6,7 +6,6 @@
 #' @param standardize Boolean value whether GIRF should be standardized
 #' @return Get volatility impulse response functions and forecast error variance decomposition
 #' @references
-#' Engle, R. (2002). Dynamic conditional correlation: A simple class of multivariate generalized autoregressive conditional heteroskedasticity models. Journal of Business & Economic Statistics, 20(3), 339-350.\\
 #' Gabauer, D. (2020). Volatility impulse response analysis for DCC‐GARCH models: The role of volatility transmission mechanisms. Journal of Forecasting, 39(5), 788-796.
 #' @author David Gabauer
 #' @importFrom rmgarch rcor

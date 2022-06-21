@@ -41,9 +41,9 @@ ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
     NAMES = dimnames(ct)[[1]]
     date = dimnames(ct)[[3]]
     t = length(date)
-    mn = dim(CT)[4]
+    mn = dim(ct)[4]
     TABLE = list()
-    horizons = dimnames(CT)[[4]]
+    horizons = dimnames(ct)[[4]]
     
     TCI = array(0, c(t,mn), dimnames=list(date,horizons))
     FROM = TO = NPT = NET = array(0, c(t,k,mn), dimnames=list(date, NAMES, horizons))

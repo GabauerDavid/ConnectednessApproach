@@ -55,10 +55,10 @@ SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"
     ers = urca::ur.ers(x[,i],type="DF-GLS", model="constant")
     moments[11,i] = ers@teststat
     moments[12,i]= ers@testreg$coefficients[1,4]
-    bt = WeightedPortTest::Weighted.Box.test(x[,i], type=portmanteau, lag=nlag)
+    bt = WeightedBoxTest(x[,i], type=portmanteau, lag=nlag)
     moments[13,i] = bt$statistic
     moments[14,i] = bt$p.value
-    bt2 = WeightedPortTest::Weighted.Box.test(x[,i], type=portmanteau, lag=nlag, sqrd.res=TRUE)
+    bt2 = WeightedBoxTest(x[,i], type=portmanteau, lag=nlag, sqrd.res=TRUE)
     moments[15,i] = bt2$statistic
     moments[16,i] = bt2$p.value
   }
