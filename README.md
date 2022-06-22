@@ -20,3 +20,16 @@ install_github("GabauerDavid/ConnectednessApproach")
 ## Step 3: Go through tutorial
 
 [ConnectednessApproach Tutorial](https://gabauerdavid.github.io/ConnectednessApproach/#Dynamic_Connectedness_Measures)
+
+## BibTeX Citation
+
+If you use this package in a scientific publication, I would appreciate if you use the following citation:
+
+```
+  @Manual{gabauer2022,
+    title = {ConnectednessApproach: Connectedness Approach},
+    author = {David Gabauer},
+    year = {2022},
+    note = {R package version 1.0.0},
+  }
+```
