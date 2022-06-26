@@ -1,16 +1,15 @@
 
 #' @title Variance Test
-#' @description VarianceTest performs variance homogeneity tests including Ftest, Levene, Bartlett, Brown-Forsythe and Fligner-Killeen tests.
+#' @description VarianceTest performs variance homogeneity tests including Ftest, Bartlett, Brown-Forsythe and Fligner-Killeen tests.
 #' @param formula a formula of the form lhs ~ rhs where lhs gives the sample values and rhs the corresponding groups.
 #' @param data a tibble or data frame containing the variables in the formula formula
 #' @param alpha the level of significance to assess variance homogeneity. Default is set to alpha = 0.05.
-#' @param method a character string to select one of the variance homogeneity tests: "Bartlett", "Brown-Forsythe", "Fisher", "Fligner-Killeen" and "Levene".
+#' @param method a character string to select one of the variance homogeneity tests: "Bartlett", "Brown-Forsythe", "Fisher" and "Fligner-Killeen".
 #' @param na.rm Ha logical value indicating whether NA values should be stripped before the computation proceeds.
 #' @return Get bivariate portfolio weights
 #' @importFrom stats var.test
 #' @importFrom stats fligner.test
 #' @importFrom stats bartlett.test
-#' @importFrom car leveneTest
 #' @importFrom stats complete.cases
 #' @importFrom stats model.frame
 #' @importFrom stats pf
@@ -78,10 +77,6 @@ VarianceTest = function (formula, data, alpha=0.05, method=c('Bartlett', 'Brown-
     out = stats::var.test(y[which(group==groups[1])], y[which(group!=groups[1])])
     statistic = out$statistic
     p.value = out$p.value
-  } else if (method == "Levene") {
-    out = car::leveneTest(y, group, center = "mean")
-    statistic = out$F[1]
-    p.value = out$P[1]
   } else {
     stop("This variance test does not exist.")
   }

@@ -19,7 +19,7 @@ VarianceTest(
 
 \item{alpha}{the level of significance to assess variance homogeneity. Default is set to alpha = 0.05.}
 
-\item{method}{a character string to select one of the variance homogeneity tests: "Bartlett", "Brown-Forsythe", "Fisher", "Fligner-Killeen" and "Levene".}
+\item{method}{a character string to select one of the variance homogeneity tests: "Bartlett", "Brown-Forsythe", "Fisher" and "Fligner-Killeen".}
 
 \item{na.rm}{Ha logical value indicating whether NA values should be stripped before the computation proceeds.}
 }
@@ -27,7 +27,7 @@ VarianceTest(
 Get bivariate portfolio weights
 }
 \description{
-VarianceTest performs variance homogeneity tests including Ftest, Levene, Bartlett, Brown-Forsythe and Fligner-Killeen tests.
+VarianceTest performs variance homogeneity tests including Ftest, Bartlett, Brown-Forsythe and Fligner-Killeen tests.
 }
 \references{
 Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.

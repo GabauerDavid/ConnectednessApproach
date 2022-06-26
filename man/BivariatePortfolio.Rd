@@ -33,10 +33,10 @@ Get bivariate portfolio weights
 This function calculates the optimal portfolio weights according to Kroner and Ng (1998)
 }
 \examples{
-#data("g2020")
-#fit = VAR(g2020, configuration=list(nlag=1))
-#bpw = BivariatePortfolio(g2020, fit$Q, method="cumsum", statistics="Fisher")
-#bpw$TABLE
+data("g2020")
+fit = VAR(g2020, configuration=list(nlag=1))
+bpw = BivariatePortfolio(g2020, fit$Q, method="cumsum", statistics="Fisher")
+bpw$TABLE
 }
 \references{
 Kroner, K. F., & Ng, V. K. (1998). Modeling asymmetric comovements of asset returns. The Review of Financial Studies, 11(4), 817-844.

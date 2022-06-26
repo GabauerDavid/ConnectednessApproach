@@ -33,11 +33,11 @@ Get portfolio weights
 This function calculates the minimum connectedness portfolio
 }
 \examples{
-#data("g2020")
-#fit = VAR(g2020, configuration=list(nlag=1))
-#dca = TimeConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=10, generalized=TRUE)
-#mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
-#mcp$TABLE
+data("g2020")
+fit = VAR(g2020, configuration=list(nlag=1))
+dca = TimeConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=10, generalized=TRUE)
+mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
+mcp$TABLE
 }
 \references{
 Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.
