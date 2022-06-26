@@ -8,8 +8,8 @@ MinimumConnectednessPortfolio(
   x,
   H,
   method = c("cumsum", "cumprod"),
-  long = TRUE,
   statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"),
+  long = TRUE,
   digit = 2
 )
 }
@@ -20,9 +20,9 @@ MinimumConnectednessPortfolio(
 
 \item{method}{Cumulative sum or cumulative product}
 
-\item{long}{Allow only long portfolio position}
-
 \item{statistics}{Hedging effectiveness statistic}
+
+\item{long}{Allow only long portfolio position}
 
 \item{digit}{Number of decimal places}
 }
@@ -33,11 +33,11 @@ Get portfolio weights
 This function calculates the minimum connectedness portfolio
 }
 \examples{
-data("g2020")
-fit = VAR(g2020, configuration=list(nlag=1))
-dca = TimeConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=10, generalized=TRUE)
-mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
-mcp$TABLE
+#data("g2020")
+#fit = VAR(g2020, configuration=list(nlag=1))
+#dca = TimeConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=10, generalized=TRUE)
+#mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
+#mcp$TABLE
 }
 \references{
 Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.

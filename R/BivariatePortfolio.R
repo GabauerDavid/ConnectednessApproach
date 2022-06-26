@@ -9,8 +9,6 @@
 #' @param digit Number of decimal places
 #' @return Get bivariate portfolio weights
 #' @importFrom stats var.test
-#' @importFrom onewaytests bf.test
-#' @importFrom onewaytests homog.test
 #' @examples
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
@@ -71,15 +69,15 @@ BivariatePortfolio = function(x, H, method=c("cumsum", "cumprod"), long=TRUE, st
       HE[j,i] = 1 - var(portfolio_return[j,i,])/var(x[,i])
       df = rbind(data.frame(val=portfolio_return[j,i,], group="A"), data.frame(val=x[,i], group="B"))
       if (statistics=="Fisher") {
-        pvalue[i,j] = stats::var.test(x=portfolio_return[j,i,],y=x[,i],ratio=1)$p.value
+        pvalue[i,j] = VarianceTest(val~as.character(group), data=df, method="Fisher")$p.value
       } else if (statistics=="Bartlett") {
-        pvalue[i,j] = onewaytests::homog.test(val~as.character(group), data=df, method="Bartlett", verbose=F)$p.value
+        pvalue[i,j] = VarianceTest(val~as.character(group), data=df, method="Bartlett")$p.value
       } else if (statistics=="Fligner-Killeen") {
-        pvalue[i,j] = onewaytests::homog.test(val~as.character(group), data=df, method="Fligner", verbose=F)$p.value
+        pvalue[i,j] = VarianceTest(val~as.character(group), data=df, method="Fligner-Killeen")$p.value
       } else if (statistics=="Levene") {
-        pvalue[i,j] = onewaytests::homog.test(val~as.character(group), data=df, method="Levene", verbose=F)$p.value
+        pvalue[i,j] = VarianceTest(val~as.character(group), data=df, method="Levene")$p.value
       } else if (statistics=="Brown-Forsythe") {
-        pvalue[i,j] = onewaytests::bf.test(val~as.character(group), data=df, verbose=F)$p.value
+        pvalue[i,j] = VarianceTest(val~as.character(group), data=df, method="Brown-Forsythe")$p.value
       } else {
         stop("No valid hedging effectiveness statistics have been chosen.")
       }

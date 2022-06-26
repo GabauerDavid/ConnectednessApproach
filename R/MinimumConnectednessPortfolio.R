@@ -22,7 +22,7 @@
 #' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
 #' @author David Gabauer
 #' @export
-MinimumConnectednessPortfolio = function(x, H, method=c("cumsum","cumprod"), long=TRUE, statistics=c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"), digit=2) {
+MinimumConnectednessPortfolio = function(x, H, method=c("cumsum","cumprod"), statistics=c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"), long=TRUE, digit=2) {
   message("The minimum connectedness portfolio is implemented according to:\n Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.")
   message("Hedging effectiveness is calculated according to:\n Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.")
   message("Statistics of the hedging effectiveness measure are implemented according to:\n Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.")
@@ -76,21 +76,21 @@ MinimumConnectednessPortfolio = function(x, H, method=c("cumsum","cumprod"), lon
   } else if (method=="cumprod") {
     cumulative_portfolio_return = cumprod(1+portfolio_return)-1
   }
-  
+
   HE = pvalue = array(NA,c(k,1), dimnames=list(NAMES))
   for (i in 1:k) {
     HE[i,] = 1 - var(portfolio_return)/var(x[,i])
     df = rbind(data.frame(val=portfolio_return, group="A"), data.frame(val=x[,i], group="B"))
     if (statistics=="Fisher") {
-      pvalue[i,] = var.test(x=portfolio_return, y=x[,i],ratio=1)$p.value
+      pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Fisher")$p.value
     } else if (statistics=="Bartlett") {
-      pvalue[i,] = onewaytests::homog.test(val~as.character(group), data=df, method="Bartlett", verbose=F)$p.value
+      pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Bartlett")$p.value
     } else if (statistics=="Fligner-Killeen") {
-      pvalue[i,] = onewaytests::homog.test(val~as.character(group), data=df, method="Fligner", verbose=F)$p.value
+      pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Fligner-Killeen")$p.value
     } else if (statistics=="Levene") {
-      pvalue[i,] = onewaytests::homog.test(val~as.character(group), data=df, method="Levene", verbose=F)$p.value
+      pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Levene")$p.value
     } else if (statistics=="Brown-Forsythe") {
-      pvalue[i,] = onewaytests::bf.test(val~as.character(group), data=df, verbose=F)$p.value
+      pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Brown-Forsythe")$p.value
     } else {
       stop("No valid hedging effectiveness statistics have been chosen.")
     }

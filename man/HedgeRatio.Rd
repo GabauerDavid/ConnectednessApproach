@@ -30,10 +30,10 @@ Get hedge ratios
 This function calculates the hedge ratios of Kroner and Sultan (1993)
 }
 \examples{
-data("g2020")
-fit = VAR(g2020, configuration=list(nlag=1))
-hr = HedgeRatio(g2020, fit$Q)
-hr$TABLE
+#data("g2020")
+#fit = VAR(g2020, configuration=list(nlag=1))
+#hr = HedgeRatio(g2020, fit$Q)
+#hr$TABLE
 }
 \references{
 Kroner, K. F., & Sultan, J. (1993). Time-varying distributions and dynamic hedging with foreign currency futures. Journal of Financial and Quantitative Analysis, 28(4), 535-551.

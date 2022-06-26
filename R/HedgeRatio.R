@@ -57,7 +57,8 @@ HedgeRatio = function(x, H, method=c("cumsum","cumprod"), statistics=c("Fisher",
     }
   }
   colnames(summary) = c("Mean","Std.Dev.","5%","95%")
-
+  
+  statistics = "Bartlett"
   HE = pvalue = array(NA,c(k,k), dimnames=list(NAMES,NAMES))
   portfolio_return = cumulative_portfolio_return = array(NA,c(k,k,t), dimnames=list(NAMES,NAMES,date))
   for (i in 1:k) {
@@ -66,15 +67,15 @@ HedgeRatio = function(x, H, method=c("cumsum","cumprod"), statistics=c("Fisher",
       HE[j,i] = 1 - var(portfolio_return[i,j,])/var(x[,i])
       df = rbind(data.frame(val=portfolio_return[i,j,], group="A"), data.frame(val=x[,i], group="B"))
       if (statistics=="Fisher") {
-        pvalue[i,] = var.test(x=portfolio_return[i,j,], y=x[,i],ratio=1)$p.value
+        pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Fisher")$p.value
       } else if (statistics=="Bartlett") {
-        pvalue[i,] = onewaytests::homog.test(val~as.character(group), data=df, method="Bartlett", verbose=F)$p.value
+        pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Bartlett")$p.value
       } else if (statistics=="Fligner-Killeen") {
-        pvalue[i,] = onewaytests::homog.test(val~as.character(group), data=df, method="Fligner", verbose=F)$p.value
+        pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Fligner-Killeen")$p.value
       } else if (statistics=="Levene") {
-        pvalue[i,] = onewaytests::homog.test(val~as.character(group), data=df, method="Levene", verbose=F)$p.value
+        pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Levene")$p.value
       } else if (statistics=="Brown-Forsythe") {
-        pvalue[i,] = onewaytests::bf.test(val~as.character(group), data=df, verbose=F)$p.value
+        pvalue[i,] = VarianceTest(val~as.character(group), data=df, method="Brown-Forsythe")$p.value
       } else {
         stop("No valid hedging effectiveness statistics have been chosen.")
       }
