@@ -91,5 +91,5 @@ HedgeRatio = function(x, H, method=c("cumsum","cumprod"), statistics=c("Fisher",
   TABLE = TABLE[-which(TABLE[,1]==1),]
   colnames(TABLE)=c("Mean","Std.Dev.","5%","95%","HE","p-value")
 
-  return = list(TABLE=format(round(TABLE,digit),nsmall=digit), hedge_ratio=HE, portfolio_return=portfolio_return, cumulative_portfolio_return=cumulative_portfolio_return)
+  return = list(TABLE=format(round(TABLE,digit),nsmall=digit), hedge_ratio=HR, portfolio_return=portfolio_return, cumulative_portfolio_return=cumulative_portfolio_return)
 }
