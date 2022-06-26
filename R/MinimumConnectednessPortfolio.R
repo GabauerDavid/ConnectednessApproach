@@ -15,7 +15,7 @@
 #' mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
 #' mcp$TABLE
 #' @references
-#' Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.
+#' Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2022). Minimum connectedness portfolios and the market for green bonds: Advocating socially responsible investment (SRI) activity. In Applications in Energy Finance (pp. 217-253). Palgrave Macmillan, Cham.
 #' 
 #' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
 #' 
@@ -23,9 +23,9 @@
 #' @author David Gabauer
 #' @export
 MinimumConnectednessPortfolio = function(x, H, method=c("cumsum","cumprod"), statistics=c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"), long=TRUE, digit=2) {
-  message("The minimum connectedness portfolio is implemented according to:\n Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.")
-  message("Hedging effectiveness is calculated according to:\n Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.")
-  message("Statistics of the hedging effectiveness measure are implemented according to:\n Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.")
+  message("The minimum connectedness portfolio is implemented according to:\n Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2022). Minimum connectedness portfolios and the market for green bonds: Advocating socially responsible investment (SRI) activity. In Applications in Energy Finance (pp. 217-253). Palgrave Macmillan, Cham.\n
+          Hedging effectiveness is calculated according to:\n Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.\n
+          Statistics of the hedging effectiveness measure are implemented according to:\n Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.")
   
   method = match.arg(method)
   statistics = match.arg(statistics)
