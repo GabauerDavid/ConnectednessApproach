@@ -34,7 +34,7 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
   nlag = configuration$nlag
   alpha = configuration$alpha
   nfolds = configuration$nfolds
-  n_alpha = configuration$n_alpha
+  delta_alpha = configuration$delta_alpha
   loss = configuration$loss
   if (nlag<=0) {
     stop("nlag needs to be a positive integer")
@@ -51,7 +51,7 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
     NAMES = 1:k
   }
   if (is.null(alpha) ) {
-    alpha = seq(0, 1, n_alpha)
+    alpha = seq(0, 1, delta_alpha)
   }
   alpha_ = Res = B = NULL
   for (i in 1:k) {
