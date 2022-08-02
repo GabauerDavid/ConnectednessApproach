@@ -40,7 +40,7 @@ mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
 mcp$TABLE
 }
 \references{
-Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2020). Minimum Connectedness Portfolios and the Market for Green Bonds: Advocating Socially Responsible Investment (SRI) Activity. Available at SSRN 3793771.
+Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2022). Minimum connectedness portfolios and the market for green bonds: Advocating socially responsible investment (SRI) activity. In Applications in Energy Finance (pp. 217-253). Palgrave Macmillan, Cham.
 
 Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
 

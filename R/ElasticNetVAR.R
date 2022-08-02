@@ -30,9 +30,9 @@
 #' @importFrom glmnet cv.glmnet
 #' @importFrom glmnet predict.glmnet
 #' @export
-ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", alpha=NULL, delta_alpha=0.1)) {
+ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", alpha=NULL, n_alpha=10)) {
   nlag = configuration$nlag
-  alpha = configuration$alpha
+  alpha_ = configuration$alpha
   nfolds = configuration$nfolds
   n_alpha = configuration$n_alpha
   loss = configuration$loss
@@ -50,27 +50,30 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
   if (is.null(NAMES)) {
     NAMES = 1:k
   }
-  if (is.null(alpha) ) {
-    alpha = seq(0, 1, n_alpha)
+  if (is.null(alpha_) ) {
+    alpha_ = seq(0, 1, 1/n_alpha)
   }
-  alpha_ = Res = B = NULL
+  alpha = Res = B = NULL
   for (i in 1:k) {
     MAE = NULL
-    for (j in 1:length(alpha)) {
+    B_ = array(NA, c(nlag*k, length(alpha_)))
+    for (j in 1:length(alpha_)) {
       z = embed(x, nlag+1)
       X = z[,-c(1:k)]
       y = z[,i]
-      fit = glmnet::cv.glmnet(X, y, alpha=alpha[j], type.measure=loss, nfolds=nfolds)
-      y_pred = predict(fit, s=fit$lambda.min, newx=X)
+      fit = glmnet::cv.glmnet(X, y, alpha=alpha_[j], type.measure=loss, nfolds=nfolds)
+      B_[,j] = coef(fit)[-1]
+      y_pred = cbind(1, X) %*% coef(fit)
       MAE[j] = mean(abs(y - y_pred))
+      if (MAE[j]<=min(MAE)) {
+        Y_pred = y_pred
+      }
     }
-    fit = glmnet::cv.glmnet(X, y, alpha=alpha[which(MAE==min(MAE))], type.measure=loss, nfolds=nfolds)
-    y_pred = predict(fit, s=fit$lambda.min, newx=X)
-    Res = cbind(Res, y - y_pred)
-    b = predict(fit, type="coefficients", s=fit$lambda.min)[-1]
-    B = rbind(B, b)
-    alpha_[i] = alpha[which(MAE==min(MAE))]
+    ind = which(MAE==min(MAE))[1]
+    B = rbind(B, B_[,ind])
+    Res = cbind(Res, y-Y_pred)
+    alpha[i] = alpha_[ind]
   }
   Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(as.character(zoo::index(x)),1)))
-  results = list(B=B, Q=Q, alpha=alpha_)
+  results = list(B=B, Q=Q, alpha=alpha)
 }
