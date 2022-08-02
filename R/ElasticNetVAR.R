@@ -65,6 +65,7 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
       y_pred = predict(fit, s=fit$lambda.min, newx=X)
       MAE[j] = mean(abs(y - y_pred))
     }
+    set.seed(i)
     fit = glmnet::cv.glmnet(X, y, alpha=alpha[which(MAE==min(MAE))[1]], type.measure=loss, nfolds=nfolds)
     y_pred = predict(fit, s=fit$lambda.min, newx=X)
     Res = cbind(Res, y - y_pred)
