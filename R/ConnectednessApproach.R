@@ -67,7 +67,7 @@ ConnectednessApproach = function(x,
                                  connectedness=c("Time","Frequency", "Joint", "Extended Joint"),
                                  VAR_config=list(
                                    QVAR=list(tau=0.5),
-                                   ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", delta_alpha=0.1),
+                                   ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", delta_alpha=0.1,intercept=TRUE),
                                    TVPVAR=list(kappa1=0.99, kappa2=0.99, prior="BayesPrior", gamma=0.01)),
                                  DCC_config=list(standardize=FALSE),
                                  Connectedness_config = list(
@@ -108,14 +108,14 @@ ConnectednessApproach = function(x,
     configuration = list(nlag=nlag, tau=VAR_config$QVAR$tau)
   } else if (model=="LASSO") {
     var_model = ElasticNetVAR
-    configuration = list(nlag=nlag, alpha=1, nfolds=VAR_config$ElasticNet$nfolds, loss=VAR_config$ElasticNet$loss)
+    configuration = list(nlag=nlag, alpha=1, nfolds=VAR_config$ElasticNet$nfolds, loss=VAR_config$ElasticNet$loss,intercept=VAR_config$ElasticNet$intercept)
   } else if (model=="Ridge") {
     var_model = ElasticNetVAR
-    configuration = list(nlag=nlag, alpha=0, nfolds=VAR_config$ElasticNet$nfolds, loss=VAR_config$ElasticNet$loss)
+    configuration = list(nlag=nlag, alpha=0, nfolds=VAR_config$ElasticNet$nfolds, loss=VAR_config$ElasticNet$loss,intercept=VAR_config$ElasticNet$intercept)
   } else if (model=="Elastic") {
     var_model = ElasticNetVAR
     configuration = list(nlag=nlag, alpha=VAR_config$ElasticNet$alpha, nfolds=VAR_config$ElasticNet$nfolds,
-                         loss=VAR_config$ElasticNet$loss, delta_alpha=VAR_config$ElasticNet$delta_alpha)
+                         loss=VAR_config$ElasticNet$loss, delta_alpha=VAR_config$ElasticNet$delta_alpha,intercept=VAR_config$ElasticNet$intercept)
   } else if (model=="TVP-VAR") {
     prior_ = VAR_config$TVPVAR$prior
     if (prior_=="MinnesotaPrior") {
