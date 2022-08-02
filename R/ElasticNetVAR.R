@@ -64,9 +64,9 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
       fit = glmnet::cv.glmnet(X, y, alpha=alpha_[j], type.measure=loss, nfolds=nfolds)
       B_[,j] = coef(fit)[-1]
       y_pred = cbind(1, X) %*% coef(fit)
-      MAE[j] = mean(abs(y - y_pred))
-      if (MAE[j]<=min(MAE)) {
-        Y_pred = y_pred
+      MAE[j] = mean(abs(y - y_pred[,1]))
+      if (MAE[j] <= min(MAE)) {
+        Y_pred = y_pred[,1]
       }
     }
     ind = which(MAE==min(MAE))[1]
