@@ -30,7 +30,7 @@
 #' @importFrom glmnet cv.glmnet
 #' @importFrom glmnet predict.glmnet
 #' @export
-ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", alpha=NULL, delta_alpha=0.1, intercept=TRUE)) {
+ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", alpha=NULL, delta_alpha=0.1, intercept=FALSE)) {
   nlag = configuration$nlag
   alpha = configuration$alpha
   nfolds = configuration$nfolds
