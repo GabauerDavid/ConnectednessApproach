@@ -30,12 +30,13 @@
 #' @importFrom glmnet cv.glmnet
 #' @importFrom glmnet predict.glmnet
 #' @export
-ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", alpha=NULL, delta_alpha=0.1)) {
+ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", alpha=NULL, delta_alpha=0.1, intercept=TRUE)) {
   nlag = configuration$nlag
   alpha = configuration$alpha
   nfolds = configuration$nfolds
   delta_alpha = configuration$delta_alpha
   loss = configuration$loss
+  intercept = configuration$intercept
   if (nlag<=0) {
     stop("nlag needs to be a positive integer")
   }
@@ -61,12 +62,12 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
       z = embed(x, nlag+1)
       X = z[,-c(1:k)]
       y = z[,i]
-      fit = glmnet::cv.glmnet(X, y, alpha=alpha[j], type.measure=loss, nfolds=nfolds)
+      fit = glmnet::cv.glmnet(X, y, alpha=alpha[j], type.measure=loss, nfolds=nfolds, intercept=intercept)
       y_pred = predict(fit, s=fit$lambda.min, newx=X)
       MAE[j] = mean(abs(y - y_pred))
     }
     set.seed(i)
-    fit = glmnet::cv.glmnet(X, y, alpha=alpha[which(MAE==min(MAE))[1]], type.measure=loss, nfolds=nfolds)
+    fit = glmnet::cv.glmnet(X, y, alpha=alpha[which(MAE==min(MAE))[1]], type.measure=loss, nfolds=nfolds, intercept=intercept)
     y_pred = predict(fit, s=fit$lambda.min, newx=X)
     Res = cbind(Res, y - y_pred)
     b = predict(fit, type="coefficients", s=fit$lambda.min)[-1]
