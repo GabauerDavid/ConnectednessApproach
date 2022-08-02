@@ -57,6 +57,7 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
   for (i in 1:k) {
     MAE = NULL
     for (j in 1:length(alpha)) {
+      set.seed(k*i+j)
       z = embed(x, nlag+1)
       X = z[,-c(1:k)]
       y = z[,i]
