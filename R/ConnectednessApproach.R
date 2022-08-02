@@ -67,7 +67,7 @@ ConnectednessApproach = function(x,
                                  connectedness=c("Time","Frequency", "Joint", "Extended Joint"),
                                  VAR_config=list(
                                    QVAR=list(tau=0.5),
-                                   ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", delta_alpha=0.1,intercept=TRUE),
+                                   ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", delta_alpha=0.1,intercept=FALSE),
                                    TVPVAR=list(kappa1=0.99, kappa2=0.99, prior="BayesPrior", gamma=0.01)),
                                  DCC_config=list(standardize=FALSE),
                                  Connectedness_config = list(
