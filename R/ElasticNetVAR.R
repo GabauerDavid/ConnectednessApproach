@@ -6,7 +6,7 @@
 #' @param nfolds N-fold cross validation
 #' @param loss Loss function
 #' @param alpha LASSO is alpha equal 1 and Ridge if alpha equal 0
-#' @param delta_alpha Steps between 0 and 1. If alpha is NULL alpha is estimated based upon loss and nfolds
+#' @param n_alpha Creates n-equidistant alpha values
 #' @param configuration Model configuration
 #' @return Estimate VAR model
 #' @examples
@@ -42,7 +42,7 @@ ElasticNetVAR = function(x, configuration=list(nlag=1, nfolds=10, loss="mae", al
   if (nfolds<=0) {
     stop("nfolds needs to be a positive integer")
   }
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   NAMES = colnames(x)

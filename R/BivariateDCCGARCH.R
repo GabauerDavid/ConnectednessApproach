@@ -18,7 +18,7 @@
 #' @author David Gabauer
 #' @export
 BivariateDCCGARCH = function(x, spec, copula="mvt", method="Kendall", transformation="parametric", time.varying=TRUE, asymmetric=FALSE) {
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   t = nrow(x)

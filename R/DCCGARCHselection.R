@@ -18,7 +18,7 @@
 #' @author David Gabauer
 #' @export
 DCCGARCHselection = function(x, distributions=c("norm","snorm","std","sstd","ged","sged"), models=c("sGARCH","eGARCH","gjrGARCH","iGARCH","TGARCH","AVGARCH","NGARCH","NAGARCH","APARCH","ALLGARCH"), prob=0.05, conf.level=0.90, lag=20, ar=0, ma=0) {
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   k = ncol(x)

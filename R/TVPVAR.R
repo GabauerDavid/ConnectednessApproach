@@ -29,7 +29,7 @@ TVPVAR = function(x, configuration=list(l=c(0.99,0.99), nlag=1, prior=NULL)){
   if (nlag<=0) {
     stop("nlag needs to be a positive integer")
   }
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   if (l[1] <= 0 || l[1] >= 1) {

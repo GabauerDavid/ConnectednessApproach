@@ -28,7 +28,7 @@ HedgeRatio = function (x, H, method = c("cumsum", "cumprod"),
   method = match.arg(method)
   statistics = match.arg(statistics)
   x = x/100
-  if (class(x) != "zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   k = ncol(x)

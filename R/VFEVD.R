@@ -12,7 +12,7 @@
 #' @importFrom rmgarch rcov
 #' @export
 VFEVD = function(fit, nfore=100, standardize=FALSE) {
-  if (class(fit)!="DCCfit") {
+  if (!is(fit, "DCCfit")) {
     stop("fit needs to be of class DCCfit")
   }
   if (nfore<=0) {

@@ -19,7 +19,7 @@
 QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
   tau = as.numeric(configuration$tau)
   nlag = as.numeric(configuration$nlag)
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   if (nlag<=0) {

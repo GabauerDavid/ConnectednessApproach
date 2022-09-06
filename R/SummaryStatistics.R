@@ -24,7 +24,7 @@ SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"
           ")
   portmanteau = match.arg(portmanteau)
   correlation = match.arg(correlation)
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("x needs to be a zoo matrix")
   }
   x = as.matrix(x)

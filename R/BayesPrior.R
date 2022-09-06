@@ -8,12 +8,13 @@
 #' @examples
 #' data(dy2012)
 #' prior = BayesPrior(dy2012, nlag=1)
+#' @importFrom methods is
 #' @references Primiceri, G. E. (2005). Time varying structural vector autoregressions and monetary policy. The Review of Economic Studies, 72(3), 821-852.
 #' @author David Gabauer
 #' @export
 BayesPrior = function(x, size=NULL, nlag) {
-  if (class(x)!="zoo") {
-    stop("x needs to be a zoo matrix")
+  if (!is(x, "zoo")) {
+    stop("Data needs to be of type 'zoo'")
   }
   if (nlag<=0) {
     stop("nlag needs to be a positive integer")

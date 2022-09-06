@@ -74,7 +74,7 @@ ConnectednessApproach = function(x,
                                    TimeConnectedness=list(generalized=TRUE),
                                    FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS")
                                  )) {
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   if (nlag<=0) {

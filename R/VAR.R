@@ -14,7 +14,7 @@
 #' @importFrom stats embed
 #' @export
 VAR = function(x, configuration=list(nlag=1)) {
-  if (class(x)!="zoo") {
+  if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
   k = ncol(x)

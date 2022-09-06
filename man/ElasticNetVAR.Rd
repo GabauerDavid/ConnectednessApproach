@@ -6,8 +6,7 @@
 \usage{
 ElasticNetVAR(
   x,
-  configuration = list(nlag = 1, nfolds = 10, loss = "mae", alpha = NULL, delta_alpha =
-    0.1)
+  configuration = list(nlag = 1, nfolds = 10, loss = "mae", alpha = NULL, n_alpha = 10)
 )
 }
 \arguments{
@@ -23,7 +22,7 @@ ElasticNetVAR(
 
 \item{alpha}{LASSO is alpha equal 1 and Ridge if alpha equal 0}
 
-\item{delta_alpha}{Steps between 0 and 1. If alpha is NULL alpha is estimated based upon loss and nfolds}
+\item{n_alpha}{Creates n-equidistant alpha values}
 }
 \value{
 Estimate VAR model
