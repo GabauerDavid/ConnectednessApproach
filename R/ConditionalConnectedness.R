@@ -25,7 +25,7 @@
 #' @export
 ConditionalConnectedness = function(dca, group=c(1,2,3), start=NULL, end=NULL) {
   corrected = dca$config$corrected
-  message("Conditional connectedness measures are implemented according to:\n Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.")
+  message("Conditional connectedness measures are implemented according to:\n Stenfors, A., Chatziantoniou, I., & Gabauer, D. (2022). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves. Journal of International Financial Markets, Institutions and Money.")
   k = length(group)
   if (is.null(start)) {
     start = 1

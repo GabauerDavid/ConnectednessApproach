@@ -25,7 +25,7 @@
 #' @export
 AggregatedConnectedness = function (dca, groups, start = NULL, end = NULL)  {
   corrected = dca$config$corrected
-  message("Aggregated connectedness measures are introduced accoring to:\n Chatziantoniou, I., Gabauer, D., & Stenfor, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.")
+  message("Aggregated connectedness measures are introduced accoring to:\n Stenfors, A., Chatziantoniou, I., & Gabauer, D. (2022). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves. Journal of International Financial Markets, Institutions and Money.")
   if (is.null(start)) {
     start = 1
   }
