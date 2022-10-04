@@ -30,6 +30,6 @@ If you use this package in a scientific publication, I would appreciate if you u
     title = {ConnectednessApproach: Connectedness Approach},
     author = {David Gabauer},
     year = {2022},
-    note = {R package version 1.0.0},
+    note = {R package version 1.0.1},
   }
 ```
