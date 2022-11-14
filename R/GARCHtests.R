@@ -33,7 +33,7 @@ GARCHtests = function(fit, lag=20, prob=0.05, conf.level=0.90){
                              variance.model=list(model=model, submodel=submodel, garchOrder=c(1,1)),
                              distribution.model=distribution)
   }
-  x = xts::as.xts(zoo::as.zoo(fit@model$modeldata$data, order.by=fit@model$modeldata$index))
+  x = xts::xts(as.numeric(fit@model$modeldata$data), as.Date(fit@model$modeldata$index))
   t = length(x)
 
   VaR = rugarch::fitted(fit) + rugarch::sigma(fit)*rugarch::qdist(fit@model$modeldesc$distribution, p=prob, mu=fit@fit$matcoef[1,1], sigma=1, skew=ifelse(is.na(rugarch::coef(fit)["skew"]),0,rugarch::coef(fit)["skew"]), shape=rugarch::coef(fit)["shape"])
