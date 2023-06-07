@@ -227,6 +227,7 @@ ConnectednessApproach = function(x,
       fevd[,,i] = ct/rowSums(ct)
     }
     dca = TimeConnectedness(FEVD=fevd, corrected=corrected)
+    message("The unconditional connectedness approach is implemented according to:\n Gabauer, D, Chatziantoniou, I., & Stenfors, A. (2023). Model-free connectedness measures.")
   } else {
     stop("Connectedness approach does not exist")
   }
