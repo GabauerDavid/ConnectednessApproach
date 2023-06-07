@@ -25,10 +25,13 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
   if (nlag<=0) {
     stop("nlag needs to be a positive integer")
   }
-  if (tau <= 0 || tau >= 1) {
+  if ((sum(tau <= 0 | tau >= 1))>0) {
     stop("tau needs to be within 0 and 1")
   }
   k = ncol(x)
+  if (length(tau)!=k) {
+    tau = rep(tau,k)
+  }
   NAMES = colnames(x)
   if (is.null(NAMES)) {
     NAMES = 1:k
@@ -37,7 +40,7 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
   Res = B = NULL
   for (i in 1:k) {
     z = embed(x, nlag+1)
-    fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau)
+    fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau[i])
     B = rbind(B, fit$coefficients[-1])
     Res = cbind(Res, fit$residuals)
   }

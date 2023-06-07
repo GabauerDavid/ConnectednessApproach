@@ -24,22 +24,20 @@ BivariateDCCGARCH = function(x, spec, copula="mvt", method="Kendall", transforma
   t = nrow(x)
   k = ncol(x)
   NAMES = colnames(x)
-  Z_t = NULL
-  H_t = R_t = array(NA, c(k,k,t), dimnames=list(NAMES, NAMES, as.character(rownames(x))))
+  Z = NULL
+  H = R = array(NA, c(k,k,t), dimnames=list(NAMES, NAMES, as.character(rownames(x))))
   for (i in 1:k) {
     for (j in 1:k) {
       if (i>j) {
         mgarch.spec = rmgarch::cgarchspec(uspec=multispec(c(spec[i], spec[j])), dccOrder=c(1,1), asymmetric=asymmetric,
                                           distribution.model=list(copula=copula, method=method, time.varying=time.varying, transformation=transformation))
         copula_fit = rmgarch::cgarchfit(mgarch.spec, data=x[,c(i,j)], solver=c("hybrid", "solnp"), fit.control=list(eval.se=FALSE))
-        r = rcor(copula_fit)
-        R_t[c(i,j),c(i,j),] = r
-        h = rcov(copula_fit)
-        H_t[c(i,j),c(i,j),] = h
+        R[c(i,j),c(i,j),] = rcor(copula_fit)
+        H[c(i,j),c(i,j),] = rcov(copula_fit)
       }
     }
-    Z_t = cbind(Z_t, copula_fit@mfit$Z[,1])
+    Z = cbind(Z, copula_fit@mfit$Z[,1])
   }
-  return = list(H_t=H_t, R_t=R_t, Z_t=Z_t)
+  return = list(H=H, R=R, Z=Z)
 }
 

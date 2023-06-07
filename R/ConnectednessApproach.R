@@ -64,15 +64,16 @@ ConnectednessApproach = function(x,
                                  window.size=NULL, 
                                  corrected=FALSE,
                                  model=c("VAR", "QVAR", "LASSO", "Ridge", "Elastic", "TVP-VAR", "DCC-GARCH"),
-                                 connectedness=c("Time","Frequency", "Joint", "Extended Joint"),
+                                 connectedness=c("Time","Frequency", "Joint", "Extended Joint", "R2"),
                                  VAR_config=list(
                                    QVAR=list(tau=0.5),
-                                   ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", delta_alpha=0.1),
+                                   ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", n_alpha=10),
                                    TVPVAR=list(kappa1=0.99, kappa2=0.99, prior="BayesPrior", gamma=0.01)),
                                  DCC_config=list(standardize=FALSE),
                                  Connectedness_config = list(
                                    TimeConnectedness=list(generalized=TRUE),
-                                   FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS")
+                                   FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS"),
+                                   R2Connectedness=list(method="pearson")
                                  )) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
@@ -90,6 +91,9 @@ ConnectednessApproach = function(x,
   k = ncol(x)
   if (is.null(NAMES)) {
     NAMES = 1:k
+  }
+  if (connectedness=="R2") {
+    nlag = 0
   }
   t = nrow(x)
   if (is.null(window.size)) {
@@ -115,7 +119,7 @@ ConnectednessApproach = function(x,
   } else if (model=="Elastic") {
     var_model = ElasticNetVAR
     configuration = list(nlag=nlag, alpha=VAR_config$ElasticNet$alpha, nfolds=VAR_config$ElasticNet$nfolds,
-                         loss=VAR_config$ElasticNet$loss, delta_alpha=VAR_config$ElasticNet$delta_alpha)
+                         loss=VAR_config$ElasticNet$loss, n_alpha=VAR_config$ElasticNet$n_alpha)
   } else if (model=="TVP-VAR") {
     prior_ = VAR_config$TVPVAR$prior
     if (prior_=="MinnesotaPrior") {
@@ -151,12 +155,14 @@ ConnectednessApproach = function(x,
   } else {
     Q_t = array(NA, c(k, k, t0))
     B_t = array(NA, c(k, k*nlag, t0))
-    pb = progress_bar$new(total=t0)
-    for (i in 1:t0) {
-      fit = var_model(x[i:(i+window.size-1),], configuration=configuration)
-      B_t[,,i] = fit$B
-      Q_t[,,i] = fit$Q
-      pb$tick()
+    if (connectedness!="R2") {
+      pb = progress_bar$new(total=t0)
+      for (i in 1:t0) {
+        fit = var_model(x[i:(i+window.size-1),], configuration=configuration)
+        B_t[,,i] = fit$B
+        Q_t[,,i] = fit$Q
+        pb$tick()
+      }
     }
   }
   DATE = as.character(zoo::index(x))
@@ -211,6 +217,16 @@ ConnectednessApproach = function(x,
     } else if (model=="QVAR") {
       message("The QVAR extended joint connectedness approach is implemented according to:\n Cunado, J, Chatziantoniou, I., Gabauer, D., Hardik, M., & de Garcia, F.P. (2022). Dynamic spillovers across precious metals and energy realized volatilities: Evidence from quantile extended joint connectedness measures.")
     }
+  } else if (connectedness=="R2") {
+    fevd = Q_t
+    for (i in 1:t0) {
+      ct = cor(x[i:(i+window.size-1),], method=Connectedness_config$R2Connectedness$method)^2
+      if (Connectedness_config$R2Connectedness$method=="kendall") {
+        ct = sin(0.5*pi*ct)
+      }
+      fevd[,,i] = ct/rowSums(ct)
+    }
+    dca = TimeConnectedness(FEVD=fevd, corrected=corrected)
   } else {
     stop("Connectedness approach does not exist")
   }
