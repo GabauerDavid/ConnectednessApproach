@@ -51,7 +51,7 @@ GARCHtests = function(fit, lag=20, prob=0.05, conf.level=0.90){
   ES = rugarch::fitted(fit) + rugarch::sigma(fit)*stats::integrate(f,0,prob)$value/prob
   ES = rugarch::ESTest(prob, x, ES, VaR, boot=TRUE, n.boot=1000, conf.level=conf.level)
   sign.bias = rugarch::signbias(fit)[1,][1:2]
-  warch = WeightedBoxTest(rugarch::residuals(fit), type="Ljung-Box", lag=lag, sqrd.res=TRUE)
+  warch = WeightedBoxTest(rugarch::residuals(fit, standardize=TRUE), type="Ljung-Box", lag=lag, sqrd.res=TRUE)
 
   statistics = c(sign.bias[[1]], warch$statistic, var_test$uc.LRstat, vardur_test$rLL, ES$actual.exceed/ES$expected.exceed)
   pvalues = c(sign.bias[2]$prob,warch$p.value, var_test$uc.LRp, round(ES$boot.p.value,3), vardur_test$LRp)
