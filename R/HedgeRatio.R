@@ -70,7 +70,7 @@ HedgeRatio = function (x, H, method = c("cumsum", "cumprod"),
   }
   colnames(summary) = c("Mean", "Std.Dev.", "5%", 
                         "95%")
-  statistics = "Bartlett"
+
   HE = pvalue = array(NA, c(k, k), dimnames = list(NAMES, NAMES))
   portfolio_return = cumulative_portfolio_return = array(NA, 
                                                          c(k, k, t), dimnames = list(NAMES, NAMES, date))
