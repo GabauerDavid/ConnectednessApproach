@@ -8,6 +8,7 @@ EquallyWeightedPortfolio(
   x,
   method = c("cumsum", "cumprod"),
   statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"),
+  metric = "StdDev",
   digit = 2
 )
 }
@@ -17,6 +18,8 @@ EquallyWeightedPortfolio(
 \item{method}{Cumulative sum or cumulative product}
 
 \item{statistics}{Hedging effectiveness statistic}
+
+\item{metric}{Risk measure of Sharpe Ratio (StdDev, VaR, or CVaR)}
 
 \item{digit}{Number of decimal places}
 }

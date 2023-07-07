@@ -13,6 +13,7 @@
 #' @importFrom stats complete.cases
 #' @importFrom stats model.frame
 #' @importFrom stats pf
+#' @importFrom stats na.omit
 #' @importFrom car leveneTest
 #' @references
 #' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
@@ -79,7 +80,7 @@ VarianceTest = function (formula, data, alpha=0.05, method=c('Bartlett', 'Brown-
     statistic = out$statistic
     p.value = out$p.value
   } else if (method == "Levene") {
-    out = car::leveneTest(y, group)
+    out = leveneTest(y, group)
     statistic = na.omit(out$`F value`)[1]
     p.value = na.omit(out$`Pr(>F)`)[1]
   } else {

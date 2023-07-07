@@ -11,6 +11,7 @@
 #' @param DCC_config Config for DCC-GARCH model
 #' @param Connectedness_config Config for connectedness approach
 #' @return Get connectedness measures
+#' @importFrom stats cor
 #' @examples
 #' \donttest{
 #' data("acg2020")

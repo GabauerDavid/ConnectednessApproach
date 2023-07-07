@@ -114,6 +114,7 @@ AggregatedConnectedness = function (dca, groups, start = NULL, end = NULL)  {
       NPT[ij, , 1] = rowSums(NPDC[, , ij, 1] < 0)
     }
   }else {
+    approach = dca$config$approach == "Extended Joint"
     TCI_ = TCI = array(NA, c(t, 1), dimnames = list(date, 
                                                     "TCI"))
     NPT = FROM = TO = NET = array(NA, c(t, m), dimnames = list(date, 

@@ -13,7 +13,7 @@
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
 #' dca = TimeConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=10, generalized=TRUE)
-#' mcp = MinimumConnectednessPortfolio(g2020, dca$PCI, statistics="Fisher")
+#' mcp = MinimumConnectednessPortfolio(g2020/100, dca$PCI, statistics="Fisher")
 #' mcp$TABLE
 #' @references
 #' Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2022). Minimum connectedness portfolios and the market for green bonds: Advocating socially responsible investment (SRI) activity. In Applications in Energy Finance (pp. 217-253). Palgrave Macmillan, Cham.
@@ -78,7 +78,7 @@ MinimumConnectednessPortfolio = function (x, H, method = c("cumsum", "cumprod"),
   SR = HE = pvalue = array(NA, c(k, 1), dimnames = list(NAMES))
   for (i in 1:k) {
     HE[i, ] = 1 - var(portfolio_return)/var(x[, i])
-    z = zoo::zoo(portfolio_return, order.by=index(x))
+    z = zoo::zoo(portfolio_return, order.by=zoo::index(x))
     SR[i,] = PerformanceAnalytics::SharpeRatio(z, FUN=(metric), annualize=TRUE)
     df = rbind(data.frame(val = x[, i], group = "A"), 
                data.frame(val = portfolio_return, group = "B"))

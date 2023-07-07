@@ -9,14 +9,15 @@
 #' @param digit Number of decimal places
 #' @param metric Risk measure of Sharpe Ratio (StdDev, VaR, or CVaR)
 #' @return Get bivariate portfolio weights
-#' @importFrom zoo zoo
 #' @importFrom stats var.test
+#' @importFrom zoo zoo
+#' @importFrom zoo index
 #' @importFrom PerformanceAnalytics SharpeRatio
 #' @importFrom rmgarch cgarchspec
 #' @examples
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
-#' bpw = BivariatePortfolio(g2020, fit$Q, method="cumsum", statistics="Fisher")
+#' bpw = BivariatePortfolio(g2020/100, fit$Q, method="cumsum", statistics="Fisher")
 #' bpw$TABLE
 #' @references
 #' Kroner, K. F., & Ng, V. K. (1998). Modeling asymmetric comovements of asset returns. The Review of Financial Studies, 11(4), 817-844.

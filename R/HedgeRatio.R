@@ -8,12 +8,15 @@
 #' @param metric Risk measure of Sharpe Ratio (StdDev, VaR, or CVaR)
 #' @param digit Number of decimal places
 #' @return Get hedge ratios
+#' @importFrom zoo zoo
+#' @importFrom zoo index
+#' @importFrom PerformanceAnalytics SharpeRatio
 #' @importFrom PerformanceAnalytics Return.annualized
 #' @importFrom PerformanceAnalytics StdDev.annualized
 #' @examples
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
-#' hr = HedgeRatio(g2020, fit$Q)
+#' hr = HedgeRatio(g2020/100, fit$Q)
 #' hr$TABLE
 #' @references
 #' Kroner, K. F., & Sultan, J. (1993). Time-varying distributions and dynamic hedging with foreign currency futures. Journal of Financial and Quantitative Analysis, 28(4), 535-551.

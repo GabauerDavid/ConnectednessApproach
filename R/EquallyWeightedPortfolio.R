@@ -5,10 +5,13 @@
 #' @param method Cumulative sum or cumulative product 
 #' @param statistics Hedging effectiveness statistic
 #' @param digit Number of decimal places
+#' @param metric Risk measure of Sharpe Ratio (StdDev, VaR, or CVaR)
 #' @return Get portfolio weights
+#' @importFrom zoo zoo
+#' @importFrom zoo index
 #' @examples
 #' data("g2020")
-#' mcp = EquallyWeightedPortfolio(g2020, method="cumsum", statistics="Fisher")
+#' mcp = EquallyWeightedPortfolio(g2020/100, statistics="Fisher")
 #' mcp$TABLE
 #' @references
 #' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
@@ -16,11 +19,10 @@
 #' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
 #' @author David Gabauer
 #' @export
-EquallyWeightedPortfolio = function (x, method = c("cumsum", "cumprod"), statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"), digit = 2) {
+EquallyWeightedPortfolio = function (x, method = c("cumsum", "cumprod"), statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"), metric="StdDev", digit = 2) {
   message("Hedging effectiveness is calculated according to:\n Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.\n\n          Statistics of the hedging effectiveness measure are implemented according to:\n Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.")
   method = match.arg(method)
   statistics = match.arg(statistics)
-  x = x/100
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }

@@ -10,6 +10,7 @@ RiskParityPortfolio(
   method = c("cumsum", "cumprod"),
   statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"),
   long = TRUE,
+  metric = "StdDev",
   digit = 2
 )
 }
@@ -23,6 +24,8 @@ RiskParityPortfolio(
 \item{statistics}{Hedging effectiveness statistic}
 
 \item{long}{Allow only long portfolio position}
+
+\item{metric}{Risk measure of Sharpe Ratio (StdDev, VaR, or CVaR)}
 
 \item{digit}{Number of decimal places}
 }

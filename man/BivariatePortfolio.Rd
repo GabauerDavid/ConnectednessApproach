@@ -10,6 +10,7 @@ BivariatePortfolio(
   method = c("cumsum", "cumprod"),
   long = TRUE,
   statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"),
+  metric = "StdDev",
   digit = 2
 )
 }
@@ -23,6 +24,8 @@ BivariatePortfolio(
 \item{long}{Allow only long portfolio position}
 
 \item{statistics}{Hedging effectiveness statistic}
+
+\item{metric}{Risk measure of Sharpe Ratio (StdDev, VaR, or CVaR)}
 
 \item{digit}{Number of decimal places}
 }
