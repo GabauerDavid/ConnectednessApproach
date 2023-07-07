@@ -76,7 +76,7 @@ BivariatePortfolio = function (x, H, method = c("cumsum", "cumprod"), long = TRU
       HE[i, j] = 1 - var(portfolio_return[j, i, ])/var(x[,i])
       SR[i, j] = SR[j, i] = PerformanceAnalytics::SharpeRatio(zoo::zoo(portfolio_return[i, j, ], order.by=index(x)), FUN=(metric), annualize=TRUE)
       df = rbind(data.frame(val=x[, i], group = "A"), data.frame(val=portfolio_return[j,i,], group = "B"))
-      pvalue[i, j] = VarianceTest(val ~ as.character(group), data = df, method=statistics)$p.value
+      pvalue[i, j] = VarianceTest(formula=val ~ as.character(group), data=df, method=statistics)$p.value
       if (method == "cumsum") {
         cumulative_asset_return[j, i, ] = cumsum(x[, i])
         cumulative_portfolio_return[j, i, ] = cumsum(portfolio_return[j, i, ])

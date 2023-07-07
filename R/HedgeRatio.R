@@ -74,7 +74,7 @@ HedgeRatio = function (x, H, method = c("cumsum", "cumprod"), statistics = c("Fi
       SR[j, i] = SharpeRatio(z, FUN=(metric), annualize=TRUE)
       ret[j, i] = Return.annualized(z)
       risk[j,i] = StdDev.annualized(z)
-      pvalue[i, ] = VarianceTest(val ~ as.character(group), data = df, method=method)$p.value
+      pvalue[i, ] = VarianceTest(val ~ as.character(group), data = df, method=statistics)$p.value
       if (method == "cumsum") {
         cumulative_portfolio_return[i, j, ] = cumsum(portfolio_return[i, j, ])
       } else if (method == "cumprod") {

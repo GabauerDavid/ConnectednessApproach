@@ -82,7 +82,7 @@ MinimumConnectednessPortfolio = function (x, H, method = c("cumsum", "cumprod"),
     SR[i,] = PerformanceAnalytics::SharpeRatio(z, FUN=(metric), annualize=TRUE)
     df = rbind(data.frame(val = x[, i], group = "A"), 
                data.frame(val = portfolio_return, group = "B"))
-    pvalue[i, ] = VarianceTest(val ~ as.character(group), data = df, method = method)$p.value
+    pvalue[i, ] = VarianceTest(val ~ as.character(group), data = df, method = statistics)$p.value
   }
   TABLE = cbind(summary, HE, pvalue, SR)
   colnames(TABLE) = c("Mean", "Std.Dev.", "5%", "95%", "HE", "p-value", "SR")

@@ -71,30 +71,15 @@ RiskParityPortfolio = function (x, H, method = c("cumsum", "cumprod"),
   HE = pvalue = array(NA, c(k, 1), dimnames = list(NAMES))
   for (i in 1:k) {
     HE[i, ] = 1 - var(portfolio_return)/var(x[, i])
+    z = zoo::zoo(portfolio_return, order.by=index(x))
+    SR[i,] = PerformanceAnalytics::SharpeRatio(z, FUN=(metric), annualize=TRUE)
     df = rbind(data.frame(val = portfolio_return, group = "A"), 
                data.frame(val = x[, i], group = "B"))
-    if (statistics == "Fisher") {
-      pvalue[i, ] = VarianceTest(val ~ as.character(group), 
-                                 data = df, method = "Fisher")$p.value
-    } else if (statistics == "Bartlett") {
-      pvalue[i, ] = VarianceTest(val ~ as.character(group), 
-                                 data = df, method = "Bartlett")$p.value
-    } else if (statistics == "Fligner-Killeen") {
-      pvalue[i, ] = VarianceTest(val ~ as.character(group), 
-                                 data = df, method = "Fligner-Killeen")$p.value
-    } else if (statistics == "Levene") {
-      pvalue[i, ] = VarianceTest(val ~ as.character(group), 
-                                 data = df, method = "Levene")$p.value
-    } else if (statistics == "Brown-Forsythe") {
-      pvalue[i, ] = VarianceTest(val ~ as.character(group), 
-                                 data = df, method = "Brown-Forsythe")$p.value
-    } else {
-      stop("No valid hedging effectiveness statistics have been chosen.")
-    }
+    pvalue[i, ] = VarianceTest(val ~ as.character(group),  data = df, method = statistics)$p.value
   }
-  TABLE = cbind(summary, HE, pvalue)
+  TABLE = cbind(summary, HE, pvalue, SR)
   colnames(TABLE) = c("Mean", "Std.Dev.", "5%", 
-                      "95%", "HE", "p-value")
+                      "95%", "HE", "p-value", "SR")
   return = list(TABLE = format(round(TABLE, digit), nsmall = digit), 
                 portfolio_weights = portfolio_weights, HE = HE, pvalue = pvalue, 
                 portfolio_return = portfolio_return, cumulative_portfolio_return = cumulative_portfolio_return)

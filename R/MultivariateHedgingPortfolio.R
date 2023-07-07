@@ -68,7 +68,7 @@ MultivariateHedgingPortfolio = function (x, H, method = c("cumsum", "cumprod"), 
     ret[i,] = Return.annualized(z)
     risk[i,] = StdDev.annualized(z)
     df = rbind(data.frame(val = x[,i], group = "A"), data.frame(val = portfolio_return[,i], group = "B"))
-    pvalue[i,] = VarianceTest(val ~ as.character(group), data = df, method = method)$p.value
+    pvalue[i,] = VarianceTest(val ~ as.character(group), data = df, method = statistics)$p.value
 
     if (method == "cumsum") {
       cumulative_portfolio_return[,i] = cumsum(portfolio_return[,i])
