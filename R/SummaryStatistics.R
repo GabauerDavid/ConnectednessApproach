@@ -14,6 +14,7 @@
 #' @importFrom stats t.test
 #' @importFrom stats cor.test
 #' @export
+#' 
 SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"), correlation=c("kendall", "spearman", "pearson"), nlag=20, digit=3) {
   message("The following statistics are used:\n
           Skewness: D'Agostino, R.B. (1970). Transformation to Normality of the Null Distribution of G1. Biometrika, 57, 3, 679-681.\n
@@ -42,13 +43,26 @@ SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"
     moments[1,i] = ttest$estimate
     moments[2,i] = ttest$p.value
     moments[3,i] = var(x[,i])
-    moments[4,i] = 0
+    moments[4,i] = NA
     skew = moments::agostino.test(x[,i])
     moments[5,i] = skew$statistic[1]
     moments[6,i] = skew$p.value
-    kurt = moments::anscombe.test(x[,i])
-    moments[7,i] = kurt$statistic[1]-3
-    moments[8,i] = kurt$p.value
+    kurt = tryCatch(
+      {
+        moments::anscombe.test(x[,i])
+      },
+      error=function(cond) {
+        moments::kurtosis(x[,i])
+      }
+    )
+    if (length(kurt)==1) {
+      moments[7,i] = kurt-3
+      moments[8,i] = NA
+    } else {
+      kurt = moments::anscombe.test(x[,i])
+      moments[7,i] = kurt$statistic[1]-3
+      moments[8,i] = kurt$p.value
+    }
     jb = moments::jarque.test(x[,i])
     moments[9,i] = jb$statistic
     moments[10,i] = jb$p.value
@@ -62,42 +76,43 @@ SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"
     moments[15,i] = bt2$statistic
     moments[16,i] = bt2$p.value
   }
-
+  
   cc = seq(2,nrow(moments),2)
   moments = round(moments, digit)
   SumStat = moments
   for (j in 1:k) {
     for (i in 1:length(cc)) {
       i = cc[i]
-      if (moments[i,j]<=0.01) {
-        SumStat[(i-1),j] = paste(format(round(moments[(i-1),j],digit),nsmall=digit),"***",sep="")
-        SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
-      } else if (moments[i,j]<=0.05) {
-        SumStat[(i-1),j] = paste(format(round(moments[(i-1),j],digit),nsmall=digit),"**",sep="")
-        SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
-      } else if (moments[i,j]<=0.10) {
-        SumStat[(i-1),j] = paste(format(round(moments[(i-1),j],digit),nsmall=digit),"*",sep="")
-        SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
-      } else {
-        SumStat[(i-1),j] = format(round(moments[(i-1),j],digit),nsmall=digit)
-        SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
+      if (!is.na(moments[i,j])) {
+        if (moments[i,j]<=0.01) {
+          SumStat[(i-1),j] = paste(format(round(moments[(i-1),j],digit),nsmall=digit),"***",sep="")
+          SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
+        } else if (moments[i,j]<=0.05) {
+          SumStat[(i-1),j] = paste(format(round(moments[(i-1),j],digit),nsmall=digit),"**",sep="")
+          SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
+        } else if (moments[i,j]<=0.10) {
+          SumStat[(i-1),j] = paste(format(round(moments[(i-1),j],digit),nsmall=digit),"*",sep="")
+          SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
+        } else {
+          SumStat[(i-1),j] = format(round(moments[(i-1),j],digit),nsmall=digit)
+          SumStat[i,j] = paste("(",format(round(moments[i,j],digit),nsmall=digit),")",sep="")
+        }
       }
     }
   }
-
+  
   for (j in 1:k) {
-    i = 11
     if (moments[i,j]<=-2.57) {
-      SumStat[i,j] = paste(format(round(moments[i,j],digit), nsmall=digit),"***",sep="")
+      SumStat[11,j] = paste(format(round(moments[11,j],digit), nsmall=digit),"***",sep="")
     } else if (moments[i,j]<=-1.96) {
-      SumStat[i,j] = paste(format(round(moments[i,j],digit), nsmall=digit),"**",sep="")
+      SumStat[11,j] = paste(format(round(moments[11,j],digit), nsmall=digit),"**",sep="")
     } else if (moments[i,j]<=-1.62) {
-      SumStat[i,j] = paste(format(round(moments[i,j],digit), nsmall=digit),"*",sep="")
+      SumStat[11,j] = paste(format(round(moments[11,j],digit), nsmall=digit),"*",sep="")
     } else {
-      SumStat[i,j] = format(round(moments[i,j],digit), nsmall=digit)
+      SumStat[11,j] = format(round(moments[11,j],digit), nsmall=digit)
     }
   }
-
+  
   Cor = array(NA, c(k, k), dimnames=list(NAMES, NAMES))
   for (i in 1:k) {
     for (j in 1:k) {
@@ -113,7 +128,7 @@ SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"
       } else {
         Cor[i,j] = format(round(est,digit), nsmall=digit)
       }
-
+      
     }
   }
   SumStat = rbind(SumStat, NAMES, Cor)
