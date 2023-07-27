@@ -40,7 +40,7 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
   Res = B = NULL
   for (i in 1:k) {
     z = embed(x, nlag+1)
-    fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau[i])
+    fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau[i], method="fn")
     B = rbind(B, fit$coefficients[-1])
     Res = cbind(Res, fit$residuals)
   }
