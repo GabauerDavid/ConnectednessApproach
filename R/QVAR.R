@@ -16,9 +16,10 @@
 #' Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Interest rate swaps and the transmission mechanism of monetary policy: A quantile connectedness approach. Economics Letters, 204, 109891.
 #' @author David Gabauer
 #' @export
-QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
+QVAR = function(x, configuration=list(nlag=1, tau=0.5, method="fn")) {
   tau = as.numeric(configuration$tau)
   nlag = as.numeric(configuration$nlag)
+  method = as.character(configuration$method)
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
@@ -40,7 +41,7 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5)) {
   Res = B = NULL
   for (i in 1:k) {
     z = embed(x, nlag+1)
-    fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau[i], method="fn")
+    fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau[i], method=method)
     B = rbind(B, fit$coefficients[-1])
     Res = cbind(Res, fit$residuals)
   }
