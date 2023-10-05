@@ -38,7 +38,7 @@ This function calculates the optimal portfolio weights according to Kroner and N
 \examples{
 data("g2020")
 fit = VAR(g2020, configuration=list(nlag=1))
-bpw = BivariatePortfolio(g2020, fit$Q, method="cumsum", statistics="Fisher")
+bpw = BivariatePortfolio(g2020/100, fit$Q, method="cumsum", statistics="Fisher")
 bpw$TABLE
 }
 \references{

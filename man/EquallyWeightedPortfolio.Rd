@@ -31,7 +31,7 @@ This function calculates the equality weighted portfolio
 }
 \examples{
 data("g2020")
-mcp = EquallyWeightedPortfolio(g2020, method="cumsum", statistics="Fisher")
+mcp = EquallyWeightedPortfolio(g2020/100, statistics="Fisher")
 mcp$TABLE
 }
 \references{

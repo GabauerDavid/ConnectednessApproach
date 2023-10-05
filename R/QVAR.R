@@ -4,6 +4,7 @@
 #' @param x zoo data matrix
 #' @param nlag Lag length
 #' @param tau quantile between 0 and 1
+#' @param method See methods for rq in quantreg package. Default is "fn".
 #' @param configuration model configuration
 #' @return Estimate QVAR model
 #' @examples

@@ -67,7 +67,7 @@ ConnectednessApproach = function(x,
                                  model=c("VAR", "QVAR", "LASSO", "Ridge", "Elastic", "TVP-VAR", "DCC-GARCH"),
                                  connectedness=c("Time","Frequency", "Joint", "Extended Joint", "R2"),
                                  VAR_config=list(
-                                   QVAR=list(tau=0.5),
+                                   QVAR=list(tau=0.5, method="fn"),
                                    ElasticNet=list(nfolds=10, alpha=NULL, loss="mae", n_alpha=10),
                                    TVPVAR=list(kappa1=0.99, kappa2=0.99, prior="BayesPrior", gamma=0.01)),
                                  DCC_config=list(standardize=FALSE),
@@ -110,7 +110,7 @@ ConnectednessApproach = function(x,
     configuration = list(nlag=nlag)
   } else if (model=="QVAR") {
     var_model = QVAR
-    configuration = list(nlag=nlag, tau=VAR_config$QVAR$tau)
+    configuration = list(nlag=nlag, tau=VAR_config$QVAR$tau, method=VAR_config$QVAR$method)
   } else if (model=="LASSO") {
     var_model = ElasticNetVAR
     configuration = list(nlag=nlag, alpha=1, nfolds=VAR_config$ElasticNet$nfolds, loss=VAR_config$ElasticNet$loss)

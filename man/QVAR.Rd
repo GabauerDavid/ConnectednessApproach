@@ -4,7 +4,7 @@
 \alias{QVAR}
 \title{Quantile vector autoregression}
 \usage{
-QVAR(x, configuration = list(nlag = 1, tau = 0.5))
+QVAR(x, configuration = list(nlag = 1, tau = 0.5, method = "fn"))
 }
 \arguments{
 \item{x}{zoo data matrix}
@@ -14,6 +14,8 @@ QVAR(x, configuration = list(nlag = 1, tau = 0.5))
 \item{nlag}{Lag length}
 
 \item{tau}{quantile between 0 and 1}
+
+\item{method}{See methods for rq in quantreg package. Default is "fn".}
 }
 \value{
 Estimate QVAR model

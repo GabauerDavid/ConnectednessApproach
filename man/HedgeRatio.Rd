@@ -35,7 +35,7 @@ This function calculates the hedge ratios of Kroner and Sultan (1993)
 \examples{
 data("g2020")
 fit = VAR(g2020, configuration=list(nlag=1))
-hr = HedgeRatio(g2020, fit$Q)
+hr = HedgeRatio(g2020/100, fit$Q)
 hr$TABLE
 }
 \references{

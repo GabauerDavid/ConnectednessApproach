@@ -38,7 +38,7 @@ This function calculates the minimum connectedness portfolio
 \examples{
 data("g2020")
 fit = VAR(g2020, configuration=list(nlag=1))
-mcp = RiskParityPortfolio(g2020, fit$Q, statistics="Fisher")
+mcp = RiskParityPortfolio(g2020/100, fit$Q, statistics="Fisher")
 mcp$TABLE
 }
 \references{
