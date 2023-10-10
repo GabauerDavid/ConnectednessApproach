@@ -11,7 +11,6 @@
 #' @param DCC_config Config for DCC-GARCH model
 #' @param Connectedness_config Config for connectedness approach
 #' @return Get connectedness measures
-#' @importFrom stats cor
 #' @examples
 #' \donttest{
 #' data("acg2020")
@@ -25,6 +24,7 @@
 #' dca$TABLE
 #' }
 #' @import progress
+#' @importFrom stats cor
 #' @importFrom rugarch ugarchspec
 #' @importFrom rugarch multispec
 #' @importFrom rmgarch dccspec
@@ -74,15 +74,15 @@ ConnectednessApproach = function(x,
                                  Connectedness_config = list(
                                    TimeConnectedness=list(generalized=TRUE),
                                    FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS"),
-                                   R2Connectedness=list(method="pearson")
+                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE)
                                  )) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
-  if (nlag<=0) {
+  if (nlag<=0 & connectedness!="R2") {
     stop("nlag needs to be a positive integer")
   }
-  if (nfore<=0) {
+  if (nfore<=0 & connectedness!="R2") {
     stop("nfore needs to be a positive integer")
   }
   model = match.arg(model)
@@ -93,7 +93,7 @@ ConnectednessApproach = function(x,
   if (is.null(NAMES)) {
     NAMES = 1:k
   }
-  if (connectedness=="R2") {
+  if (connectedness=="R2" & !Connectedness_config$R2Connectedness$decomposition) {
     nlag = 0
   }
   t = nrow(x)
@@ -219,19 +219,29 @@ ConnectednessApproach = function(x,
       message("The QVAR extended joint connectedness approach is implemented according to:\n Cunado, J, Chatziantoniou, I., Gabauer, D., Hardik, M., & de Garcia, F.P. (2022). Dynamic spillovers across precious metals and energy realized volatilities: Evidence from quantile extended joint connectedness measures.")
     }
   } else if (connectedness=="R2") {
-    fevd = Q_t
-    for (i in 1:t0) {
-      ct = cor(x[i:(i+window.size-1),], method=Connectedness_config$R2Connectedness$method)^2
-      if (Connectedness_config$R2Connectedness$method=="kendall") {
-        ct = sin(0.5*pi*ct)
+    if (Connectedness_config$R2Connectedness$decomposition) {
+      if (nlag>0) {
+        message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.\n")
+        message("The generalized R2 connectedness approach is implemented according to:\n Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters, 57, 104168.")
+      } else {
+        message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.")
       }
-      fevd[,,i] = ct/rowSums(ct)
+      dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
+                            rela=Connectedness_config$R2Connectedness$relative, corrected=corrected)
+    } else {
+      fevd = Q_t
+      for (i in 1:t0) {
+        ct = cor(x[i:(i+window.size-1),], method=Connectedness_config$R2Connectedness$method)^2
+        if (Connectedness_config$R2Connectedness$method=="kendall") {
+          ct = sin(0.5*pi*ct)
+        }
+        fevd[,,i] = ct/rowSums(ct)
+      }
+      dca = TimeConnectedness(FEVD=fevd, corrected=corrected)
+      message("The unconditional connectedness approach is implemented according to:\n Gabauer, D, Chatziantoniou, I., & Stenfors, A. (2023). Model-free connectedness measures.")
     }
-    dca = TimeConnectedness(FEVD=fevd, corrected=corrected)
-    message("The unconditional connectedness approach is implemented according to:\n Gabauer, D, Chatziantoniou, I., & Stenfors, A. (2023). Model-free connectedness measures.")
   } else {
     stop("Connectedness approach does not exist")
   }
   dca
 }
-
