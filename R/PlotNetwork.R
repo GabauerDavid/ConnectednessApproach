@@ -40,7 +40,7 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshol
   on.exit(par(oldpar)) 
   if (length(dim(x))>3) {
     kk = dim(x)[4]
-    k1 = ceiling(sqrt(kk))
+    k1 = ceiling(kk)
     k2 = ceiling(kk/k1)
   } else {
     kk = k1 = k2 = 1
