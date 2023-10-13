@@ -59,7 +59,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
       
       CT[i,-i,j,1] = cd[c(1:(k-1))]
       if (nlag>0) {
-        CT[i,  ,j,2] = cd[-c(1:(k-1))]
+        CT[i,  ,j,2] = apply(array(cd[-c(1:(k-1))], c(1,k,nlag)), 1:2, sum)
       }
     }
   }
