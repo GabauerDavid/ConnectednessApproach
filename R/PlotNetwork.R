@@ -47,7 +47,7 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshol
     x = array(x, c(k,k,t,1))
   }
   
-  par(mfrow = c(k1,k2), oma = c(0,0,0,0), mar = c(0,0,0,0), mgp = c(0, 0, 0))
+  par(mfrow = c(k2,k1), oma = c(0,0,0,0), mar = c(0,0,0,0), mgp = c(0, 0, 0))
   if (!is.null(path)) pdf(file=paste0(path, "/NetworkPlot.pdf"), width=10, height=10)
     for (ijk in 1:kk) {
       x_ = t(apply(x[,,,ijk], 1:2, mean))
