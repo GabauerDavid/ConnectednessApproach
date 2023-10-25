@@ -15,6 +15,7 @@
 #' dca$TABLE
 #' }
 #' @import progress
+#' @importFrom utils setTxtProgressBar txtProgressBar
 #' @references
 #' Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.
 #' 
