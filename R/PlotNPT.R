@@ -3,10 +3,12 @@
 #' @param dca Connectedness object
 #' @param ca Compare dca object with a single connectedness object or a list of of connectedness objects
 #' @param path Path where plots should be saved
+#' @param width The width of the graphics region in inches
+#' @param height The height of the graphics region in inches
 #' @param ... Arguments to be passed to methods, such as graphidcal parameters (see par).
 #' @return Return connectedness plot
 #' @export
-PlotNPT = function(dca, ca=NULL, path=NULL, ...) {
+PlotNPT = function(dca, ca=NULL, path=NULL, width=10, height=7, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)
@@ -31,7 +33,7 @@ PlotNPT = function(dca, ca=NULL, path=NULL, ...) {
 
   oldpar = par(no.readonly=TRUE)
   on.exit(par(oldpar)) 
-  if (!is.null(path)) pdf(file=paste0(path, "/NPT.pdf"), width=10, height=7)
+  if (!is.null(path)) pdf(file=paste0(path, "/NPT.pdf"), width=width, height=height)
   par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   if (length(dim(dca$NET))>2) {
     for (i in 1:k) {

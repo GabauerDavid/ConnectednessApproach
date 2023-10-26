@@ -5,10 +5,12 @@
 #' @param path Path where plots should be saved
 #' @param ylim A vector including the lower and upper limit of the y-axis
 #' @param selection Indicator of the illustrated series
+#' @param width The width of the graphics region in inches
+#' @param height The height of the graphics region in inches
 #' @param ... Arguments to be passed to methods, such as graphical parameters (see par).
 #' @return Return connectedness plot
 #' @export
-PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, ...) {
+PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, width=10, height=7, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)
@@ -34,7 +36,7 @@ PlotNPDC = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL,
   kk = k*(k-1)/2
   oldpar = par(no.readonly=TRUE)
   on.exit(par(oldpar)) 
-  if (!is.null(path)) pdf(file=paste0(path, "/NPDC.pdf"), width=10, height=7)
+  if (!is.null(path)) pdf(file=paste0(path, "/NPDC.pdf"), width=width, height=height)
   if (is.null(selection)) {
     k_row = ceiling(sqrt(kk))
     k_col = ceiling(kk/k_row)

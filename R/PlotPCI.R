@@ -5,10 +5,12 @@
 #' @param path Path where plots should be saved
 #' @param ylim A vector including the lower and upper limit of the y-axis
 #' @param selection Indidcator of the illustrated series
+#' @param width The width of the graphics region in inches
+#' @param height The height of the graphics region in inches
 #' @param ... Arguments to be passed to methods, such as graphidcal parameters (see par).
 #' @return Return connectedness plot
 #' @export
-PlotPCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, ...) {
+PlotPCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, width=10, height=7, ...) {
   message("The pairwise connectedness index is implemented according to:\n Gabauer, D. (2021). Dynamic measures of asymmetric & pairwise connectedness within an optimal currency area: Evidence from the ERM I system. Journal of Multinational Financial Management, 60, 100680.")
   if (!is.null(path)) {
     if (!dir.exists(path)) {
@@ -35,7 +37,7 @@ PlotPCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, 
   kk = k*(k-1)/2
   oldpar = par(no.readonly=TRUE)
   on.exit(par(oldpar)) 
-  if (!is.null(path)) pdf(file=paste0(path, "/PCI.pdf"), width=10, height=7)
+  if (!is.null(path)) pdf(file=paste0(path, "/PCI.pdf"), width=width, height=height)
   if (is.null(selection)) {
     k_row = ceiling(sqrt(kk))
     k_col = ceiling(kk/k_row)

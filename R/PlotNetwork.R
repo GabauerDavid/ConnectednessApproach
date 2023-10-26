@@ -5,11 +5,13 @@
 #' @param method Either visualizing NPDC or PCI
 #' @param name_length Length of variable names in the network plot
 #' @param threshold Threshold for bivariate connections between 0 and 1
+#' @param width The width of the graphics region in inches
+#' @param height The height of the graphics region in inches
 #' @param ... Arguments to be passed to methods, such as graphical parameters (see par).
 #' @return Return connectedness plot
 #' @export
 #' @import igraph
-PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshold=0.25, ...) {
+PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshold=0.25, width=10, height=10, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)
@@ -48,7 +50,7 @@ PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshol
   }
   
   par(mfrow = c(k2,k1), oma = c(0,0,0,0), mar = c(0,0,0,0), mgp = c(0, 0, 0))
-  if (!is.null(path)) pdf(file=paste0(path, "/NetworkPlot.pdf"), width=10, height=10)
+  if (!is.null(path)) pdf(file=paste0(path, "/NetworkPlot.pdf"), width=width, height=height)
     for (ijk in 1:kk) {
       x_ = t(apply(x[,,,ijk], 1:2, mean))
       x_ = ifelse(x_<0, 0, x_)

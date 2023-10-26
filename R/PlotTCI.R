@@ -5,12 +5,14 @@
 #' @param ca Compare dca object with a single connectedness object or a list of of connectedness objects
 #' @param path Path where plots should be saved
 #' @param ylim A vector including the lower and upper limit of the y-axis
+#' @param width The width of the graphics region in inches
+#' @param height The height of the graphics region in inches
 #' @param ... Arguments to be passed to methods, such as graphical parameters (see par).
 #' @return Return connectedness plot
 #' @import graphics
 #' @import grDevices
 #' @export
-PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
+PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, height=5, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)
@@ -28,7 +30,7 @@ PlotTCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), ...) {
   
   oldpar = par(no.readonly=TRUE)
   on.exit(par(oldpar)) 
-  if (!is.null(path)) pdf(file=paste0(path, "/TCI.pdf"), width=10, height=5)
+  if (!is.null(path)) pdf(file=paste0(path, "/TCI.pdf"), width=width, height=height)
   par(mfrow=c(1,1), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   if (length(dim(dca$NET))>2) {
     x_ = x
