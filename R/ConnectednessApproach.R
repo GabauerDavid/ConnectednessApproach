@@ -112,6 +112,9 @@ ConnectednessApproach = function(x,
     configuration = list(nlag=nlag)
   } else if (model=="QVAR") {
     var_model = QVAR
+    if (is.null(VAR_config$QVAR$method)) {
+      VAR_config$QVAR$method = "fn"
+    }
     configuration = list(nlag=nlag, tau=VAR_config$QVAR$tau, method=VAR_config$QVAR$method)
   } else if (model=="LASSO") {
     var_model = ElasticNetVAR

@@ -20,7 +20,11 @@
 QVAR = function(x, configuration=list(nlag=1, tau=0.5, method="fn")) {
   tau = as.numeric(configuration$tau)
   nlag = as.numeric(configuration$nlag)
+  if (is.null(configuration$method)) {
+    configuration$method = "fn"
+  }
   method = as.character(configuration$method)
+
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
