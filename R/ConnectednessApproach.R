@@ -64,7 +64,7 @@ ConnectednessApproach = function(x,
                                  nfore=10, 
                                  window.size=NULL, 
                                  corrected=FALSE,
-                                 model=c("VAR", "QVAR", "LASSO", "Ridge", "Elastic", "TVP-VAR", "DCC-GARCH"),
+                                 model=c("VAR", "QVAR", "LAD", "LASSO", "Ridge", "Elastic", "TVP-VAR", "DCC-GARCH"),
                                  connectedness=c("Time","Frequency", "Joint", "Extended Joint", "R2"),
                                  VAR_config=list(
                                    QVAR=list(tau=0.5, method="fn"),
@@ -116,6 +116,9 @@ ConnectednessApproach = function(x,
       VAR_config$QVAR$method = "fn"
     }
     configuration = list(nlag=nlag, tau=VAR_config$QVAR$tau, method=VAR_config$QVAR$method)
+  } else if (model=="LAD") {
+    var_model = LADVAR
+    configuration = list(nlag=nlag)
   } else if (model=="LASSO") {
     var_model = ElasticNetVAR
     configuration = list(nlag=nlag, alpha=1, nfolds=VAR_config$ElasticNet$nfolds, loss=VAR_config$ElasticNet$loss)

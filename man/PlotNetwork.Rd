@@ -10,6 +10,8 @@ PlotNetwork(
   path = NULL,
   name_length = NULL,
   threshold = 0.25,
+  width = 10,
+  height = 10,
   ...
 )
 }
@@ -23,6 +25,10 @@ PlotNetwork(
 \item{name_length}{Length of variable names in the network plot}
 
 \item{threshold}{Threshold for bivariate connections between 0 and 1}
+
+\item{width}{The width of the graphics region in inches}
+
+\item{height}{The height of the graphics region in inches}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters (see par).}
 }

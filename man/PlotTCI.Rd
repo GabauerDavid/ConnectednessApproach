@@ -4,7 +4,15 @@
 \alias{PlotTCI}
 \title{Dynamic total connectedness plot}
 \usage{
-PlotTCI(dca, ca = NULL, path = NULL, ylim = c(NULL, NULL), ...)
+PlotTCI(
+  dca,
+  ca = NULL,
+  path = NULL,
+  ylim = c(NULL, NULL),
+  width = 10,
+  height = 5,
+  ...
+)
 }
 \arguments{
 \item{dca}{Connectedness object}
@@ -14,6 +22,10 @@ PlotTCI(dca, ca = NULL, path = NULL, ylim = c(NULL, NULL), ...)
 \item{path}{Path where plots should be saved}
 
 \item{ylim}{A vector including the lower and upper limit of the y-axis}
+
+\item{width}{The width of the graphics region in inches}
+
+\item{height}{The height of the graphics region in inches}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters (see par).}
 }

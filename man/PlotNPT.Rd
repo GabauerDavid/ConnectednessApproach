@@ -4,7 +4,7 @@
 \alias{PlotNPT}
 \title{Dynamic net pairwise transmission plot}
 \usage{
-PlotNPT(dca, ca = NULL, path = NULL, ...)
+PlotNPT(dca, ca = NULL, path = NULL, width = 10, height = 7, ...)
 }
 \arguments{
 \item{dca}{Connectedness object}
@@ -12,6 +12,10 @@ PlotNPT(dca, ca = NULL, path = NULL, ...)
 \item{ca}{Compare dca object with a single connectedness object or a list of of connectedness objects}
 
 \item{path}{Path where plots should be saved}
+
+\item{width}{The width of the graphics region in inches}
+
+\item{height}{The height of the graphics region in inches}
 
 \item{...}{Arguments to be passed to methods, such as graphidcal parameters (see par).}
 }

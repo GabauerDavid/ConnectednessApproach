@@ -10,6 +10,8 @@ PlotNPDC(
   path = NULL,
   ylim = c(NULL, NULL),
   selection = NULL,
+  width = 10,
+  height = 7,
   ...
 )
 }
@@ -23,6 +25,10 @@ PlotNPDC(
 \item{ylim}{A vector including the lower and upper limit of the y-axis}
 
 \item{selection}{Indicator of the illustrated series}
+
+\item{width}{The width of the graphics region in inches}
+
+\item{height}{The height of the graphics region in inches}
 
 \item{...}{Arguments to be passed to methods, such as graphical parameters (see par).}
 }
