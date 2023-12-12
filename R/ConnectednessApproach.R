@@ -79,12 +79,6 @@ ConnectednessApproach = function(x,
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
-  if (nlag<=0 & connectedness!="R2") {
-    stop("nlag needs to be a positive integer")
-  }
-  if (nfore<=0 & connectedness!="R2") {
-    stop("nfore needs to be a positive integer")
-  }
   model = match.arg(model)
   if (length(connectedness)>1) {
     connectedness = "Time"
@@ -92,6 +86,10 @@ ConnectednessApproach = function(x,
     connectedness = match.arg(connectedness)
   }
 
+  if (nlag<=0 & connectedness!="R2") {
+    stop("nlag needs to be a positive integer")
+  }
+  
   NAMES = colnames(x)
   k = ncol(x)
   if (is.null(NAMES)) {
