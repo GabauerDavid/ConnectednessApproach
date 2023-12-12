@@ -86,8 +86,12 @@ ConnectednessApproach = function(x,
     stop("nfore needs to be a positive integer")
   }
   model = match.arg(model)
-  connectedness = match.arg(connectedness)
-  
+  if (length(connectedness)>1) {
+    connectedness = "Time"
+  } else {
+    connectedness = match.arg(connectedness)
+  }
+
   NAMES = colnames(x)
   k = ncol(x)
   if (is.null(NAMES)) {
