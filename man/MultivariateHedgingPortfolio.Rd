@@ -30,13 +30,20 @@ MultivariateHedgingPortfolio(
 Get hedge ratios
 }
 \description{
-This function calculates the hedge ratios of Kroner and Sultan (1993)
+This function calculates the multivariate hedging portfolio of Cocca et al. (2024)
 }
 \examples{
 data("g2020")
 fit = VAR(g2020, configuration=list(nlag=1))
-hr = MultivariateHedgingPortfolio(g2020/100, fit$Q)
-hr$TABLE
+mhp = MultivariateHedgingPortfolio(g2020/100, fit$Q)
+mhp$TABLE
+}
+\references{
+Cocca, T., Gabauer, D., & Pomberger, S. (2024). Clean energy market connectedness and investment strategies: New evidence from DCC-GARCH R2 decomposed connectedness measures. Energy Economics.
+
+Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
+
+Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
 }
 \author{
 David Gabauer

@@ -102,6 +102,6 @@ MultivariateHedgingPortfolio = function (x, H, method = c("cumsum", "cumprod"), 
   colnames(TABLE) = c("Mean", "Std.Dev.", "5%", "95%", "HE", 
                       "p-value", "Return", "Risk","SR")
   return = list(TABLE = format(round(TABLE, digit), nsmall = digit), Beta=BETA,
-                hedge_ratio = HR, portfolio_return = portfolio_return, 
+                portfolio_return = portfolio_return, 
                 cumulative_portfolio_return = cumulative_portfolio_return)
 }
