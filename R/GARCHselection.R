@@ -18,7 +18,7 @@
 #' @author David Gabauer
 #' @export
 GARCHselection = function(x, distributions=c("norm","snorm","std","sstd","ged","sged"), models=c("sGARCH","eGARCH","gjrGARCH","iGARCH","TGARCH","AVGARCH","NGARCH","NAGARCH","APARCH","ALLGARCH"), prob=0.05, conf.level=0.90, lag=20, ar=0, ma=0) {
-  message("A dynamic version of the optimal univariate GARCH selection procedure is implemented according to:\n Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.")
+  message("The optimal univariate GARCH selection procedure is implemented according to:\n Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics, 26(1), 1375-1408.")
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }

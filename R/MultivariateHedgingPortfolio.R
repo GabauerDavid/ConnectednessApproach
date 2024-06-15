@@ -1,6 +1,6 @@
 
 #' @title Multivariate Hedging Portfolio
-#' @description This function calculates the hedge ratios of Kroner and Sultan (1993)
+#' @description This function calculates the multivariate hedging portfolio of Cocca et al. (2024)
 #' @param x zoo return matrix (in percentage)
 #' @param H Residual variance-covariance, correlation or pairwise connectedness matrix
 #' @param method Cumulative sum or cumulative product
@@ -16,8 +16,14 @@
 #' @examples
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
-#' hr = MultivariateHedgingPortfolio(g2020/100, fit$Q)
-#' hr$TABLE
+#' mhp = MultivariateHedgingPortfolio(g2020/100, fit$Q)
+#' mhp$TABLE
+#' @references
+#' Cocca, T., Gabauer, D., & Pomberger, S. (2024). Clean energy market connectedness and investment strategies: New evidence from DCC-GARCH R2 decomposed connectedness measures. Energy Economics.
+#' 
+#' Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.
+#' 
+#' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.
 #' @author David Gabauer
 #' @export
 MultivariateHedgingPortfolio = function (x, H, method = c("cumsum", "cumprod"), statistics = c("Fisher", "Bartlett", "Fligner-Killeen", "Levene", "Brown-Forsythe"), metric="StdDev", digit = 2) {
@@ -67,8 +73,25 @@ MultivariateHedgingPortfolio = function (x, H, method = c("cumsum", "cumprod"), 
     ret[i,] = Return.annualized(z)
     risk[i,] = StdDev.annualized(z)
     df = rbind(data.frame(val = x[,i], group = "A"), data.frame(val = portfolio_return[,i], group = "B"))
-    pvalue[i,] = VarianceTest(val ~ as.character(group), data = df, method = statistics)$p.value
-
+    if (statistics == "Fisher") {
+      pvalue[i,] = VarianceTest(val ~ as.character(group), 
+                                data = df, method = "Fisher")$p.value
+    } else if (statistics == "Bartlett") {
+      pvalue[i,] = VarianceTest(val ~ as.character(group), 
+                                data = df, method = "Bartlett")$p.value
+    } else if (statistics == "Fligner-Killeen") {
+      pvalue[i,] = VarianceTest(val ~ as.character(group), 
+                                data = df, method = "Fligner-Killeen")$p.value
+    } else if (statistics == "Levene") {
+      pvalue[i,] = VarianceTest(val ~ as.character(group), 
+                                data = df, method = "Levene")$p.value
+    } else if (statistics == "Brown-Forsythe") {
+      pvalue[i,] = VarianceTest(val ~ as.character(group), 
+                                data = df, method = "Brown-Forsythe")$p.value
+    } else {
+      stop("No valid hedging effectiveness statistics have been chosen.")
+    }
+    
     if (method == "cumsum") {
       cumulative_portfolio_return[,i] = cumsum(portfolio_return[,i])
     } else if (method == "cumprod") {
@@ -79,6 +102,6 @@ MultivariateHedgingPortfolio = function (x, H, method = c("cumsum", "cumprod"), 
   colnames(TABLE) = c("Mean", "Std.Dev.", "5%", "95%", "HE", 
                       "p-value", "Return", "Risk","SR")
   return = list(TABLE = format(round(TABLE, digit), nsmall = digit), Beta=BETA,
-                portfolio_return = portfolio_return, 
+                hedge_ratio = HR, portfolio_return = portfolio_return, 
                 cumulative_portfolio_return = cumulative_portfolio_return)
 }
