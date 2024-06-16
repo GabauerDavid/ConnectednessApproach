@@ -24,8 +24,10 @@ Estimate QVAR model
 Estimation of a QVAR using equation-by-equation quantile regressions.
 }
 \examples{
-#data(dy2012)
-#fit = QVAR(dy2012, configuration=list(nlag=1, tau=0.5))
+\donttest{
+data("dy2012")
+fit = QVAR(dy2012, configuration=list(nlag=1, tau=0.5))
+}
 }
 \references{
 White, H., Kim, T. H., & Manganelli, S. (2015). VAR for VaR: Measuring tail dependence using multivariate regression quantiles. Journal of Econometrics, 187(1), 169-188.

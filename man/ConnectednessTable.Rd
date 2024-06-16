@@ -19,7 +19,7 @@ This function provides standard connectedness table.
 }
 \examples{
 \donttest{
-data(dy2012)
+data("dy2012")
 fit = VAR(dy2012, configuration=list(nlag=1))
 fevd = FEVD(Phi=fit$B, Sigma=fit$Q, nfore=10, type="time", generalized=TRUE)$FEVD
 dca = ConnectednessTable(fevd)

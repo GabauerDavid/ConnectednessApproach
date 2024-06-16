@@ -33,10 +33,8 @@ dca = ConnectednessApproach(gg2018,
                             nlag=1, 
                             nfore=10, 
                             window.size=200,
-                            model="TVP-VAR",
-                            connectedness="Time",
-                            VAR_config=list(TVPVAR=list(kappa1=0.99, kappa2=0.99, 
-                            prior="BayesPrior")))
+                            model="VAR",
+                            connectedness="Time")
 int = InternalConnectedness(dca, groups=list("US"=c(1,2,3,4), "JP"=c(5,6,7,8)))
 }
 }

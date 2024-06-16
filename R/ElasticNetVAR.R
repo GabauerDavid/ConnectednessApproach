@@ -11,7 +11,7 @@
 #' @return Estimate VAR model
 #' @examples
 #' \donttest{
-#' data(dy2012)
+#' data("dy2012")
 #' fit = ElasticNetVAR(dy2012, configuration=list(nlag=1, alpha=1, nfolds=10, loss="mae"))
 #' }
 #' @import glmnet

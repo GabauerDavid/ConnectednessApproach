@@ -20,8 +20,10 @@ Get Bayes Prior
 Get Bayes prior
 }
 \examples{
-data(dy2012)
+\donttest{
+data("dy2012")
 prior = BayesPrior(dy2012, nlag=1)
+}
 }
 \references{
 Primiceri, G. E. (2005). Time varying structural vector autoregressions and monetary policy. The Review of Economic Studies, 72(3), 821-852.

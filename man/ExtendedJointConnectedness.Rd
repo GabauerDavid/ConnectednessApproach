@@ -23,9 +23,8 @@ This function provides extended joint connectedness measures.
 \donttest{
 #Replication of Balcilar et al. (2021)
 data("bgu2021")
-prior = MinnesotaPrior(0.1, k=ncol(bgu2021), nlag=1)
-fit = TVPVAR(bgu2021, configuration=list(l=c(0.99,0.99), nlag=1, prior=prior))
-dca = ExtendedJointConnectedness(Phi=fit$B_t, Sigma=fit$Q_t, nfore=20)
+fit = VAR(bgu2021, configuration=list(nlag=1))
+dca = ExtendedJointConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=20)
 dca$TABLE
 }
 }

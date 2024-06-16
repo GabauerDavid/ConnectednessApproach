@@ -20,7 +20,7 @@ Estimate LAD VAR model
 Estimation of a LAD VAR using equation-by-equation LAD regressions.
 }
 \examples{
-data(dy2012)
+data("dy2012")
 fit = LADVAR(dy2012, configuration=list(nlag=1))
 }
 \author{

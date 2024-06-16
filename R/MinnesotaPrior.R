@@ -6,7 +6,9 @@
 #' @param nlag Lag length
 #' @return Get Minnesota Prior
 #' @examples
+#' \donttest{
 #' prior = MinnesotaPrior(0.1, k=4, nlag=1)
+#' }
 #' @references Koop, G., & Korobilis, D. (2010). Bayesian multivariate time series methods for empirical macroeconomics. Now Publishers Inc.
 #' @author David Gabauer
 #' @export

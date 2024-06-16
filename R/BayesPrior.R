@@ -6,8 +6,10 @@
 #' @param size Sample size used to calculate prior parameters
 #' @return Get Bayes Prior
 #' @examples
-#' data(dy2012)
+#' \donttest{
+#' data("dy2012")
 #' prior = BayesPrior(dy2012, nlag=1)
+#' }
 #' @importFrom methods is
 #' @references Primiceri, G. E. (2005). Time varying structural vector autoregressions and monetary policy. The Review of Economic Studies, 72(3), 821-852.
 #' @author David Gabauer

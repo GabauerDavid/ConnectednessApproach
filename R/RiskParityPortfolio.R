@@ -10,10 +10,12 @@
 #' @param digit Number of decimal places
 #' @return Get portfolio weights
 #' @examples
+#' \donttest{
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
 #' mcp = RiskParityPortfolio(g2020/100, fit$Q, statistics="Fisher")
 #' mcp$TABLE
+#' }
 #' @importFrom riskParityPortfolio riskParityPortfolio
 #' @importFrom zoo index
 #' @references

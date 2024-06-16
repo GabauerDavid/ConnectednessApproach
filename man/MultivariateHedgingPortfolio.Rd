@@ -33,10 +33,12 @@ Get hedge ratios
 This function calculates the multivariate hedging portfolio of Cocca et al. (2024)
 }
 \examples{
+\donttest{
 data("g2020")
 fit = VAR(g2020, configuration=list(nlag=1))
 mhp = MultivariateHedgingPortfolio(g2020/100, fit$Q)
 mhp$TABLE
+}
 }
 \references{
 Cocca, T., Gabauer, D., & Pomberger, S. (2024). Clean energy market connectedness and investment strategies: New evidence from DCC-GARCH R2 decomposed connectedness measures. Energy Economics.

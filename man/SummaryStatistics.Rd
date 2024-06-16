@@ -30,8 +30,10 @@ Get summary statistics
 Get comprehensive summary statistics
 }
 \examples{
+\donttest{
 data(dy2012)
 SummaryStatistics(dy2012)
+}
 }
 \author{
 David Gabauer

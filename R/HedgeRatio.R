@@ -14,10 +14,12 @@
 #' @importFrom PerformanceAnalytics Return.annualized
 #' @importFrom PerformanceAnalytics StdDev.annualized
 #' @examples
+#' \donttest{
 #' data("g2020")
 #' fit = VAR(g2020, configuration=list(nlag=1))
 #' hr = HedgeRatio(g2020/100, fit$Q)
 #' hr$TABLE
+#' }
 #' @references
 #' Kroner, K. F., & Sultan, J. (1993). Time-varying distributions and dynamic hedging with foreign currency futures. Journal of Financial and Quantitative Analysis, 28(4), 535-551.
 #' 

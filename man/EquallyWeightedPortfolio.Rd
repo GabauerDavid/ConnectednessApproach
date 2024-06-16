@@ -30,9 +30,11 @@ Get portfolio weights
 This function calculates the equality weighted portfolio
 }
 \examples{
+\donttest{
 data("g2020")
 mcp = EquallyWeightedPortfolio(g2020/100, statistics="Fisher")
 mcp$TABLE
+}
 }
 \references{
 Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.

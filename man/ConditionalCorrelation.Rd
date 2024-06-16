@@ -16,9 +16,11 @@ Get partial conditional correlations
 Compute partial conditional correlations
 }
 \examples{
-data(dy2012)
+\donttest{
+data("dy2012")
 fit = VAR(dy2012, configuration=list(nlag=1))
 pcc = ConditionalCorrelation(fit$Q)
+}
 }
 \author{
 David Gabauer

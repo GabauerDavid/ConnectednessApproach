@@ -22,9 +22,11 @@ Orthorgonal/generalized time/frequency impulse response functions
 This function calculates orthorgonalized/generalized impulse response functions of time or frequency domain.
 }
 \examples{
-data(dy2012)
+\donttest{
+data("dy2012")
 fit = VAR(dy2012, configuration=list(nlag=1))
 irf = IRF(Phi=fit$B, Sigma=fit$Q, nfore=10, orth=TRUE)
+}
 }
 \references{
 Stiassny, A. (1996). A spectral decomposition for structural VAR models. Empirical Economics, 21(4), 535-555.

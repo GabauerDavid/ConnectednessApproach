@@ -9,7 +9,7 @@
 #' @return Estimate TVP-VAR model
 #' @examples
 #' \donttest{
-#' data(dy2012)
+#' data("dy2012")
 #' prior = BayesPrior(dy2012, nlag=1)
 #' fit = TVPVAR(dy2012, configuration=list(nlag=1, prior=prior, l=c(0.99,0.99)))
 #' }

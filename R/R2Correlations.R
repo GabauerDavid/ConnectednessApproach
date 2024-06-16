@@ -3,12 +3,6 @@
 #' @description This function computes the R2 decomposed connectedness measures from correlations
 #' @param R zoo correlation data matrix
 #' @return Get R2 connectedness measures from correlation matrix
-#' @examples
-#' \donttest{
-#' data("dy2012")
-#' dca = R2Correlations(cor(dy2012))
-#' dca$TABLE
-#' }
 #' @import progress
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @references

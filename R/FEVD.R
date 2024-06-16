@@ -9,7 +9,7 @@
 #' @param generalized Generalized or orthogonalized FEVD
 #' @return Orthogonalized/generalized time/frequency forecast error variance decomposition
 #' @examples
-#' data(dy2012)
+#' data("dy2012")
 #' fit = VAR(dy2012, configuration=list(nlag=1))
 #' fevd = FEVD(Phi=fit$B, Sigma=fit$Q, nfore=10, type="time", generalized=TRUE)$FEVD
 #' @references

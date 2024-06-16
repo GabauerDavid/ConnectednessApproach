@@ -7,8 +7,10 @@
 #' @param digit digit Number of decimal places
 #' @return Get summary statistics
 #' @examples
+#' \donttest{
 #' data(dy2012)
 #' SummaryStatistics(dy2012)
+#' }
 #' @author David Gabauer
 #' @importFrom stats var
 #' @importFrom stats t.test

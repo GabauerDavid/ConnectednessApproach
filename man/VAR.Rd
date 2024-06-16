@@ -20,7 +20,7 @@ Estimate VAR model
 Estimation of a VAR using equation-by-equation OLS regressions.
 }
 \examples{
-data(dy2012)
+data("dy2012")
 fit = VAR(dy2012, configuration=list(nlag=1))
 }
 \references{

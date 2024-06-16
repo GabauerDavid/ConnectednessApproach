@@ -10,13 +10,11 @@
 #' \donttest{
 #' data("cegg2022")
 #' dca = ConnectednessApproach(cegg2022,
-#'                             model="TVP-VAR",
+#'                             model="VAR",
 #'                             connectedness="Time",
 #'                             nlag=1,
 #'                             nfore=20,
-#'                             corrected=TRUE,
-#'                             VAR_config=list(TVPVAR=list(kappa1=0.99, 
-#'                             kappa2=0.99, prior="BayesPrior")))
+#'                             corrected=TRUE)
 #' inc = InclusiveConnectedness(dca, group=c(1,2,3))
 #' }
 #' @author David Gabauer

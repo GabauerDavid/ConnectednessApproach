@@ -13,11 +13,9 @@
 #' dca = ConnectednessApproach(cegg2022,
 #'                             nlag=1,
 #'                             nfore=20,
-#'                             model="TVP-VAR",
+#'                             model="VAR",
 #'                             connectedness="Time",
-#'                             corrected=TRUE,
-#'                             VAR_config=list(TVPVAR=list(kappa1=0.99, 
-#'                             kappa2=0.99, prior="BayesPrior")))
+#'                             corrected=TRUE)
 #' exc = ExclusiveConnectedness(dca, group=c(1,2,3))
 #' }
 #' @author David Gabauer

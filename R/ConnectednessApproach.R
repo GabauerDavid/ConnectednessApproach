@@ -17,7 +17,7 @@
 #' dca = ConnectednessApproach(acg2020, 
 #'                             nlag=1, 
 #'                             nfore=12,
-#'                             model="TVP-VAR",
+#'                             model="VAR",
 #'                             connectedness="Time",
 #'                             VAR_config=list(TVPVAR=list(kappa1=0.99, kappa2=0.96,
 #'                                             prior="MinnesotaPrior", gamma=0.1)))

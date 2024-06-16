@@ -6,7 +6,7 @@
 #' @param configuration model configuration
 #' @return Estimate VAR model
 #' @examples
-#' data(dy2012)
+#' data("dy2012")
 #' fit = VAR(dy2012, configuration=list(nlag=1))
 #' @references Sims, C. A. (1980). Macroeconomics and reality. Econometrica, 1-48.
 #' @author David Gabauer

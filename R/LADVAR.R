@@ -6,7 +6,7 @@
 #' @param configuration model configuration
 #' @return Estimate LAD VAR model
 #' @examples
-#' data(dy2012)
+#' data("dy2012")
 #' fit = LADVAR(dy2012, configuration=list(nlag=1))
 #' @author David Gabauer
 #' @importFrom L1pack lad

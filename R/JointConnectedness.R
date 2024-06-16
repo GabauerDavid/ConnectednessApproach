@@ -7,7 +7,7 @@
 #' @return Get connectedness measures
 #' @examples
 #' \donttest{
-#' data(lw2021)
+#' data("lw2021")
 #' fit = VAR(lw2021, configuration=list(nlag=2))
 #' dca = JointConnectedness(Phi=fit$B, Sigma=fit$Q, nfore=30)
 #' dca$TABLE

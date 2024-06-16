@@ -18,9 +18,11 @@ Get VMA coefficients
 Transform VAR to VMA coefficients
 }
 \examples{
-data(dy2012)
+\donttest{
+data("dy2012")
 fit = VAR(dy2012, configuration=list(nlag=1))
 wold = Wold(fit$B, nfore=10)
+}
 }
 \author{
 David Gabauer

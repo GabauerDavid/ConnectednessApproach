@@ -15,13 +15,6 @@ Get R2 connectedness measures from correlation matrix
 \description{
 This function computes the R2 decomposed connectedness measures from correlations
 }
-\examples{
-\donttest{
-data("dy2012")
-dca = R2Correlations(cor(dy2012))
-dca$TABLE
-}
-}
 \references{
 Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.
 
