@@ -8,6 +8,7 @@
 #' @param transformation "parametric", "empirical" or "spd" (see, rmgarch package)
 #' @param time.varying Boolean value to either choose DCC-GARCH or CCC-GARCH
 #' @param asymmetric Whether to include an asymmetry term to the DCC model (thus estimating the aDCC).
+#' @param eval.se Boolean value to compute standard errors
 #' @return Estimate Bivariate DCC-GARCH
 #' @importFrom rmgarch cgarchspec
 #' @importFrom rmgarch cgarchfit
@@ -21,7 +22,7 @@
 #' @author David Gabauer
 #' @export
 BivariateDCCGARCH = function (x, spec, copula = "mvt", method = "Kendall", transformation = "parametric", 
-                              time.varying = TRUE, asymmetric = FALSE) {
+                              time.varying = TRUE, asymmetric = FALSE, eval.se = FALSE) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
@@ -42,7 +43,8 @@ BivariateDCCGARCH = function (x, spec, copula = "mvt", method = "Kendall", trans
                                                                     transformation = transformation))
         copula_fit = rmgarch::cgarchfit(mgarch.spec, 
                                         data = x[, c(i, j)], solver = c("hybrid", "solnp"), 
-                                        fit.control = list(eval.se = FALSE))
+                                        fit.control = list(eval.se = eval.se))
+        print(copula_fit)
         r = rcor(copula_fit)
         h = rcov(copula_fit)
         R_t[c(i, j), c(i, j), ] = r

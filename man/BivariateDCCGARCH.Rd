@@ -11,7 +11,8 @@ BivariateDCCGARCH(
   method = "Kendall",
   transformation = "parametric",
   time.varying = TRUE,
-  asymmetric = FALSE
+  asymmetric = FALSE,
+  eval.se = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ BivariateDCCGARCH(
 \item{time.varying}{Boolean value to either choose DCC-GARCH or CCC-GARCH}
 
 \item{asymmetric}{Whether to include an asymmetry term to the DCC model (thus estimating the aDCC).}
+
+\item{eval.se}{Boolean value to compute standard errors}
 }
 \value{
 Estimate Bivariate DCC-GARCH
