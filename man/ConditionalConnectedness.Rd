@@ -35,7 +35,7 @@ cc = ConditionalConnectedness(dca, group=c(1,4,7,10,13,16))
 }
 }
 \references{
-Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.
+Stenfors, A., Chatziantoniou, I., & Gabauer, D. (2022). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves. Journal of International Financial Markets, Institutions and Money.
 }
 \author{
 David Gabauer

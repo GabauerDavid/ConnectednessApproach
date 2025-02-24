@@ -17,10 +17,10 @@
 #'                             corrected=TRUE)
 #' inc = InclusiveConnectedness(dca, group=c(1,2,3))
 #' }
+#' @references Chatziantoniou, I., Elsayed, A. H., Gabauer, D., & Gozgor, G. (2023). Oil price shocks and exchange rate dynamics: Evidence from decomposed and partial connectedness measures for oil importing and exporting economies. Energy Economics, 120, 106627.
 #' @author David Gabauer
 #' @export
-InclusiveConnectedness = function (dca, group = c(1, 2), start = NULL, end = NULL) 
-{
+InclusiveConnectedness = function (dca, group = c(1, 2), start = NULL, end = NULL) {
   corrected = dca$config$corrected
   if (is.null(start)) {
     start = 1
@@ -32,7 +32,7 @@ InclusiveConnectedness = function (dca, group = c(1, 2), start = NULL, end = NUL
     stop(paste("Partial connectedness measures are not implemented for", 
                dca$config$approach, "connectedness"))
   }else if (dca$config$approach == "Frequency") {
-    ct = dca$CT[, , start:end, ]
+    ct = dca$CT[,,start:end,drop=FALSE]
     NAMES = dimnames(ct)[[1]]
     date = as.character(dimnames(ct)[[3]])
     k = dim(ct)[1]
@@ -101,7 +101,7 @@ InclusiveConnectedness = function (dca, group = c(1, 2), start = NULL, end = NUL
     }
   }else {
     approach = dca$config$approach == "Extended Joint"
-    ct = dca$CT[, , start:end]
+    ct = dca$CT[,,start:end,drop=FALSE]
     NAMES = dimnames(ct)[[1]]
     date = dimnames(ct)[[3]]
     k = dim(ct)[1]

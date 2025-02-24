@@ -21,7 +21,7 @@
 #' Baruník, J., & Křehlík, T. (2018). Measuring the frequency dynamics of financial connectedness and systemic risk. Journal of Financial Econometrics, 16(2), 271-296.
 #' @author David Gabauer
 #' @export
-FrequencyConnectedness = function(Phi, Sigma, nfore=100, partition=c(pi,pi/2,0), generalized=TRUE, orth=FALSE, scenario="ABS", corrected=FALSE) {
+FrequencyConnectedness = function(Phi, Sigma, nfore=100, partition=c(pi,pi/2,0), generalized=TRUE, orth=FALSE, scenario="ABS", corrected=FALSE) {  
   if (nfore<=0) {
     stop("nfore needs to be a positive integer")
   }

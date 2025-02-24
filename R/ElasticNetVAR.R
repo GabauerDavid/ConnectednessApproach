@@ -23,9 +23,7 @@
 #' 
 #' Zou, H., & Hastie, T. (2005). Regularization and variable selection via the elastic net. Journal of the royal statistical society: series B (statistical methodology), 67(2), 301-320.
 #' 
-#' Demirer, M., Diebold, F. X., Liu, L., & Yilmaz, K. (2018). Estimating global bank network connectedness. Journal of Applied Econometrics, 33(1), 1-15.
-#' 
-#' Gabauer, D., Gupta, R., Marfatia, H., & Miller, S. M. (2020). Estimating US Housing Price Network Connectedness: Evidence from Dynamic Elastic Net, Lasso, and Ridge Vector Autoregressive Models. Lasso, and Ridge Vector Autoregressive Models (July 26, 2020).
+#' Gabauer, D., Gupta, R., Marfatia, H. A., & Miller, S. M. (2024). Estimating US housing price network connectedness: Evidence from dynamic Elastic Net, Lasso, and ridge vector autoregressive models. International Review of Economics & Finance, 89, 349-362.
 #' @author David Gabauer
 #' @importFrom glmnet cv.glmnet
 #' @importFrom glmnet predict.glmnet

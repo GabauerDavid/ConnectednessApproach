@@ -33,6 +33,9 @@ dca = ConnectednessApproach(cegg2022,
 inc = InclusiveConnectedness(dca, group=c(1,2,3))
 }
 }
+\references{
+Chatziantoniou, I., Elsayed, A. H., Gabauer, D., & Gozgor, G. (2023). Oil price shocks and exchange rate dynamics: Evidence from decomposed and partial connectedness measures for oil importing and exporting economies. Energy Economics, 120, 106627.
+}
 \author{
 David Gabauer
 }

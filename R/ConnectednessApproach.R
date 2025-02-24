@@ -30,33 +30,58 @@
 #' @importFrom rmgarch dccspec
 #' @importFrom rmgarch dccfit
 #' @references
-#' Diebold, F. X., & Yilmaz, K. (2009). Measuring financial asset return and volatility spillovers, with application to global equity markets. The Economic Journal, 119(534), 158-171.
+#' Adekoya, O. B., Akinseye, A. B., Antonakakis, N., Chatziantoniou, I., Gabauer, D., & Oliyide, J. (2022). Crude oil and Islamic sectoral stocks: Asymmetric TVP-VAR connectedness and investment strategies. Resources Policy.
 #' 
-#' Diebold, F. X., & Yilmaz, K. (2012). Better to give than to receive: Predictive directional measurement of volatility spillovers. International Journal of Forecasting, 28(1), 57-66.
+#' Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2020). Refined measures of dynamic connectedness based on time-varying parameter vector autoregressions. Journal of Risk and Financial Management.
 #' 
-#' Barunik, J., & Krehlik, T. (2018). Measuring the frequency dynamics of financial connectedness and systemic risk. Journal of Financial Econometrics, 16(2), 271-296.
+#' Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics.
 #' 
-#' Gabauer, D. (2020). Volatility impulse response analysis for DCC-GARCH models: The role of volatility transmission mechanisms. Journal of Forecasting, 39(5), 788-796.
+#' Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2021). The impact of Euro through time: Exchange rate dynamics under different regimes. International Journal of Finance & Economics.
 #' 
-#' Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2020). Refined measures of dynamic connectedness based on time-varying parameter vector autoregressions. Journal of Risk and Financial Management, 13(4), 84.
+#' Balcilar, M., Gabauer, D., & Umar, Z. (2021). Crude Oil futures contracts and commodity markets: New evidence from a TVP-VAR extended joint connectedness approach. Resources Policy.
 #' 
-#' Lastrapes, W. D., & Wiesen, T. F. (2021). The joint spillover index. Economic Modelling, 94, 681-691.
+#' Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters.
 #' 
-#' Balcilar, M., Gabauer, D., & Umar, Z. (2021). Crude Oil futures contracts and commodity markets: New evidence from a TVP-VAR extended joint connectedness approach. Resources Policy, 73, 102219.
+#' Barunik, J., & Krehlik, T. (2018). Measuring the frequency dynamics of financial connectedness and systemic risk. Journal of Financial Econometrics.
 #' 
-#' Chatziantoniou, I., & Gabauer, D. (2021). EMU risk-synchronisation and financial fragility through the prism of dynamic connectedness. The Quarterly Review of Economics and Finance, 79, 1-14.
+#' Broadstock, D. C., Chatziantoniou, I., & Gabauer, D. (2022). Minimum connectedness portfolios and the market for green bonds: Advocating socially responsible investment (SRI) activity. In Applications in energy finance: The energy sector, economic activity, financial markets and the environment. Cham: Springer International Publishing.
 #' 
-#' Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Interest rate swaps and the transmission mechanism of monetary policy: A quantile connectedness approach. Economics Letters, 204, 109891.
+#' Chatziantoniou, I., & Gabauer, D. (2021). EMU risk-synchronisation and financial fragility through the prism of dynamic connectedness. The Quarterly Review of Economics and Finance.
 #' 
-#' Gabauer, D. (2021). Dynamic measures of asymmetric & pairwise connectedness within an optimal currency area: Evidence from the ERM I system. Journal of Multinational Financial Management, 60, 100680.
+#' Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Interest rate swaps and the transmission mechanism of monetary policy: A quantile connectedness approach. Economics Letters.
 #' 
-#' Gabauer, D., Gupta, R., Marfatia, H., & Miller, S. (2020). Estimating US Housing Price Network Connectedness: Evidence from Dynamic Elastic Net, Lasso, and Ridge Vector Autoregressive Models (No. 202065). University of Pretoria, Department of Economics.
-#' 
-#' Chatziantoniou, I., Gabauer, D., & Gupta, R. (2021). Integration and Risk Transmission in the Market for Crude Oil: A Time-Varying Parameter Frequency Connectedness Approach (No. 202147).
+#' Chatziantoniou, I., Gabauer, D., & Gupta, R. (2023). Integration and risk transmission in the market for crude oil: New evidence from a time-varying parameter frequency connectedness approach. Resources Policy.
 #' 
 #' Chatziantoniou, I., Aikins Abakah, E. J., Gabauer, D., & Tiwari, A. K. (2022). Quantile time-frequency price connectedness between green bond, green equity, sustainable investments and clean energy markets. Journal of Cleaner Production.
 #' 
-#' Cunado, J, Chatziantoniou, I., Gabauer, D., Hardik, M., & de Garcia, F.P. (2022). Dynamic spillovers across precious metals and energy realized volatilities: Evidence from quantile extended joint connectedness measures.
+#' Chatziantoniou, I., Elsayed, A. H., Gabauer, D., & Gozgor, G. (2023). Oil price shocks and exchange rate dynamics: Evidence from decomposed and partial connectedness measures for oil importing and exporting economies. Energy Economics.
+#' 
+#' Cocca, T., Gabauer, D., & Pomberger, S. (2024). Clean energy market connectedness and investment strategies: New evidence from DCC-GARCH R2 decomposed connectedness measures. Energy Economics.
+#' 
+#' Cunado, J., Chatziantoniou, I., Gabauer, D., de Gracia, F. P., & Hardik, M. (2023). Dynamic spillovers across precious metals and oil realized volatilities: Evidence from quantile extended joint connectedness measures. Journal of Commodity Markets.
+#' 
+#' Diebold, F. X., & Yilmaz, K. (2009). Measuring financial asset return and volatility spillovers, with application to global equity markets. The Economic Journal.
+#' 
+#' Diebold, F. X., & Yilmaz, K. (2012). Better to give than to receive: Predictive directional measurement of volatility spillovers. International Journal of Forecasting.
+#' 
+#' Gabauer, D. (2020). Volatility impulse response analysis for DCC-GARCH models: The role of volatility transmission mechanisms. Journal of Forecasting.
+#' 
+#' Gabauer, D. (2021). Dynamic measures of asymmetric & pairwise connectedness within an optimal currency area: Evidence from the ERM I system. Journal of Multinational Financial Management.
+#' 
+#' Gabauer, D., Chatziantoniou, I., & Stenfors, A. (2023). Model-free connectedness measures. Finance Research Letters.
+#' 
+#' Gabauer, D., Gupta, R., Marfatia, H. A., & Miller, S. M. (2024). Estimating US housing price network connectedness: Evidence from dynamic Elastic Net, Lasso, and ridge vector autoregressive models. International Review of Economics & Finance.
+#' 
+#' Gabauer, D., & Stenfors, A. (2024). Quantile-on-quantile connectedness measures: Evidence from the US treasury yield curve. Finance Research Letters, 60, 104852.
+#' 
+#' Lastrapes, W. D., & Wiesen, T. F. (2021). The joint spillover index. Economic Modelling, 94, 681-691.
+#' 
+#' Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2024). Measuring the G20 stock market return transmission mechanism: Evidence from the R2 connectedness approach. International Review of Financial Analysis.
+#' 
+#' Stenfors, A., Chatziantoniou, I., & Gabauer, D. (2022). Independent policy, dependent outcomes: A game of cross-country dominoes across European yield curves. Journal of International Financial Markets, Institutions and Money.
+#' 
+#' Zhang, Y., Gabauer, D., Gupta, R., & Ji, Q. (2024). How connected is the oil-bank network? Firm-level and high-frequency evidence. Energy Economics.
+#' 
 #' @author David Gabauer
 #' @export
 ConnectednessApproach = function(x,
@@ -186,21 +211,21 @@ ConnectednessApproach = function(x,
     generalized = Connectedness_config$TimeConnectedness$generalized
     if (model=="DCC-GARCH") {
       dca = TimeConnectedness(FEVD=fevd, corrected=corrected)
-      message("The DCC-GARCH connectedness approach is implemented according to:\n Gabauer, D. (2020). Volatility impulse response analysis for DCC-GARCH models: The role of volatility transmission mechanisms. Journal of Forecasting, 39(5), 788-796.")
+      message("The DCC-GARCH connectedness approach is implemented according to:\n Gabauer, D. (2020). Volatility impulse response analysis for DCC-GARCH models: The role of volatility transmission mechanisms. Journal of Forecasting.")
     } else {
       dca = TimeConnectedness(Phi=B_t, Sigma=Q_t, nfore=nfore,
                               generalized=generalized,
                               corrected=corrected)
       if (model=="VAR" && !generalized) {
-        message("The (orthogonalized) VAR connectedness approach is implemented according to:\n Diebold, F. X., & Yilmaz, K. (2009). Measuring financial asset return and volatility spillovers, with application to global equity markets. The Economic Journal, 119(534), 158-171.")
+        message("The (orthogonalized) VAR connectedness approach is implemented according to:\n Diebold, F. X., & Yilmaz, K. (2009). Measuring financial asset return and volatility spillovers, with application to global equity markets. The Economic Journal.")
       } else if (model=="VAR" && generalized) {
-        message("The (generalized) VAR connectedness approach is implemented according to:\n Diebold, F. X., & Yilmaz, K. (2012). Better to give than to receive: Predictive directional measurement of volatility spillovers. International Journal of Forecasting, 28(1), 57-66.")
+        message("The (generalized) VAR connectedness approach is implemented according to:\n Diebold, F. X., & Yilmaz, K. (2012). Better to give than to receive: Predictive directional measurement of volatility spillovers. International Journal of Forecasting.")
       } else if (model=="TVP-VAR") {
-        message("The TVP-VAR connectedness approach is implemented according to:\n Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2020). Refined measures of dynamic connectedness based on time-varying parameter vector autoregressions. Journal of Risk and Financial Management, 13(4), 84.")
+        message("The TVP-VAR connectedness approach is implemented according to:\n Antonakakis, N., Chatziantoniou, I., & Gabauer, D. (2020). Refined measures of dynamic connectedness based on time-varying parameter vector autoregressions. Journal of Risk and Financial Management.")
       } else if (model=="QVAR") {
-        message("The QVAR connectedness approach is implemented according to:\n Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Interest rate swaps and the transmission mechanism of monetary policy: A quantile connectedness approach. Economics Letters, 204, 109891.")
+        message("The QVAR connectedness approach is implemented according to:\n Chatziantoniou, I., Gabauer, D., & Stenfors, A. (2021). Interest rate swaps and the transmission mechanism of monetary policy: A quantile connectedness approach. Economics Letters.")
       } else if (model=="LASSO" || model=="Ridge" || model=="Elastic") {
-        message("The Elastic Net and its restricted models, namely, the LASSO and Ridge VAR connectedness approach are implemented according to:\n Gabauer, D., Gupta, R., Marfatia, H., & Miller, S. (2020). Estimating US Housing Price Network Connectedness: Evidence from Dynamic Elastic Net, Lasso, and Ridge Vector Autoregressive Models (No. 202065). University of Pretoria, Department of Economics.")
+        message("The Elastic Net and its restricted models, namely, the LASSO and Ridge VAR connectedness approach are implemented according to:\n Gabauer, D., Gupta, R., Marfatia, H. A., & Miller, S. M. (2024). Estimating US housing price network connectedness: Evidence from dynamic Elastic Net, Lasso, and ridge vector autoregressive models. International Review of Economics & Finance.")
       }
     }
   } else if (connectedness=="Frequency") {

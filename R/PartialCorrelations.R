@@ -13,7 +13,6 @@
 #' @author David Gabauer
 #' @export
 PartialCorrelations = function (Q) {
-  message("Partial correlations are computed according to:\n Dahlhaus, R., & Eichler, M. (2003). Causality and graphical models in time series analysis. Oxford Statistical Science Series, 115-137.")
   if (length(dim(Q))<=1) {
     stop("Q needs to be at least a 2-dimensional matrix")
   }

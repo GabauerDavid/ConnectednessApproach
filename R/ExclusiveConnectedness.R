@@ -6,7 +6,7 @@
 #' @param start Start index
 #' @param end End index 
 #' @return Get connectedness measures
-#' @examples
+#' @examples 
 #' \donttest{
 #' #Replication of Chatziantoniou, et al. (2022)
 #' data("cegg2022")
@@ -18,6 +18,7 @@
 #'                             corrected=TRUE)
 #' exc = ExclusiveConnectedness(dca, group=c(1,2,3))
 #' }
+#' @references Chatziantoniou, I., Elsayed, A. H., Gabauer, D., & Gozgor, G. (2023). Oil price shocks and exchange rate dynamics: Evidence from decomposed and partial connectedness measures for oil importing and exporting economies. Energy Economics, 120, 106627.
 #' @author David Gabauer
 #' @export
 ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
@@ -32,7 +33,7 @@ ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
   if (dca$config$approach=="Joint") {
     stop(paste("Partial connectedness measures are not implemented for",dca$config$approach, "connectedness"))
   } else if (dca$config$approach=="Frequency") {
-    ct = dca$CT[,,start:end,]
+    ct = dca$CT[,,start:end,drop=FALSE]
     NAMES = dimnames(ct)[[1]]
     date = as.character(dimnames(ct)[[3]])
     k = dim(ct)[1]
@@ -99,7 +100,7 @@ ExclusiveConnectedness = function(dca, group=c(1,2), start=NULL, end=NULL) {
     
   } else {
     approach = dca$config$approach=="Extended Joint"
-    ct = dca$CT[,,start:end]
+    ct = dca$CT[,,start:end, drop=FALSE]
     NAMES = dimnames(ct)[[1]]
     date = dimnames(ct)[[3]]
     k = dim(ct)[1]

@@ -27,7 +27,6 @@
 RiskParityPortfolio = function (x, H, method = c("cumsum", "cumprod"), 
                                 statistics = c("Fisher", "Bartlett", "Fligner-Killeen", 
                                                "Levene", "Brown-Forsythe"), long = TRUE, metric="StdDev", digit = 2) {
-  message("Risk parity portfolios have been introduced by E.Qian (2005), Risk Parity Portfolios, research paper, PanAgora.\n\n          Hedging effectiveness is calculated according to:\n Ederington, L. H. (1979). The hedging performance of the new futures markets. The Journal of Finance, 34(1), 157-170.\n\n          Statistics of the hedging effectiveness measure are implemented according to:\n Antonakakis, N., Cunado, J., Filis, G., Gabauer, D., & de Gracia, F. P. (2020). Oil and asset classes implied volatilities: Investment strategies and hedging effectiveness. Energy Economics, 91, 104762.")
   method = match.arg(method)
   statistics = match.arg(statistics)
   if (!is(x, "zoo")) {

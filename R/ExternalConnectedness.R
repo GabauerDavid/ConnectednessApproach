@@ -18,7 +18,6 @@
 #' @author David Gabauer
 #' @export
 ExternalConnectedness = function(dca, groups=list(c(1), c(2:ncol(dca$NET))), start=NULL, end=NULL) {
-  message("The decomposed connectedness measures are implemented according to:\n Gabauer, D., & Gupta, R. (2018). On the transmission mechanism of country-specific and international economic uncertainty spillovers: Evidence from a TVP-VAR connectedness decomposition approach. Economics Letters, 171, 63-71.")
   corrected = dca$config$corrected
   if (is.null(start)) {
     start = 1

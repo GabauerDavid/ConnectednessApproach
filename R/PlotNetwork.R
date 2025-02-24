@@ -11,7 +11,7 @@
 #' @return Return connectedness plot
 #' @export
 #' @import igraph
-PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshold=0.25, width=10, height=10, ...) {
+PlotNetwork = function(dca, method="NPDC", path=NULL, name_length=NULL, threshold=0.00, width=10, height=10, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)

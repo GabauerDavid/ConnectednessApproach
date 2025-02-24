@@ -11,7 +11,6 @@
 #' @return Return connectedness plot
 #' @export
 PlotINF = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, width=10, height=7, ...) {
-  message("The influence connectedness index is implemented according to:\n Gabauer, D. (2021). Dynamic measures of asymmetric & pairwise connectedness within an optimal currency area: Evidence from the ERM I system. Journal of Multinational Financial Management, 60, 100680.")
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)

@@ -34,7 +34,7 @@ ac = AggregatedConnectedness(dca, groups=list("US"=c(1,2,3,4), "JP"=c(5,6,7,8)))
 }
 }
 \references{
-Chatziantoniou, I., Gabauer, D., & Stenfor, A. (2021). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves (No. 2021-06). University of Portsmouth, Portsmouth Business School, Economics and Finance Subject Group.
+Stenfors, A., Chatziantoniou, I., & Gabauer, D. (2022). Independent Policy, Dependent Outcomes: A Game of Cross-Country Dominoes across European Yield Curves. Journal of International Financial Markets, Institutions and Money.
 }
 \author{
 David Gabauer

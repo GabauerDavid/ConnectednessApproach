@@ -9,7 +9,7 @@ PlotNetwork(
   method = "NPDC",
   path = NULL,
   name_length = NULL,
-  threshold = 0.25,
+  threshold = 0,
   width = 10,
   height = 10,
   ...
