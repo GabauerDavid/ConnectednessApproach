@@ -50,7 +50,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
       R = cor(Z[j:(j+window.size-1),], method=method)
       if (method=="kendall") {
         R = sin(0.5*pi*R)
-      } else if (method=='spearman')
+      } else if (method=='spearman') {
         R = 2*sin(pi/6*R)
       }
       ryx = R[-i,i,drop=F]
