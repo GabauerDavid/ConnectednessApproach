@@ -47,12 +47,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
   for (j in 1:t0) {
     setTxtProgressBar(pb, j)
     for (i in 1:k) {
-      R = cor(Z[j:(j+window.size-1),], method=method)
-      if (method=="kendall") {
-        R = sin(0.5*pi*R)
-      } else if (method=='spearman') {
-        R = 2*sin(pi/6*R)
-      }
+      R = RobustCovariance(Z[j:(j+window.size-1),], method=method)$R
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
       

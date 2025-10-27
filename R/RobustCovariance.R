@@ -18,27 +18,28 @@ RobustCovariance = function(x, method="pearson") {
   
   x = as.matrix(x)
   if ("mcd" %in% method) {
-    V = rrcov::CovMcd(x)@cov
+    Q = rrcov::CovMcd(x)@cov
   } else if ("mve" %in% method) {
-    V = rrcov::CovMve(x)@cov
+    Q = rrcov::CovMve(x)@cov
   } else if ("ogk" %in% method) {
-    V = rrcov::CovOgk(x)@cov
+    Q = rrcov::CovOgk(x)@cov
   } else if ("sscm" %in% method) {
-    V = rrcov::CovSest(x)@cov
+    Q = rrcov::CovSest(x)@cov
   } else if ("sde" %in% method) {
-    V = rrcov::CovSde(x)@cov
+    Q = rrcov::CovSde(x)@cov
   } else {
-    V = cov(x)
+    Q = cov(x)
   }
+  R = ConditionalCorrelation(Q)[,,1]
   
   if (length(method)>1 || method %in% c("spearman", "kendall")) {
     if ("spearman" %in% method) {
-      R = stats::cor(x, method="spearman")
-      V = S %*% R %*% S
+      R = 2*sin(pi/6*stats::cor(x, method="spearman"))
+      Q = S %*% R %*% S
     } else if ("kendall" %in% method) {
       R = sin(pi/2*stats::cor(x, method="kendall"))
-      V = S %*% R %*% S
+      Q = S %*% R %*% S
     }
   }
-  V
+  return(list(Q=Q, R=R))
 }

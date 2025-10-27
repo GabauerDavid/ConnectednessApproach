@@ -31,8 +31,8 @@ VAR = function (x, configuration = list(nlag=1, method="pearson")) {
   for (i in 1:k) {
     z = stats::embed(x, nlag + 1)
     Z = cbind(z[, -c(1:k)])
-    XX = RobustCovariance(Z, method=configuration$method)*nrow(Z)
-    yX = matrix(RobustCovariance(cbind(z[,i], Z), method=configuration$method)[1,-1], ncol=1)*nrow(Z)
+    XX = RobustCovariance(Z, method=configuration$method)$Q*nrow(Z)
+    yX = matrix(RobustCovariance(cbind(z[,i], Z), method=configuration$method)$Q[1,-1], ncol=1)*nrow(Z)
     XXinv = solve(XX)
     beta = XXinv %*% yX
     resid = (z[,i] - mean(z[,i])) - c(Z%*%beta)
