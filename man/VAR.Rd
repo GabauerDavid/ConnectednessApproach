@@ -4,7 +4,7 @@
 \alias{VAR}
 \title{Vector autoregression}
 \usage{
-VAR(x, configuration = list(nlag = 1))
+VAR(x, configuration = list(nlag = 1, method = "pearson"))
 }
 \arguments{
 \item{x}{zoo data matrix}
@@ -12,6 +12,8 @@ VAR(x, configuration = list(nlag = 1))
 \item{configuration}{model configuration}
 
 \item{nlag}{Lag length}
+
+\item{method}{OLS estimates are based on Pearson, Spearman or Kendall correlation.}
 }
 \value{
 Estimate VAR model

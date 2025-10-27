@@ -9,9 +9,9 @@ Description: The estimation of static and dynamic connectedness measures is crea
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Depends: R (>= 4.3)
-Imports: frequencyConnectedness, rmgarch, rugarch, igraph, utils, quantreg, MASS, progress, glmnet, xts, zoo, urca, moments, riskParityPortfolio, methods, PerformanceAnalytics, car, L1pack
+Imports: frequencyConnectedness, rmgarch, rugarch, igraph, utils, quantreg, MASS, progress, glmnet, xts, zoo, urca, moments, riskParityPortfolio, methods, PerformanceAnalytics, car, L1pack, rrcov
 Suggests: 
     rmarkdown,
     knitr

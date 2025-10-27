@@ -12,7 +12,8 @@ BivariateDCCGARCH(
   transformation = "parametric",
   time.varying = TRUE,
   asymmetric = FALSE,
-  eval.se = FALSE
+  eval.se = FALSE,
+  print = TRUE
 )
 }
 \arguments{
