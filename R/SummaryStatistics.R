@@ -104,11 +104,11 @@ SummaryStatistics = function(x, portmanteau=c("Ljung-Box", "Box-Pierce", "Monti"
   }
   
   for (j in 1:k) {
-    if (moments[i,j]<=-2.57) {
+    if (moments[11,j]<=ers@cval[1]) {
       SumStat[11,j] = paste(format(round(moments[11,j],digit), nsmall=digit),"***",sep="")
-    } else if (moments[i,j]<=-1.96) {
+    } else if (moments[11,j]<=ers@cval[2]) {
       SumStat[11,j] = paste(format(round(moments[11,j],digit), nsmall=digit),"**",sep="")
-    } else if (moments[i,j]<=-1.62) {
+    } else if (moments[11,j]<=ers@cval[3]) {
       SumStat[11,j] = paste(format(round(moments[11,j],digit), nsmall=digit),"*",sep="")
     } else {
       SumStat[11,j] = format(round(moments[11,j],digit), nsmall=digit)

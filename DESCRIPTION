@@ -3,7 +3,7 @@ Type: Package
 Title: Connectedness Approach
 Version: 1.0.4
 Date: 2025-02-24
-Author: David Gabauer
+Authors@R: c(person("David", "Gabauer", email="david.gabauer@hotmail.com", role=c("aut","cre")))
 Maintainer: David Gabauer <david.gabauer@hotmail.com>
 Description: The estimation of static and dynamic connectedness measures is created in a modular and user-friendly way. Besides, the time domain connectedness approaches, this package further allows to estimate the frequency connectedness approach, the joint spillover index and the extended joint connectedness approach. In addition, all connectedness frameworks can be based upon orthogonalized and generalized VAR, QVAR, LASSO VAR, Ridge VAR, Elastic Net VAR and TVP-VAR models. Furthermore, the package includes the conditional, decomposed and partial connectedness measures as well as the pairwise connectedness index, influence index and corrected total connectedness index. Finally, a battery of datasets are available allowing to replicate a variety of connectedness papers.
 License: GPL-3

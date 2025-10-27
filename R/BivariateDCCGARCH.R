@@ -22,7 +22,7 @@
 #' @author David Gabauer
 #' @export
 BivariateDCCGARCH = function (x, spec, copula = "mvt", method = "Kendall", transformation = "parametric", 
-                              time.varying = TRUE, asymmetric = FALSE, eval.se = FALSE) {
+                              time.varying = TRUE, asymmetric = FALSE, eval.se = FALSE, print=TRUE) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
   }
