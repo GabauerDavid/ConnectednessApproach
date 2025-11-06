@@ -264,10 +264,10 @@ ConnectednessApproach = function(x,
           message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.")
         }
         dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
-                              relative=Connectedness_config$R2Connectedness$relative, corrected=corrected)
+                              relative=Connectedness_config$R2Connectedness$relative, tau=NULL)
       } else {
-        dca = R2QuantileConnectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
-                              relative=Connectedness_config$R2Connectedness$relative, corrected=corrected, tau=Connectedness_config$R2Connectedness$tau)
+        dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
+                              relative=Connectedness_config$R2Connectedness$relative, tau=Connectedness_config$R2Connectedness$tau)
       }
     } else {
       fevd = Q_t
