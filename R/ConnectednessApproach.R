@@ -100,7 +100,7 @@ ConnectednessApproach = function(x,
                                  Connectedness_config = list(
                                    TimeConnectedness=list(generalized=TRUE),
                                    FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS"),
-                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE, tau=NULL)
+                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE, tau=NULL, lambda=0)
                                  )) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
@@ -267,7 +267,7 @@ ConnectednessApproach = function(x,
                               relative=Connectedness_config$R2Connectedness$relative, tau=NULL)
       } else {
         dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
-                              relative=Connectedness_config$R2Connectedness$relative, tau=Connectedness_config$R2Connectedness$tau)
+                              relative=Connectedness_config$R2Connectedness$relative, tau=Connectedness_config$R2Connectedness$tau, lambda=Connectedness_config$R2Connectedness$lambda)
       }
     } else {
       fevd = Q_t
