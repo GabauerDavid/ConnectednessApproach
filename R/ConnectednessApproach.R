@@ -100,7 +100,7 @@ ConnectednessApproach = function(x,
                                  Connectedness_config = list(
                                    TimeConnectedness=list(generalized=TRUE),
                                    FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS"),
-                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE)
+                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE, tau=NULL)
                                  )) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
@@ -256,14 +256,19 @@ ConnectednessApproach = function(x,
     }
   } else if (connectedness=="R2") {
     if (Connectedness_config$R2Connectedness$decomposition) {
-      if (nlag>0) {
-        message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.\n")
-        message("The generalized R2 connectedness approach is implemented according to:\n Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters, 57, 104168.")
+      if (is.null(Connectedness_config$R2Connectedness$tau)) {
+        if (nlag>0) {
+          message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.\n")
+          message("The generalized R2 connectedness approach is implemented according to:\n Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters, 57, 104168.")
+        } else {
+          message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.")
+        }
+        dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
+                              relative=Connectedness_config$R2Connectedness$relative, corrected=corrected)
       } else {
-        message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.")
+        dca = R2QuantileConnectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
+                              relative=Connectedness_config$R2Connectedness$relative, corrected=corrected, tau=Connectedness_config$R2Connectedness$tau)
       }
-      dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
-                            relative=Connectedness_config$R2Connectedness$relative, corrected=corrected)
     } else {
       fevd = Q_t
       for (i in 1:t0) {

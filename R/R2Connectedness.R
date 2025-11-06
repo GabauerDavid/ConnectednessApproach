@@ -1,12 +1,13 @@
 
 #' @title R2 connectedness approach
-#' @description This function computes the R2 connectedness measures
+#' @description This function computes the R2 connectedness measures as well as peudo R2 quantile connectedness measures
 #' @param x zoo data matrix
 #' @param nlag Lag length
+#' @param tau Quantile between 0 and 1
+#' @param lambda The correlation shrinkage intensity (range 0-1). If lambda is not specified (the default) it is estimated using an analytic formula from Sch\"afer and Strimmer (2005) - see details below. For lambda=0 the empirical correlations are recovered.
 #' @param window.size Rolling-window size or Bayes Prior sample size
-#' @param method "pearson", "spearman", or "kendall". "pearson" is default.
+#' @param method Methods for R2 connectedness are:"pearson", "spearman", or "kendall". "pearson" is default. Methods for pseudo R2 quantile connectedness are:"br", "fn", or "sfn". "fn" is default.
 #' @param relative Boolean whether relative or absolute R2 should be used
-#' @param corrected Boolean value whether corrected or standard TCI should be computed
 #' @return Get R2 connectedness measures
 #' @examples
 #' \donttest{
@@ -20,11 +21,17 @@
 #' Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.
 #' 
 #' Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters, 57, 104168.
+#' 
+#' Ferrer, R., Shahzad, S. J. H., Furió, D., & Benammar, R. (2025). Systemic Risk in the Tails: Contemporaneous Transmission and Spillover Dynamics in European Renewable Energy Equities.
 #' @author David Gabauer
 #' @export
-R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relative=FALSE, corrected=FALSE) {
+R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearson", relative=FALSE, lambda=0) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
+  }
+  
+  if ((method %in% c("pearson", "kendall", "spearman")) & !is.null(tau)) {
+    method = "fn"
   }
   
   DATE = as.character(index(x))
@@ -46,8 +53,15 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
   pb = txtProgressBar(max=t0,style=3)
   for (j in 1:t0) {
     setTxtProgressBar(pb, j)
+    
     for (i in 1:k) {
-      R = RobustCovariance(Z[j:(j+window.size-1),], method=method)$R
+      if (is.null(tau)) {
+        R = RobustCovariance(Z[j:(j+window.size-1),], method=method)$R
+      } else {
+        R = QuantileCorrelation(Z[j:(j + window.size - 1), ], tau=tau, method=method)  
+        R = (1-lambda)*R + lambda*diag(ncol(R))
+      }
+
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
       
@@ -62,12 +76,17 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
     }
   }
   
-  kl = 1
+  if (relative) {
+    for (idx in 1:dim(CT)[3]) {
+      CT[,,idx,] = sweep(CT[,,idx,], 1, apply(CT[,,idx,],1,sum), "/")
+    }
+  }
+  
   dimensions = "TCI"
   if (nlag>0) {
-    kl = 3
     dimensions = c("Overall", "Contemporaneous", "Lagged")
   }
+  kl = length(dimensions)
   TCI = array(0, c(t0, kl), dimnames=list(date, dimensions))
   TO = FROM = NET = array(0, c(t0, k, kl), dimnames=list(date, NAMES, dimensions))
   NPDC = array(0, c(k, k, t0, kl), dimnames=list(NAMES, NAMES, date, dimensions))
@@ -84,19 +103,19 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
       FROM[i,,1] = at$FROM
       NET[i,,1] = at$NET
       NPDC[,,i,1] = at$NPDC
-      TCI[i,1] = at$TCI*(1+(corrected*(k/(k-1)-1)))
+      TCI[i,1] = at$TCI
       
       TO[i,,2] = ct$TO
       FROM[i,,2] = ct$FROM
       NET[i,,2] = ct$NET
       NPDC[,,i,2] = ct$NPDC
-      TCI[i,2] = ct$TCI*(1+(corrected*(k/(k-1)-1)))
+      TCI[i,2] = ct$TCI
       
       TO[i,,3] = lt$TO
       FROM[i,,3] = lt$FROM
       NET[i,,3] = lt$NET
       NPDC[,,i,3] = lt$NPDC
-      TCI[i,3] = lt$TCI*(1+(corrected*(k/(k-1)-1)))
+      TCI[i,3] = lt$TCI
       
     } else {
       
@@ -105,7 +124,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
       FROM[i,,1] = ct$FROM
       NET[i,,1] = ct$NET
       NPDC[,,i,1] = ct$NPDC
-      TCI[i,1] = ct$TCI*(1+(corrected*(k/(k-1)-1)))
+      TCI[i,1] = ct$TCI
     }
   }
   
@@ -123,6 +142,6 @@ R2Connectedness = function(x, window.size=NULL, nlag=0, method="pearson", relati
     NPDC = NPDC[,,,1]
   }
   
-  config = list(nlag=nlag, approach="R2", window.size=window.size, method=method, relative=relative, corrected=corrected)
+  config = list(nlag=nlag, approach="R2", window.size=window.size, method=method, relative=relative, corrected=FALSE, tau=tau)
   return = list(CT=CT, TO=TO, FROM=FROM, NET=NET, TCI=TCI, NPDC=NPDC, TABLE=TABLE, config=config)
 }
