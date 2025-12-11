@@ -45,14 +45,13 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5, method="fn")) {
     NAMES = 1:k
   }
 
-  Res = B = se = NULL
+  Res = B = NULL
   for (i in 1:k) {
     z = embed(x, nlag+1)
     fit = rq(z[,i] ~ z[,-c(1:k)], tau=tau[i], method=method)
     B = rbind(B, fit$coefficients[-1])
     Res = cbind(Res, fit$residuals)
-    se = rbind(se, summary(fit)$coefficients[-1,2])
   }
   Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(zoo::index(rownames(x)),1)))
-  results = list(B=B, Q=Q, se=se)
+  results = list(B=B, Q=Q)
 }
