@@ -16,6 +16,7 @@
 #' dca$TABLE
 #' }
 #' @import progress
+#' @importFrom corpcor estimate.lambda
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @references
 #' Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.
@@ -59,9 +60,14 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
         R = RobustCovariance(Z[j:(j+window.size-1),], method=method)$R
       } else {
         R = QuantileCorrelation(Z[j:(j + window.size - 1), ], tau=tau, method=method)  
-        R = (1-lambda)*R + lambda*diag(ncol(R))
       }
-
+      if (lambda=="auto") {
+        lam = corpcor::estimate.lambda(x, verbose=FALSE)
+      } else {
+        lam = lambda
+      }
+      R = (1-lam)*R + lam*diag(ncol(R))
+      
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
       
