@@ -7,10 +7,11 @@
 R2Connectedness(
   x,
   window.size = NULL,
-  nlag = 0,
+  nlag = 1,
+  tau = NULL,
   method = "pearson",
   relative = FALSE,
-  corrected = FALSE
+  lambda = 0
 )
 }
 \arguments{
@@ -20,17 +21,19 @@ R2Connectedness(
 
 \item{nlag}{Lag length}
 
-\item{method}{"pearson", "spearman", or "kendall". "pearson" is default.}
+\item{tau}{Quantile between 0 and 1}
+
+\item{method}{Methods for R2 connectedness are:"pearson", "spearman", or "kendall". "pearson" is default. Methods for pseudo R2 quantile connectedness are:"br", "fn", or "sfn". "fn" is default.}
 
 \item{relative}{Boolean whether relative or absolute R2 should be used}
 
-\item{corrected}{Boolean value whether corrected or standard TCI should be computed}
+\item{lambda}{The correlation shrinkage intensity (range 0-1). If lambda is not specified (the default) it is estimated using an analytic formula from Sch\"afer and Strimmer (2005) - see details below. For lambda=0 the empirical correlations are recovered.}
 }
 \value{
 Get R2 connectedness measures
 }
 \description{
-This function computes the R2 connectedness measures
+This function computes the R2 connectedness measures as well as peudo R2 quantile connectedness measures
 }
 \examples{
 \donttest{
@@ -43,6 +46,8 @@ dca$TABLE
 Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.
 
 Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters, 57, 104168.
+
+Ferrer, R., Shahzad, S. J. H., Furió, D., & Benammar, R. (2025). Systemic Risk in the Tails: Contemporaneous Transmission and Spillover Dynamics in European Renewable Energy Equities.
 }
 \author{
 David Gabauer

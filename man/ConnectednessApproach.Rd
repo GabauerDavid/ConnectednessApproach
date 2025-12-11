@@ -19,7 +19,7 @@ ConnectednessApproach(
   Connectedness_config = list(TimeConnectedness = list(generalized = TRUE),
     FrequencyConnectedness = list(partition = c(pi, pi/2, 0), generalized = TRUE,
     scenario = "ABS"), R2Connectedness = list(method = "pearson", decomposition = TRUE,
-    relative = FALSE))
+    relative = FALSE, tau = NULL, lambda = 0))
 )
 }
 \arguments{
