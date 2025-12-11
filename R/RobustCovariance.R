@@ -14,8 +14,7 @@
 #' @importFrom rrcov CovSest
 #' @importFrom stats cor
 #' @export
-RobustCovariance = function(x, method="pearson") {
-  
+RobustCovariance = function (x, method = "pearson") {
   x = as.matrix(x)
   if ("mcd" %in% method) {
     Q = rrcov::CovMcd(x)@cov
@@ -30,16 +29,17 @@ RobustCovariance = function(x, method="pearson") {
   } else {
     Q = cov(x)
   }
-  R = ConditionalCorrelation(Q)[,,1]
   
-  if (length(method)>1 || method %in% c("spearman", "kendall")) {
+  R = ConditionalCorrelation(Q)[, , 1]
+  S = diag(sqrt(diag(Q)))
+  if (length(method) > 1 || method %in% c("spearman", "kendall")) {
     if ("spearman" %in% method) {
-      R = 2*sin(pi/6*stats::cor(x, method="spearman"))
+      R = 2 * sin(pi/6 * stats::cor(x, method = "spearman"))
       Q = S %*% R %*% S
     } else if ("kendall" %in% method) {
-      R = sin(pi/2*stats::cor(x, method="kendall"))
+      R = sin(pi/2 * stats::cor(x, method = "kendall"))
       Q = S %*% R %*% S
     }
   }
-  return(list(Q=Q, R=R))
+  return(list(Q = Q, R = R))
 }
