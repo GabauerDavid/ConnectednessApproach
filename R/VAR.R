@@ -45,5 +45,5 @@ VAR = function (x, configuration = list(nlag=1, method="pearson")) {
   }
   Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), 
             dimnames = list(NAMES, NAMES, tail(as.character(zoo::index(x)), 1)))
-  results = list(B = B, Q = Q, se = se)
+  results = list(B = B, Q = Q, Res=Res, se = se)
 }

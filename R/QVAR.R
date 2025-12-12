@@ -53,5 +53,5 @@ QVAR = function(x, configuration=list(nlag=1, tau=0.5, method="fn")) {
     Res = cbind(Res, fit$residuals)
   }
   Q = array(t(Res)%*%Res/nrow(Res), c(k, k, 1), dimnames=list(NAMES, NAMES, tail(zoo::index(rownames(x)),1)))
-  results = list(B=B, Q=Q)
+  results = list(B=B, Q=Q, Res=Res)
 }
