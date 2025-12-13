@@ -6,7 +6,7 @@
 #' @param tau Quantile between 0 and 1
 #' @param lambda The correlation shrinkage intensity (range 0-1). If lambda is not specified (the default) it is estimated using an analytic formula from Sch\"afer and Strimmer (2005) - see details below. For lambda=0 the empirical correlations are recovered.
 #' @param window.size Rolling-window size or Bayes Prior sample size
-#' @param method Methods for R2 connectedness are:"pearson", "spearman", or "kendall". "pearson" is default. Methods for pseudo R2 quantile connectedness are:"br", "fn", or "sfn". "fn" is default.
+#' @param method Methods for R2 connectedness are:"pearson", "spearman", or "kendall". "pearson" is default. Methods for pseudo R2 quantile connectedness are: "lasso", "br", "fn", or "sfn". "lasso" is default.
 #' @param relative Boolean whether relative or absolute R2 should be used
 #' @return Get R2 connectedness measures
 #' @examples
@@ -16,6 +16,7 @@
 #' dca$TABLE
 #' }
 #' @import progress
+#' @importFrom Matrix nearPD
 #' @importFrom corpcor estimate.lambda
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @references
@@ -29,10 +30,6 @@
 R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearson", relative=FALSE, lambda=0) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
-  }
-  
-  if ((method %in% c("pearson", "kendall", "spearman")) & !is.null(tau)) {
-    method = "fn"
   }
   
   DATE = as.character(index(x))
@@ -67,6 +64,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
         lam = lambda
       }
       R = (1-lam)*R + lam*diag(ncol(R))
+      R = nearPD(R)$mat
       
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
@@ -75,6 +73,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
       rootcovx = eigcovx$vectors%*%diag(sqrt(eigcovx$values))%*%t(eigcovx$vectors)
       cd = rootcovx^2 %*% (solve(rootcovx)%*%ryx)^2
       
+      is.positive.semidefinite(R)
       CT[i,-i,j,1] = cd[c(1:(k-1))]
       if (nlag>0) {
         CT[i,  ,j,2] = apply(array(cd[-c(1:(k-1))], c(1,k,nlag)), 1:2, sum)

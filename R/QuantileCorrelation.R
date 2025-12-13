@@ -3,7 +3,7 @@
 #' @description This function computes the quantile correlation coefficient proposed by Choi and Shin (2022).
 #' @param x zoo data matrix
 #' @param tau quantile between 0 and 1
-#' @param method Either "br", "fn" or "sfn". Default is "fn"
+#' @param method Either "lasso", "br", "fn" or "sfn". Default is "lasso"
 #' @return Get quantile correlations
 #' @importFrom zoo zoo
 #' @importFrom zoo index
@@ -16,7 +16,7 @@
 #' Choi, J. E., & Shin, D. W. (2022). Quantile correlation coefficient: A new tail dependence measure. Statistical Papers, 63(4), 1075-1104.
 #' @author David Gabauer
 #' @export
-QuantileCorrelation = function(x, tau=0.5, method="fn") {
+QuantileCorrelation = function(x, tau=0.5, method="lasso") {
   stopifnot(tau > 0, tau < 1)
 
   # coerce to numeric matrix
@@ -38,7 +38,8 @@ QuantileCorrelation = function(x, tau=0.5, method="fn") {
     br  = function(y, X) quantreg::rq.fit.br (X, y, tau = tau)$coefficients,
     sfn = function(y, X) quantreg::rq.fit.sfn(X, y, tau = tau)$coefficients,
     fn  = function(y, X) quantreg::rq.fit.fnb(X, y, tau = tau)$coefficients,
-    stop("Unknown 'method': use one of 'br', 'sfn', 'fn'", call. = FALSE)
+    lasso  = function(y, X) quantreg::rq.fit.lasso(X, y, tau = tau)$coefficients,
+    stop("Unknown 'method': use one of 'lasso', 'br', 'sfn', 'fn'", call. = FALSE)
   )
   
   # compute pairwise quantile correlations (upper triangle)
