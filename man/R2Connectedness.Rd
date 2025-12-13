@@ -23,7 +23,7 @@ R2Connectedness(
 
 \item{tau}{Quantile between 0 and 1}
 
-\item{method}{Methods for R2 connectedness are:"pearson", "spearman", or "kendall". "pearson" is default. Methods for pseudo R2 quantile connectedness are:"br", "fn", or "sfn". "fn" is default.}
+\item{method}{Methods for R2 connectedness are:"pearson", "spearman", or "kendall". "pearson" is default. Methods for pseudo R2 quantile connectedness are: "lasso", "br", "fn", or "sfn". "lasso" is default.}
 
 \item{relative}{Boolean whether relative or absolute R2 should be used}
 

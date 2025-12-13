@@ -16,7 +16,6 @@
 #' dca$TABLE
 #' }
 #' @import progress
-#' @importFrom Matrix nearPD
 #' @importFrom corpcor estimate.lambda
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @references
@@ -64,19 +63,26 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
         lam = lambda
       }
       R = (1-lam)*R + lam*diag(ncol(R))
-      R = nearPD(R)$mat
-      
+
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
       
       eigcovx = eigen(rxx, TRUE)
-      rootcovx = eigcovx$vectors%*%diag(sqrt(eigcovx$values))%*%t(eigcovx$vectors)
-      cd = rootcovx^2 %*% (solve(rootcovx)%*%ryx)^2
-      
-      is.positive.semidefinite(R)
-      CT[i,-i,j,1] = cd[c(1:(k-1))]
-      if (nlag>0) {
-        CT[i,  ,j,2] = apply(array(cd[-c(1:(k-1))], c(1,k,nlag)), 1:2, sum)
+      if (any(eigcovx$values < 0)) {
+        # handle non-PSD case
+        CT[i,-i,j,1] = CT[i,-i,j-1,1]
+        if (nlag>0) {
+          CT[i,,j,2] = CT[i,  ,j-1,2]
+        }
+        
+      } else {
+        rootcovx = eigcovx$vectors%*%diag(sqrt(eigcovx$values))%*%t(eigcovx$vectors)
+        cd = rootcovx^2 %*% (solve(rootcovx)%*%ryx)^2
+        
+        CT[i,-i,j,1] = cd[c(1:(k-1))]
+        if (nlag>0) {
+          CT[i,  ,j,2] = apply(array(cd[-c(1:(k-1))], c(1,k,nlag)), 1:2, sum)
+        }
       }
     }
   }

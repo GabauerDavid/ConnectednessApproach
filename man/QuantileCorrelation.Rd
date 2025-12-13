@@ -4,14 +4,14 @@
 \alias{QuantileCorrelation}
 \title{Quantile correlation}
 \usage{
-QuantileCorrelation(x, tau = 0.5, method = "fn")
+QuantileCorrelation(x, tau = 0.5, method = "lasso")
 }
 \arguments{
 \item{x}{zoo data matrix}
 
 \item{tau}{quantile between 0 and 1}
 
-\item{method}{Either "br", "fn" or "sfn". Default is "fn"}
+\item{method}{Either "lasso", "br", "fn" or "sfn". Default is "lasso"}
 }
 \value{
 Get quantile correlations
