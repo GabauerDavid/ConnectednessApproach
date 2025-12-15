@@ -16,6 +16,7 @@
 #' dca$TABLE
 #' }
 #' @import progress
+#' @importFrom Matrix nearPD
 #' @importFrom corpcor estimate.lambda
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @references
@@ -63,6 +64,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
         lam = lambda
       }
       R = (1-lam)*R + lam*diag(ncol(R))
+      R = nearPD(R, corr=TRUE)$mat
 
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
@@ -76,7 +78,7 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
         }
         
       } else {
-        rootcovx = eigcovx$vectors%*%diag(sqrt(eigcovx$values))%*%t(eigcovx$vectors)
+        rootcovx = eigcovx$vectors%*%diag(sqrt(abs(eigcovx$values)))%*%t(eigcovx$vectors)
         cd = rootcovx^2 %*% (solve(rootcovx)%*%ryx)^2
         
         CT[i,-i,j,1] = cd[c(1:(k-1))]
