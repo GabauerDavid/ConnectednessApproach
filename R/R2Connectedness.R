@@ -59,13 +59,14 @@ R2Connectedness = function(x, window.size=NULL, nlag=1, tau=NULL, method="pearso
         R = QuantileCorrelation(Z[j:(j + window.size - 1), ], tau=tau, method=method)  
       }
       if (lambda=="auto") {
-        lam = corpcor::estimate.lambda(x, verbose=FALSE)
+        lam = corpcor::estimate.lambda(Z[j:(j + window.size - 1), ], verbose=FALSE)
       } else {
         lam = lambda
       }
       R = (1-lam)*R + lam*diag(ncol(R))
       R = nearPD(R, corr=TRUE)$mat
-
+      R = R + 1e-10 * diag(nrow(R))
+      
       ryx = R[-i,i,drop=F]
       rxx = R[-i,-i]
       
