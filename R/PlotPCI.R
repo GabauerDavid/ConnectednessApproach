@@ -60,7 +60,8 @@ PlotPCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, 
             if (is.null(upper)) {
               upper = max(x)
             }
-            plot(date, x_[,1], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
+            plot(date, x_[,1], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
+            title(paste(NAMES[j],"-",NAMES[i]), adj=0)
             grid(NA, NULL, lty=2)
             polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,1])),col=1, border=1)
             for (l in 1:ncol(x_)) {
@@ -87,7 +88,8 @@ PlotPCI = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), selection=NULL, 
       for (i in 1:k) {
         if (i>j) {
           if (i==selection || j==selection || is.null(selection)) {
-            plot(date, x[i,j,], type="l", main=paste(NAMES[j],"-",NAMES[i]), las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+            plot(date, x[i,j,], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+            title(paste(NAMES[j],"-",NAMES[i]), adj=0)
             grid(NA, NULL, lty=2)
             polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[i,j,])),col=1, border=1)
             if (!is.null(ca)) {

@@ -38,7 +38,8 @@ PlotNPT = function(dca, ca=NULL, path=NULL, width=10, height=7, ...) {
   if (length(dim(dca$NET))>2) {
     for (i in 1:k) {
       x_ = x[,i,]
-      plot(date, apply(x_,1,sum), type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(0,k-1))#, ...)
+      plot(date, apply(x_,1,sum), type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(0,k-1))#, ...)
+      title(paste(NAMES[j],"-",NAMES[i]), adj=0)
       grid(NA, NULL, lty=2)
       polygon(c(date,rev(date)),c(c(rep(0,t)),rev(apply(x_,1,sum))),col=1, border=1)
       for (j in ncol(x_):1) {

@@ -9,7 +9,7 @@
 #' @param ... Arguments to be passed to methods, such as graphical parameters (see par).
 #' @return Return connectedness plot
 #' @export
-PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, height=7, ...) {
+PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, height=7, mfcol=NULL, ...) {
   if (!is.null(path)) {
     if (!dir.exists(path)) {
       dir.create(path)
@@ -32,15 +32,18 @@ PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, heigh
   if (is.null(ylim[2])) {
     upper = max(x)
   }
-  k_row = ceiling(sqrt(k))
-  k_col = ceiling(k/k_row)
+  if (is.null(mfcol)) {
+    k_row = ceiling(sqrt(k))
+    k_col = ceiling(k/k_row)
+    mfcol=c(k_row,k_col)
+  }
   lower = ylim[1]
   upper = ylim[2]
   
   oldpar = par(no.readonly=TRUE)
   on.exit(par(oldpar)) 
   if (!is.null(path)) pdf(file=paste0(path, "/FROM.pdf"), width=width, height=height)
-  par(mfcol=c(k_row,k_col), oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
+  par(mfcol=mfcol, oma=c(0,0,0,0) + 0.5, mar = c(1,1,1,1) + .5, mgp=c(1, 0.4, 0))
   if (length(dim(dca$NET))>2) {
     for (i in 1:k) {
       x_ = x[,i,]
@@ -50,7 +53,8 @@ PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, heigh
       if (is.null(upper)) {
         upper = max(x)
       }
-      plot(date, x_[,1], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
+      plot(date, x_[,1], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
+      title(paste0("FROM all others to ", NAMES[i]), adj=0)
       grid(NA, NULL, lty=2)
       for (j in 1:ncol(x_)) {
         polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j, border=j)
@@ -70,7 +74,8 @@ PlotFROM = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, heigh
       upper = max(x)
     }
     for (i in 1:k) {
-      plot(date, x[,i], type="l", main=NAMES[i], las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+      plot(date, x[,i], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper), ...)
+      title(paste0("FROM all others to ", NAMES[i]), adj=0)
       grid(NA, NULL, lty=2)
       polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[,i])),col=1, border=1)
       if (!is.null(ca)) {
