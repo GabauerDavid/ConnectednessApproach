@@ -49,7 +49,7 @@ PlotNET = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, height
         upper = max(x)
       }
       plot(date, x_[,1], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
-      title(paste0("NET", NAMES[i]), adj=0)
+      title(paste0("NET ", NAMES[i]), adj=0)
       grid(NA, NULL, lty=2)
       for (j in 1:ncol(x_)) {
         polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x_[,j])),col=j, border=j)
@@ -70,7 +70,7 @@ PlotNET = function(dca, ca=NULL, path=NULL, ylim=c(NULL, NULL), width=10, height
     }
     for (i in 1:k) {
       plot(date, x[,i], type="l", main="", las=1, xlab="", ylab="", xaxs="i", yaxs="i", tck=-0.02, ylim=c(lower,upper))#, ...)
-      title(paste0("NET", NAMES[i]), adj=0)
+      title(paste0("NET ", NAMES[i]), adj=0)
       grid(NA, NULL, lty=2)
       polygon(c(date,rev(date)),c(c(rep(0,t)),rev(x[,i])),col=1, border=1)
       if (!is.null(ca)) {
