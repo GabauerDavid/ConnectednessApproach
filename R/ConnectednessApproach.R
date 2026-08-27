@@ -82,6 +82,8 @@
 #' 
 #' Zhang, Y., Gabauer, D., Gupta, R., & Ji, Q. (2024). How connected is the oil-bank network? Firm-level and high-frequency evidence. Energy Economics.
 #' 
+#' Nguyen, H., Gabauer, D., & Squires, G. (2026). Ripple effects in New Zealand regional rent prices: Evidence from the contemporaneous and lagged R2‐decomposed connectedness approach with exogenous input. Real Estate Economics, 54(2), 395-423.
+#' 
 #' @author David Gabauer
 #' @export
 ConnectednessApproach = function(x,
@@ -100,7 +102,7 @@ ConnectednessApproach = function(x,
                                  Connectedness_config = list(
                                    TimeConnectedness=list(generalized=TRUE),
                                    FrequencyConnectedness=list(partition=c(pi,pi/2,0), generalized=TRUE, scenario="ABS"),
-                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE, tau=NULL, lambda=0)
+                                   R2Connectedness=list(method="pearson", decomposition=TRUE, relative=FALSE, tau=NULL, lambda=0, exog_data=NULL, xlag=0)
                                  )) {
   if (!is(x, "zoo")) {
     stop("Data needs to be of type 'zoo'")
@@ -258,13 +260,22 @@ ConnectednessApproach = function(x,
     if (Connectedness_config$R2Connectedness$decomposition) {
       if (is.null(Connectedness_config$R2Connectedness$tau)) {
         if (nlag>0) {
+          if (!is.null(exog_data)) {
+            message("The generalized R2 connectedness approach with exogenous input is implemented according to:\n Nguyen, H., Gabauer, D., & Squires, G. (2026). Ripple effects in New Zealand regional rent prices: Evidence from the contemporaneous and lagged R2‐decomposed connectedness approach with exogenous input. Real Estate Economics, 54(2), 395-423.\n")
+          } else {
           message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.\n")
           message("The generalized R2 connectedness approach is implemented according to:\n Balli, F., Balli, H. O., Dang, T. H. N., & Gabauer, D. (2023). Contemporaneous and lagged R2 decomposed connectedness approach: New evidence from the energy futures market. Finance Research Letters, 57, 104168.")
+          }
         } else {
           message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.")
         }
+        if (!is.null(exog_data)) {
+          dca = R2XConnectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
+                                relative=Connectedness_config$R2Connectedness$relative, z=exog_data, xlag=xlag)
+        } else {
         dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
                               relative=Connectedness_config$R2Connectedness$relative, tau=NULL)
+        }
       } else {
         dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
                               relative=Connectedness_config$R2Connectedness$relative, tau=Connectedness_config$R2Connectedness$tau, lambda=Connectedness_config$R2Connectedness$lambda)
