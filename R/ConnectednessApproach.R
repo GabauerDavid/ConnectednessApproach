@@ -271,7 +271,7 @@ ConnectednessApproach = function(x,
         }
         if (!is.null(exog_data)) {
           dca = R2XConnectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
-                                relative=Connectedness_config$R2Connectedness$relative, z=exog_data, xlag=xlag)
+                                relative=Connectedness_config$R2Connectedness$relative, z=Connectedness_config$R2Connectedness$exog_data, xlag=xlag)
         } else {
         dca = R2Connectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
                               relative=Connectedness_config$R2Connectedness$relative, tau=NULL)
