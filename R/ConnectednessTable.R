@@ -1,5 +1,5 @@
 #' @title Connectedness table
-#' @description This function provides standard connectedness table.
+#' @description This function provides a standard connectedness table.
 #' @param FEVD Forecast error variance decomposition
 #' @param digit Number of decimal places
 #' @return Get connectedness table
@@ -34,9 +34,9 @@ ConnectednessTable = function(FEVD, digit = 3) {
   TCIX = mean(FROMX)
   cTCI = TCI*k/(k-1)
   
-  NPDC = CT[,1:kX] - t(CT[,1:kX])
+  NPDC = ctX - t(ctX)
   NPT = rowSums(NPDC<0)
-  INFLUENCE = 100*abs(NPDC/t(t(CT)+CT))
+  INFLUENCE = 100*abs(NPDC/t(t(ctX)+ctX))
   
   table = format(round(cbind(CT, FROM, FROMX), digit), nsmall = digit)
   to = c(format(round(c(TO, sum(TO)), digit), nsmall = digit))
@@ -46,7 +46,7 @@ ConnectednessTable = function(FEVD, digit = 3) {
   tci = paste0(format(round(TCI, digit), nsmall = digit))
   net = c(format(round(NET, digit), nsmall = digit))
   net = c(net, rep(NA, kZ), tci, NA)
-  npt = c(format(round(c(NPT, NA),digit),nsmall=digit), "")
+  npt = c(format(round(c(NPT, rep(NA, kZ+1)),digit),nsmall=digit), "")
   
   TABLE = rbind(table, to, inc, net, npt)
   colnames(TABLE) = c(NAMES, "FROM", "R2")
@@ -55,6 +55,7 @@ ConnectednessTable = function(FEVD, digit = 3) {
   if (kZ==0) {
     TABLE = TABLE[,-ncol(TABLE)]
   }
+  TABLE[which(is.na(TABLE), arr.ind=TRUE)] = ""
   
   PCI = matrix(NA, kX, kX)
   for (i in 1:kX) {
