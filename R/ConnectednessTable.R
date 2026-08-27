@@ -17,7 +17,7 @@ ConnectednessTable = function(FEVD, digit = 3) {
   }
   NAMES = colnames(FEVD)
   namesX = rownames(FEVD)
-  kX = length(namesX)
+  k = kX = length(namesX)
   namesZ = NAMES[-c(1:kX)]
   kZ = length(namesZ)
   
