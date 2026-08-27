@@ -1,4 +1,3 @@
-
 #' @title Connectedness table
 #' @description This function provides standard connectedness table.
 #' @param FEVD Forecast error variance decomposition
@@ -56,6 +55,15 @@ ConnectednessTable = function(FEVD, digit = 3) {
   if (kZ==0) {
     TABLE = TABLE[,-ncol(TABLE)]
   }
-  return = list(FEVD = CT, TCI = TCI, TCIX = TCIX, NPDC=NPDC,
-                TO = TO, FROM = FROM, FROMX = FROMX, NET = NET, TABLE = TABLE)
+  
+  PCI = matrix(NA, kX, kX)
+  for (i in 1:kX) {
+    for (j in 1:kX) {
+      PCI[i,j] = 200*(CT[i,j]+CT[j,i])/(CT[i,i]+CT[i,j]+CT[j,i]+CT[j,j])
+    }
+  }
+  
+  return = list(FEVD = CT, TCI = TCI, TCIX = TCIX, cTCI=cTCI, PCI=PCI, NPDC=NPDC,
+                TO = TO, FROM = FROM, FROMX = FROMX, NET = NET, TABLE = TABLE,
+                NPDC=NPDC,  NPT=NPT, INFLUENCE=INFLUENCE)
 }
