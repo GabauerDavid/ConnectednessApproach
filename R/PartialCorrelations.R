@@ -26,6 +26,7 @@ PartialCorrelations = function (Q) {
     precision = MASS::ginv(Q[,,l])
     theta = diag(1/sqrt(diag(precision)))
     pcc[,,l] = -theta %*% precision %*% theta
+    diag(pcc[,,l]) = 1
   }
   return(pcc)
 }
