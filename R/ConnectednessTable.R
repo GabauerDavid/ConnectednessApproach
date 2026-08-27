@@ -12,43 +12,50 @@
 #' dca = ConnectednessTable(fevd)
 #' }
 #' @export
-ConnectednessTable = function(FEVD, digit=2) {
+ConnectednessTable = function(FEVD, digit = 3) {
   if (length(dim(FEVD))<=1) {
     stop("FEVD needs to be at least a 2-dimensional matrix")
   }
   NAMES = colnames(FEVD)
-  k = dim(FEVD)[1]
-  if (is.null(NAMES)) {
-    NAMES = 1:k
-  }
-  CT = apply(FEVD,1:2,mean)*100 # spillover from others to one specific
-  OWN = diag(diag(CT))
-  TO = colSums(CT-OWN)
-  FROM = rowSums(CT-OWN)
-  NET = TO-FROM
-  TCI = mean(TO)
+  namesX = rownames(FEVD)
+  kX = length(namesX)
+  namesZ = NAMES[-c(1:kX)]
+  kZ = length(namesZ)
+  
+  CT = apply(FEVD, 1:2, mean) * 100
+  ctX = CT[1:kX,1:kX]
+  ctZ = CT[1:kX,-c(1:kX)]
+  
+  OWN = diag(diag(ctX))
+  TO = colSums(ctX - OWN)
+  FROM = rowSums(ctX) - rowSums(OWN)
+  FROMX = rowSums(CT) - rowSums(OWN)
+  NET = TO - FROM
+  TCI = mean(FROM)
+  TCIX = mean(FROMX)
   cTCI = TCI*k/(k-1)
-  NPDC = CT-t(CT)
+  
+  NPDC = CT[,1:kX] - t(CT[,1:kX])
   NPT = rowSums(NPDC<0)
   INFLUENCE = 100*abs(NPDC/t(t(CT)+CT))
-  table = format(round(cbind(CT,FROM),digit),nsmall=digit)
-  to = c(format(round(c(TO,sum(TO)),digit),nsmall=digit))
-  inc = c(format(round(colSums(CT), digit),nsmall=digit), "cTCI/TCI")
-  tci = paste0(format(round(cTCI,digit),nsmall=digit),"/",format(round(TCI,digit),nsmall=digit))
-  net = c(format(round(NET,digit),nsmall=digit))
-  net = c(net, tci) 
-  npt = c(format(round(NPT,digit),nsmall=digit), "")
   
-  TABLE = rbind(table,to,inc,net,npt)
-  colnames(TABLE) = c(NAMES,"FROM")
-  rownames(TABLE) = c(NAMES,"TO","Inc.Own","NET","NPT")
-  PCI = matrix(NA, k, k)
-  for (i in 1:k) {
-    for (j in 1:k) {
-      PCI[i,j] = 200*(CT[i,j]+CT[j,i])/(CT[i,i]+CT[i,j]+CT[j,i]+CT[j,j])
-    }
+  table = format(round(cbind(CT, FROM, FROMX), digit), nsmall = digit)
+  to = c(format(round(c(TO, sum(TO)), digit), nsmall = digit))
+  to = c(to, rep(NA, kZ+1))
+  inc = c(format(round(colSums(ctX), digit), nsmall = digit))
+  inc = c(inc, rep(NA, kZ), 'TCI', NA)
+  tci = paste0(format(round(TCI, digit), nsmall = digit))
+  net = c(format(round(NET, digit), nsmall = digit))
+  net = c(net, rep(NA, kZ), tci, NA)
+  npt = c(format(round(c(NPT, NA),digit),nsmall=digit), "")
+  
+  TABLE = rbind(table, to, inc, net, npt)
+  colnames(TABLE) = c(NAMES, "FROM", "R2")
+  rownames(TABLE) = c(namesX, "TO", "Inc.Own", "NET", "NPT")
+  
+  if (kZ==0) {
+    TABLE = TABLE[,-ncol(TABLE)]
   }
-  return = list(FEVD=CT, TCI=TCI, cTCI=cTCI, PCI=PCI,
-                TO=TO, FROM=FROM, NET=NET, NPDC=NPDC, TABLE=TABLE,
-                NPT=NPT, INFLUENCE=INFLUENCE)
+  return = list(FEVD = CT, TCI = TCI, TCIX = TCIX, NPDC=NPDC,
+                TO = TO, FROM = FROM, FROMX = FROMX, NET = NET, TABLE = TABLE)
 }
