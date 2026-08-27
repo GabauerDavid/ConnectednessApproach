@@ -11,6 +11,7 @@ PlotNET(
   ylim = c(NULL, NULL),
   width = 10,
   height = 7,
+  mfcol = NULL,
   ...
 )
 }

@@ -4,7 +4,7 @@
 \alias{ConnectednessTable}
 \title{Connectedness table}
 \usage{
-ConnectednessTable(FEVD, digit = 2)
+ConnectednessTable(FEVD, digit = 3)
 }
 \arguments{
 \item{FEVD}{Forecast error variance decomposition}
@@ -15,7 +15,7 @@ ConnectednessTable(FEVD, digit = 2)
 Get connectedness table
 }
 \description{
-This function provides standard connectedness table.
+This function provides a standard connectedness table.
 }
 \examples{
 \donttest{

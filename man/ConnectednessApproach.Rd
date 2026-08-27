@@ -19,7 +19,7 @@ ConnectednessApproach(
   Connectedness_config = list(TimeConnectedness = list(generalized = TRUE),
     FrequencyConnectedness = list(partition = c(pi, pi/2, 0), generalized = TRUE,
     scenario = "ABS"), R2Connectedness = list(method = "pearson", decomposition = TRUE,
-    relative = FALSE, tau = NULL, lambda = 0))
+    relative = FALSE, tau = NULL, lambda = 0, exog_data = NULL, xlag = 0))
 )
 }
 \arguments{
@@ -114,6 +114,8 @@ Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2024). Measuring the
 Stenfors, A., Chatziantoniou, I., & Gabauer, D. (2022). Independent policy, dependent outcomes: A game of cross-country dominoes across European yield curves. Journal of International Financial Markets, Institutions and Money.
 
 Zhang, Y., Gabauer, D., Gupta, R., & Ji, Q. (2024). How connected is the oil-bank network? Firm-level and high-frequency evidence. Energy Economics.
+
+Nguyen, H., Gabauer, D., & Squires, G. (2026). Ripple effects in New Zealand regional rent prices: Evidence from the contemporaneous and lagged R2‐decomposed connectedness approach with exogenous input. Real Estate Economics, 54(2), 395-423.
 }
 \author{
 David Gabauer
