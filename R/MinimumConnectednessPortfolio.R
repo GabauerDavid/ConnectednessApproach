@@ -79,8 +79,8 @@ MinimumConnectednessPortfolio = function (x, H, method = c("cumsum", "cumprod"),
     HE[i, ] = 1 - var(portfolio_return)/var(x[, i])
     z = zoo::zoo(portfolio_return, order.by=zoo::index(x))
     SR[i,] = PerformanceAnalytics::SharpeRatio(z, FUN=(metric), annualize=TRUE)
-    df = rbind(data.frame(val = x[, i], group = "A"), 
-               data.frame(val = portfolio_return, group = "B"))
+    df = rbind(data.frame(val = as.vector(x[, i]), group = "A"), 
+               data.frame(val = as.vector(portfolio_return), group = "B"))
     pvalue[i, ] = VarianceTest(val ~ as.character(group), data = df, method = statistics)$p.value
   }
   TABLE = cbind(summary, HE, pvalue, SR)
