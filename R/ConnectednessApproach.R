@@ -260,7 +260,7 @@ ConnectednessApproach = function(x,
     if (Connectedness_config$R2Connectedness$decomposition) {
       if (is.null(Connectedness_config$R2Connectedness$tau)) {
         if (nlag>0) {
-          if (!is.null(exog_data)) {
+          if (!is.null(Connectedness_config$R2Connectedness$exog_data)) {
             message("The generalized R2 connectedness approach with exogenous input is implemented according to:\n Nguyen, H., Gabauer, D., & Squires, G. (2026). Ripple effects in New Zealand regional rent prices: Evidence from the contemporaneous and lagged R2‐decomposed connectedness approach with exogenous input. Real Estate Economics, 54(2), 395-423.\n")
           } else {
           message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.\n")
@@ -269,7 +269,7 @@ ConnectednessApproach = function(x,
         } else {
           message("The contemporaneous R2 connectedness approach is implemented according to:\n Naeem, M. A., Chatziantoniou, I., Gabauer, D., & Karim, S. (2023). Measuring the G20 Stock Market Return Transmission Mechanism: Evidence From the R2 Connectedness Approach. International Review of Financial Analysis.")
         }
-        if (!is.null(exog_data)) {
+        if (!is.null(Connectedness_config$R2Connectedness$exog_data)) {
           dca = R2XConnectedness(x, nlag=nlag, window.size=window.size, method=Connectedness_config$R2Connectedness$method,
                                 relative=Connectedness_config$R2Connectedness$relative, z=Connectedness_config$R2Connectedness$exog_data, xlag=xlag)
         } else {
